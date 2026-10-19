@@ -1,0 +1,12 @@
+# Third-party binaries and decompiled output are NOT committed (copyright).
+# Reproduce them with tools/fetch-original.sh.
+/third-party/*/apk/
+/third-party/*/decompiled/
+
+# Build output / IDE
+build/
+.gradle/
+local.properties
+.idea/
+*.iml
+.DS_Store
