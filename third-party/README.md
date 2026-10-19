@@ -10,7 +10,7 @@ third-party/<package-id>/
   NOTES.md      provenance (source URL, version, sha256)
 ```
 
-Nothing here may be copied into `app/`: no code, layouts, images, sounds,
+Nothing here may be copied into `apps/`: no code, layouts, images, sounds,
 fonts or strings. Findings go into `docs/research/` in our own words.
 
 To reproduce: `tools/fetch-original.sh`.

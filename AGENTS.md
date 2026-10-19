@@ -5,7 +5,7 @@ Guidance for humans and AI agents working in this repository.
 ## Goal
 
 **Stroopy** (`de.maggu2810.android.stroopy`, GPL-3.0-or-later) is a free
-and open-source Android game in the spirit of the discontinued "True Color"
+and open-source game, Android first with iOS and desktop later, in the spirit of the discontinued "True Color"
 (`com.aurelhubert.truecolor`, last known version 3.0.2):
 
 - A Stroop-effect colour game: is the word's meaning the same as its ink
@@ -27,10 +27,14 @@ and open-source Android game in the spirit of the discontinued "True Color"
 
 ```
 AGENTS.md                 this file
-app/                      our own app source (Android project lives here)
+apps/                     our implementations, one native app per platform
+  android/                Kotlin + Jetpack Compose
+  (ios/, desktop/)        future
 docs/
+  spec/                   NORMATIVE specs: rules, share code, protocol
+    test-vectors/         language-neutral JSON conformance vectors
+  design/                 proposals, UX, rationale
   research/               analyses of other apps, protocols, libraries
-  design/                 specs of our game: rules, protocol, UI
   decisions/              decision records (NNNN-title.md)
 third-party/              material from other apps, for STUDY ONLY
   README.md
@@ -45,8 +49,8 @@ tools/                    helper scripts (e.g. fetch-original.sh)
 
 1. **Clean-room separation.** `third-party/` is for understanding behaviour
    only. Never copy code, layouts, drawables, sounds, fonts or string
-   resources from it into `app/`. Write findings in our own words in
-   `docs/research/`, and implement from `docs/design/`. Third-party binaries
+   resources from it into `apps/`. Write findings in our own words in
+   `docs/research/`, and implement from `docs/spec/` and `docs/design/`. Third-party binaries
    and decompiled output are never committed (see `.gitignore`). Regenerate
    them with `tools/fetch-original.sh`.
 2. **No proprietary dependencies.** Before adding a library, check its licence
@@ -65,7 +69,11 @@ tools/                    helper scripts (e.g. fetch-original.sh)
    `Session` abstraction, not on a concrete transport.
 5. **Docs first for decisions.** Record non-trivial choices (stack, licence,
    protocol, PRNG) in `docs/decisions/`.
-6. **Accessibility.** Keep a colour-blind palette, a vibration toggle and
+6. **Spec-first, native per platform.** Every app is built from
+   `docs/spec/` and must pass `docs/spec/test-vectors/`. Fix ambiguities in
+   the spec first, then in every app. Never let an app become the de-facto
+   spec (see decision 0005).
+7. **Accessibility.** Keep a colour-blind palette, a vibration toggle and
    localised colour words.
 
 ## Decided
@@ -75,13 +83,15 @@ tools/                    helper scripts (e.g. fetch-original.sh)
 - Licence: **GPL-3.0-or-later** (`LICENSE`, `docs/decisions/0002-license.md`).
   Every source file starts with `SPDX-License-Identifier: GPL-3.0-or-later`.
 
+- Platform strategy: spec-first, one native app per platform, held together
+  by conformance vectors (`docs/decisions/0005-spec-first-native-implementations.md`)
+- Android: **Kotlin + Jetpack Compose**, game core as a pure-Kotlin module
+  (`docs/decisions/0003-android-tech-stack.md`)
+- PRNG: **SplitMix64** (`docs/decisions/0004-prng-splitmix64.md`)
+
 ## Open decisions
 
-- Tech stack: proposed **Kotlin + Jetpack Compose**, with game logic in a
-  pure-Kotlin module so it can be tested on the JVM (and later shared via
-  Kotlin Multiplatform if desired).
-- PRNG choice: e.g. SplitMix64 or xoshiro256**. Specify it in
-  `docs/design/game-rules.md`.
+- Desktop toolkit (when we get there; see decision 0005).
 
 ## Conventions
 

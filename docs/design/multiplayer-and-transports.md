@@ -4,7 +4,7 @@ Status: **proposal**. Decisions go to `docs/decisions/` once they are agreed.
 
 ## 1. Key insight: a game is a seed
 
-If item generation is fully deterministic (see `game-rules.md`, to be
+If item generation is fully deterministic (see `docs/spec/game-rules.md`, to be
 written), a whole game is described by a **game descriptor**:
 
 ```
