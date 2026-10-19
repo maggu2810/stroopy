@@ -1,0 +1,62 @@
+{
+  "version": 10,
+  "cmakeMinimumRequired": {
+    "major": 4,
+    "minor": 0,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    },
+    {
+      "name": "linux",
+      "displayName": "Linux desktop (Qt from ~/Qt-aqt)",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_PREFIX_PATH": "$env{HOME}/Qt-aqt/6.12.0/gcc_64"
+      }
+    },
+    {
+      "name": "android",
+      "displayName": "Android arm64, debug-signed (Qt from ~/Qt-aqt, SDK from ~/Android/Sdk)",
+      "inherits": "base",
+      "toolchainFile": "$env{HOME}/Qt-aqt/6.12.0/android_arm64_v8a/lib/cmake/Qt6/qt.toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "QT_HOST_PATH": "$env{HOME}/Qt-aqt/6.12.0/gcc_64",
+        "ANDROID_SDK_ROOT": "$env{HOME}/Android/Sdk",
+        "ANDROID_NDK_ROOT": "$env{HOME}/Android/Sdk/ndk/27.2.12479018"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "linux",
+      "configurePreset": "linux"
+    },
+    {
+      "name": "android",
+      "configurePreset": "android",
+      "targets": [
+        "apk"
+      ]
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "linux",
+      "configurePreset": "linux",
+      "output": {
+        "outputOnFailure": true
+      }
+    }
+  ]
+}
