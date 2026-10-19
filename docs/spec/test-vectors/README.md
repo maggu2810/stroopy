@@ -21,3 +21,10 @@ Conventions:
 | `timing.json` | `itemLimit(n)`, `roundLimit(n)`, chrono total |
 | `items-{classic,chrono,find}.json` | first 80 items `(n, pool, ink, word)` per seed |
 | `rounds-tap.json` | first 40 tap rounds `(n, pool, inks, words, trueCard)` per seed |
+
+## share-code/v1 (`docs/spec/share-code/v1.md`)
+
+| file | checks |
+|---|---|
+| `encode.json` | descriptor (+ result) → record bytes (hex) and text code; CRC check value |
+| `decode.json` | `valid`: text inputs (lower case, aliases, embedded, link) → descriptor; `errors`: inputs that must fail as `invalid` or `unsupported` |
