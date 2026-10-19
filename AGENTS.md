@@ -23,6 +23,26 @@ and open-source game, Android first with iOS and desktop later, in the spirit of
 - Multiplayer without our own server: LAN, Bluetooth and public Nostr relays.
   See `docs/design/multiplayer-and-transports.md`.
 
+## Mental model
+
+An app is an implementation of specifications. It can be built for any
+platform with any toolkit:
+
+1. **Interop specs** (`docs/spec/`): binding, versioned, frozen once
+   published, and checked by conformance vectors. Every app must follow them
+   exactly so that shared codes and multiplayer work across apps:
+   - **rules `R`**: how a game descriptor is played (PRNG, sequence, speed
+     curve, scoring);
+   - **share code `S`**: how descriptors and results are encoded (bytes,
+     text, QR, link);
+   - **protocol `P`**: how apps talk during live multiplayer.
+2. **Product spec** (`docs/design/`): modes, screens, flows and
+   accessibility. Apps follow it for a consistent experience but adapt it to
+   their platform's idioms. It does not affect interoperability.
+
+An implementation declares which `R`/`S`/`P` versions it supports and proves
+it by passing their vectors. App versions are irrelevant for compatibility.
+
 ## Repository layout
 
 ```
