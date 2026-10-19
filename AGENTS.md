@@ -117,6 +117,11 @@ tools/                    helper scripts (e.g. fetch-original.sh)
   and **protocol**. App versions never decide compatibility
   (`docs/decisions/0007-compatibility-versions.md`)
 
+- First implementation: **`apps/qt/`** for Linux desktop + Android; Compose
+  postponed (`docs/decisions/0008-qt-first.md`)
+- Toolchains: always the **latest** stable Qt/CMake/C++/SDKs and their newest
+  features (`docs/decisions/0009-latest-toolchains.md`)
+
 ## Open decisions
 
 - Kirigami on top of Qt Quick or plain Qt Quick (when `apps/qt/` starts).
