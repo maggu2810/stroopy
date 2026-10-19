@@ -1,11 +1,12 @@
-# AGENTS.md: True Colors (FOSS remake)
+# AGENTS.md: Stroopy (FOSS remake of "True Color")
 
 Guidance for humans and AI agents working in this repository.
 
 ## Goal
 
-A free and open-source Android game in the spirit of the discontinued
-"True Color" (`com.aurelhubert.truecolor`, last known version 3.0.2):
+**Stroopy** (`de.maggu2810.android.stroopy`, GPL-3.0-or-later) is a free
+and open-source Android game in the spirit of the discontinued "True Color"
+(`com.aurelhubert.truecolor`, last known version 3.0.2):
 
 - A Stroop-effect colour game: is the word's meaning the same as its ink
   colour? The game gets faster as you progress.
@@ -67,15 +68,18 @@ tools/                    helper scripts (e.g. fetch-original.sh)
 6. **Accessibility.** Keep a colour-blind palette, a vibration toggle and
    localised colour words.
 
+## Decided
+
+- Name and id: **Stroopy**, `de.maggu2810.android.stroopy`
+  (`docs/decisions/0001-app-name-and-id.md`)
+- Licence: **GPL-3.0-or-later** (`LICENSE`, `docs/decisions/0002-license.md`).
+  Every source file starts with `SPDX-License-Identifier: GPL-3.0-or-later`.
+
 ## Open decisions
 
-- Licence for our code (GPL-3.0-or-later is suggested; it fits F-Droid).
 - Tech stack: proposed **Kotlin + Jetpack Compose**, with game logic in a
   pure-Kotlin module so it can be tested on the JVM (and later shared via
   Kotlin Multiplatform if desired).
-- App name and id: avoid confusion with the original name and trademark.
-  The underlying concept is the **Stroop effect** (J. R. Stroop, 1935), which
-  is a natural source for a name. Example id: `de.maggu2810.<name>`.
 - PRNG choice: e.g. SplitMix64 or xoshiro256**. Specify it in
   `docs/design/game-rules.md`.
 

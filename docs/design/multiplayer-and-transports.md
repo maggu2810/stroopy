@@ -25,10 +25,10 @@ Consequences:
   offered in three equivalent forms:
   - a **QR code**, shown on the result screen and scanned in the app;
   - a **text code** that can be sent by any messenger and pasted into the
-    app, e.g. `TC1-K7Q2-9F3A-XW1P-M4`: a version prefix, then Crockford
+    app, e.g. `SY1-K7Q2-9F3A-XW1P-M4`: a version prefix, then Crockford
     Base32 (case-insensitive, no 0/O or 1/I mix-ups), grouped for
     readability, with a checksum to catch typos;
-  - a **link**, e.g. `truecolors://play?c=K7Q29F3AXW1PM4`, which carries the
+  - a **link**, e.g. `stroopy://play?c=K7Q29F3AXW1PM4`, which carries the
     same code (opens the app directly if installed).
 
   The app accepts a pasted code from the clipboard and also accepts the
