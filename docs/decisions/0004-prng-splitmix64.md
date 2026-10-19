@@ -9,7 +9,7 @@ platform and in every language.
 ## Decision
 Use **SplitMix64** (64-bit state, wrapping unsigned arithmetic), with an
 exactly specified derivation of bounded integers and booleans, defined in
-`docs/spec/game-rules.md`. No platform RNGs and no floating point in
+`docs/spec/rules/v1.md`. No platform RNGs and no floating point in
 generation.
 
 ## Consequences
