@@ -7,7 +7,10 @@ import QtQuick.Layouts
 Page {
     id: page
 
-    signal play(mode: int, seedHex: string)
+    signal play(mode: int)
+    signal openHighscores()
+    signal openEnterCode()
+    signal openSettings()
 
     background: Rectangle { color: AppTheme.background }
 
@@ -34,10 +37,10 @@ Page {
 
         Repeater {
             model: [
-                { mode: GameController.Classic, name: qsTr("Classic"), hint: qsTr("True or false?"), slot: 0 },
-                { mode: GameController.Chrono, name: qsTr("Chrono"), hint: qsTr("30 seconds, as many as you can"), slot: 1 },
-                { mode: GameController.Find, name: qsTr("Find the colour"), hint: qsTr("Tap the colour the word names"), slot: 2 },
-                { mode: GameController.Tap, name: qsTr("Tap the true one"), hint: qsTr("Only one card is right"), slot: 3 }
+                { mode: GameController.Classic, hint: qsTr("True or false?"), slot: 0 },
+                { mode: GameController.Chrono, hint: qsTr("30 seconds, as many as you can"), slot: 1 },
+                { mode: GameController.Find, hint: qsTr("Tap the colour the word names"), slot: 2 },
+                { mode: GameController.Tap, hint: qsTr("Only one card is right"), slot: 3 }
             ]
 
             delegate: Button {
@@ -48,39 +51,59 @@ Page {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 72
                 Material.background: AppTheme.ink(modelData.slot)
-                Material.foreground: AppTheme.background
-                onClicked: page.play(modelData.mode, seedField.acceptableInput ? seedField.text : "")
+                onClicked: page.play(modelData.mode)
 
-                contentItem: Column {
-                    Label {
-                        text: modeButton.modelData.name
-                        font.pixelSize: 20
-                        font.bold: true
-                        color: AppTheme.background
+                contentItem: RowLayout {
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        spacing: 0
+
+                        Label {
+                            text: AppTheme.modeName(modeButton.modelData.mode)
+                            font.pixelSize: 20
+                            font.bold: true
+                            color: AppTheme.background
+                        }
+                        Label {
+                            text: modeButton.modelData.hint
+                            color: AppTheme.background
+                            opacity: 0.8
+                        }
                     }
                     Label {
-                        text: modeButton.modelData.hint
+                        // Re-evaluated whenever highscores change.
+                        text: Highscores.revision >= 0 && Highscores.best(modeButton.modelData.mode) > 0
+                              ? "★ " + Highscores.best(modeButton.modelData.mode) : ""
+                        font.pixelSize: 18
+                        font.bold: true
                         color: AppTheme.background
-                        opacity: 0.8
                     }
                 }
             }
         }
 
-        TextField {
-            id: seedField
-
+        RowLayout {
             Layout.fillWidth: true
             Layout.topMargin: 8
-            placeholderText: qsTr("Seed (optional, 16 hex digits)")
-            validator: RegularExpressionValidator { regularExpression: /[0-9a-fA-F]{16}/ }
-            inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhUppercaseOnly
-        }
 
-        Switch {
-            text: qsTr("Colour-blind palette")
-            checked: AppTheme.colourBlind
-            onToggled: AppTheme.colourBlind = checked
+            Button {
+                Layout.fillWidth: true
+                text: qsTr("Highscores")
+                flat: true
+                onClicked: page.openHighscores()
+            }
+            Button {
+                Layout.fillWidth: true
+                text: qsTr("Enter code")
+                flat: true
+                onClicked: page.openEnterCode()
+            }
+            Button {
+                Layout.fillWidth: true
+                text: qsTr("Settings")
+                flat: true
+                onClicked: page.openSettings()
+            }
         }
     }
 }

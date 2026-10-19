@@ -6,14 +6,27 @@ set_source_files_properties(qml/AppTheme.qml PROPERTIES QT_QML_SINGLETON_TYPE TR
 qt_add_qml_module(stroopy
     URI Stroopy
     SOURCES
+        appsettings.hpp appsettings.cpp
         gamecontroller.hpp gamecontroller.cpp
+        highscores.hpp highscores.cpp
+        sharing.hpp sharing.cpp
     QML_FILES
         qml/Main.qml
         qml/AppTheme.qml
+        qml/SubPage.qml
         qml/HomePage.qml
         qml/GamePage.qml
         qml/ResultPage.qml
         qml/RingTimer.qml
+        qml/HighscoresPage.qml
+        qml/EnterCodePage.qml
+        qml/SettingsPage.qml
+)
+
+# Translations: i18n/stroopy_<lang>.ts, compiled into the :/i18n resource prefix.
+qt_add_translations(stroopy
+    TS_FILE_DIR i18n
+    LUPDATE_OPTIONS -no-obsolete -locations none
 )
 
 target_link_libraries(stroopy PRIVATE Qt6::Quick Qt6::QuickControls2 stroopy_core)

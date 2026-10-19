@@ -28,6 +28,11 @@ class GameController : public QObject {
     Q_PROPERTY(int limitMs READ limitMs NOTIFY challengeChanged)
     Q_PROPERTY(int score READ score NOTIFY scoreChanged)
     Q_PROPERTY(int reached READ reached NOTIFY phaseChanged)
+    Q_PROPERTY(int rules READ rules CONSTANT)
+    // Result of the player who shared the code this game was started from; -1 if none.
+    Q_PROPERTY(int challengeScore READ challengeScore NOTIFY gameChanged)
+    Q_PROPERTY(int challengeReached READ challengeReached NOTIFY gameChanged)
+    Q_PROPERTY(bool isChallenge READ isChallenge NOTIFY gameChanged)
 
 public:
     enum class Phase { Idle, Countdown, Running, Over };
@@ -40,6 +45,8 @@ public:
 
     // seedHex: 16 hex digits; empty for a random seed. Returns false on a bad seed.
     Q_INVOKABLE bool start(GameController::Mode mode, const QString &seedHex = {});
+    // Starts a game from a shared code's descriptor, keeping the sharer's result to beat.
+    Q_INVOKABLE bool startChallenge(GameController::Mode mode, const QString &seedHex, int score, int reached);
     Q_INVOKABLE void restart();
     // classic/chrono: 1 = TRUE, 0 = FALSE; find: colour slot; tap: card position.
     Q_INVOKABLE void answer(int choice);
@@ -58,6 +65,10 @@ public:
     int limitMs() const;
     int score() const;
     int reached() const;
+    int rules() const { return stroopy::rules::v1::version; }
+    int challengeScore() const { return m_challengeScore; }
+    int challengeReached() const { return m_challengeReached; }
+    bool isChallenge() const { return m_challenge; }
 
 signals:
     void phaseChanged();
@@ -80,4 +91,7 @@ private:
     QTimer m_countdownTimer;
     QTimer m_limitTimer;
     QElapsedTimer m_shown;
+    bool m_challenge = false;
+    int m_challengeScore = -1;
+    int m_challengeReached = -1;
 };

@@ -36,6 +36,9 @@ bool GameController::start(Mode mode, const QString &seedHex)
             return false;
     }
     abort();
+    m_challenge = false;
+    m_challengeScore = -1;
+    m_challengeReached = -1;
     m_mode = mode;
     m_game.emplace(static_cast<Game::Mode>(mode), seed);
     emit gameChanged();
@@ -48,9 +51,24 @@ bool GameController::start(Mode mode, const QString &seedHex)
     return true;
 }
 
+bool GameController::startChallenge(Mode mode, const QString &seedHex, int score, int reached)
+{
+    if (seedHex.isEmpty() || !start(mode, seedHex))
+        return false;
+    m_challenge = true;
+    m_challengeScore = score;
+    m_challengeReached = reached;
+    emit gameChanged();
+    return true;
+}
+
 void GameController::restart()
 {
-    if (m_game)
+    if (!m_game)
+        return;
+    if (m_challenge)
+        startChallenge(m_mode, seedHex(), m_challengeScore, m_challengeReached);
+    else
         start(m_mode, seedHex());
 }
 

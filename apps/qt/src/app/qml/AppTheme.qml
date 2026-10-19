@@ -4,7 +4,7 @@ import QtQuick
 
 // Presentation of colour slots (docs/spec/rules/v1.md, appendix A) and app colours.
 QtObject {
-    property bool colourBlind: false
+    readonly property bool colourBlind: AppSettings.colourBlind
 
     readonly property list<color> normalInks: ["#f1c40f", "#e74c3c", "#3498db", "#2ecc71",
                                                "#e67e22", "#9b59b6", "#ff89e5", "#a67235"]
@@ -23,6 +23,15 @@ QtObject {
     readonly property color good: "#2ecc71"
     readonly property color bad: "#e74c3c"
 
+    function modeName(mode: int): string {
+        switch (mode) {
+        case GameController.Classic: return qsTr("Classic")
+        case GameController.Chrono: return qsTr("Chrono")
+        case GameController.Find: return qsTr("Find the colour")
+        case GameController.Tap: return qsTr("Tap the true one")
+        }
+        return qsTr("Unknown mode %1").arg(mode)
+    }
     function ink(slot: int): color {
         return (colourBlind ? colourBlindInks : normalInks)[slot]
     }
