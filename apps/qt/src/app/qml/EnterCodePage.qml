@@ -12,6 +12,7 @@ SubPage {
     signal play(mode: int, seedHex: string, score: int, reached: int)
 
     title: qsTr("Enter code")
+    StackView.onActivated: input.forceActiveFocus()
 
     ColumnLayout {
         anchors.fill: parent
@@ -33,9 +34,19 @@ SubPage {
             placeholderText: "SY1-…"
             wrapMode: TextEdit.WrapAnywhere
             inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase
+            // Leave the text area with Tab / arrow down instead of inserting a tab.
+            KeyNavigation.tab: pasteButton
+            Keys.onReturnPressed: event => {
+                if (playButton.enabled)
+                    playButton.click()
+                else
+                    event.accepted = false
+            }
         }
 
         Button {
+            id: pasteButton
+
             text: qsTr("Paste")
             onClicked: input.text = Sharing.clipboardText()
         }
@@ -60,9 +71,13 @@ SubPage {
             }
         }
 
-        Item { Layout.fillHeight: true }
+        Item {
+            Layout.fillHeight: true
+        }
 
         Button {
+            id: playButton
+
             Layout.fillWidth: true
             Layout.preferredHeight: 64
             text: qsTr("Play")

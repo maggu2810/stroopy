@@ -5,6 +5,8 @@ import QtQuick
 // Presentation of colour slots (docs/spec/rules/v1.md, appendix A) and app colours.
 QtObject {
     readonly property bool colourBlind: AppSettings.colourBlind
+    // Set once a key or gamepad button is used: show key hints and the focus frame.
+    property bool keyHints: false
 
     readonly property list<color> normalInks: ["#f1c40f", "#e74c3c", "#3498db", "#2ecc71",
                                                "#e67e22", "#9b59b6", "#ff89e5", "#a67235"]

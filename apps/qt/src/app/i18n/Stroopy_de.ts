@@ -119,6 +119,165 @@
     </message>
 </context>
 <context>
+    <name>HelpPage</name>
+    <message>
+        <source>Help</source>
+        <translation>Hilfe</translation>
+    </message>
+    <message>
+        <source>The idea</source>
+        <translation>Die Idee</translation>
+    </message>
+    <message>
+        <source>A colour word is shown in an ink colour. Your brain reads the word faster than it names the ink – that conflict is the Stroop effect. Be quick and precise: the game gets faster, and from item 20 on more colours join in.</source>
+        <translation>Ein Farbwort wird in einer Druckfarbe angezeigt. Dein Gehirn liest das Wort schneller, als es die Farbe benennt – dieser Konflikt ist der Stroop-Effekt. Sei schnell und genau: Das Spiel wird immer schneller, und ab Wort 20 kommen weitere Farben hinzu.</translation>
+    </message>
+    <message>
+        <source>Modes</source>
+        <translation>Modi</translation>
+    </message>
+    <message>
+        <source>Does the ink match the word? Answer TRUE or FALSE before the ring runs out. One mistake ends the game.</source>
+        <translation>Passt die Farbe zum Wort? Antworte mit RICHTIG oder FALSCH, bevor der Ring abläuft. Ein Fehler beendet das Spiel.</translation>
+    </message>
+    <message>
+        <source>TRUE or FALSE for 30 seconds. +1 for a right answer, −1 for a wrong one.</source>
+        <translation>RICHTIG oder FALSCH, 30 Sekunden lang. +1 für eine richtige Antwort, −1 für eine falsche.</translation>
+    </message>
+    <message>
+        <source>The ink never matches. Tap the colour that the word names, not the ink. One mistake ends the game.</source>
+        <translation>Die Farbe passt nie. Tippe die Farbe, die das Wort nennt – nicht die Druckfarbe. Ein Fehler beendet das Spiel.</translation>
+    </message>
+    <message>
+        <source>Four cards, exactly one of them shows its word in the matching ink. Find it before the bar runs out.</source>
+        <translation>Vier Karten, genau eine zeigt ihr Wort in der passenden Farbe. Finde sie, bevor der Balken abläuft.</translation>
+    </message>
+    <message>
+        <source>Keyboard</source>
+        <translation>Tastatur</translation>
+    </message>
+    <message>
+        <source>FALSE / TRUE (Classic, Chrono)</source>
+        <translation>FALSCH / RICHTIG (Klassisch, Chrono)</translation>
+    </message>
+    <message>
+        <source>Card at that position (Tap)</source>
+        <translation>Karte an dieser Position (Tippe die richtige)</translation>
+    </message>
+    <message>
+        <source>Inner colours: yellow, red, green, blue (Find)</source>
+        <translation>Innere Farben: gelb, rot, grün, blau (Finde die Farbe)</translation>
+    </message>
+    <message>
+        <source>Outer colours, clockwise from top right (Find)</source>
+        <translation>Äußere Farben, im Uhrzeigersinn ab oben rechts (Finde die Farbe)</translation>
+    </message>
+    <message>
+        <source>Colour by its number on the button (Find)</source>
+        <translation>Farbe über ihre Nummer auf dem Knopf (Finde die Farbe)</translation>
+    </message>
+    <message>
+        <source>Arrows, Tab</source>
+        <translation>Pfeile, Tab</translation>
+    </message>
+    <message>
+        <source>Move between buttons in menus</source>
+        <translation>In Menüs zwischen Knöpfen wechseln</translation>
+    </message>
+    <message>
+        <source>Enter, Space</source>
+        <translation>Enter, Leertaste</translation>
+    </message>
+    <message>
+        <source>Press the selected button</source>
+        <translation>Gewählten Knopf drücken</translation>
+    </message>
+    <message>
+        <source>Back; quit a running game</source>
+        <translation>Zurück; laufendes Spiel beenden</translation>
+    </message>
+    <message>
+        <source>Replay / new game on the result screen</source>
+        <translation>Nochmal / neues Spiel auf dem Ergebnisbildschirm</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation>Vollbild</translation>
+    </message>
+    <message>
+        <source>Gamepad</source>
+        <translation>Gamepad</translation>
+    </message>
+    <message>
+        <source>Y B A X or D-pad</source>
+        <translation>Y B A X oder Steuerkreuz</translation>
+    </message>
+    <message>
+        <source>Top, right, bottom, left (Tap, Find)</source>
+        <translation>Oben, rechts, unten, links (Tippe die richtige, Finde die Farbe)</translation>
+    </message>
+    <message>
+        <source>L1/R1 + direction</source>
+        <translation>L1/R1 + Richtung</translation>
+    </message>
+    <message>
+        <source>Outer colours (Find)</source>
+        <translation>Äußere Farben (Finde die Farbe)</translation>
+    </message>
+    <message>
+        <source>A / B in menus</source>
+        <translation>A / B in Menüs</translation>
+    </message>
+    <message>
+        <source>Press / back</source>
+        <translation>Drücken / zurück</translation>
+    </message>
+    <message>
+        <source>Start, Select</source>
+        <translation>Start, Select</translation>
+    </message>
+    <message>
+        <source>Quit a running game</source>
+        <translation>Laufendes Spiel beenden</translation>
+    </message>
+    <message>
+        <source>TV remote</source>
+        <translation>TV-Fernbedienung</translation>
+    </message>
+    <message>
+        <source>Use the D-pad like the arrow keys, OK to press and Back to go back. In Find, colours beyond the first four need a keyboard, gamepad or touch.</source>
+        <translation>Das Steuerkreuz funktioniert wie die Pfeiltasten, OK drückt, Zurück geht zurück. Bei „Finde die Farbe“ brauchen die Farben ab der fünften Tastatur, Gamepad oder Touch.</translation>
+    </message>
+    <message>
+        <source>Sharing and challenges</source>
+        <translation>Teilen und Herausforderungen</translation>
+    </message>
+    <message>
+        <source>Every game is a sequence that can be replayed exactly. After a game, or for any highscore, copy the code (for example SY1-…) and send it to a friend. They paste it under “Enter code” – even a whole message works – and play the very same sequence against your score.</source>
+        <translation>Jedes Spiel ist eine Folge, die sich exakt wiederholen lässt. Kopiere nach einem Spiel oder bei jedem Bestenlisten-Eintrag den Code (zum Beispiel SY1-…) und schicke ihn an Freunde. Sie fügen ihn unter „Code eingeben“ ein – auch eine ganze Nachricht funktioniert – und spielen genau dieselbe Folge gegen deine Punktzahl.</translation>
+    </message>
+    <message>
+        <source>About</source>
+        <translation>Über</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Version</translation>
+    </message>
+    <message>
+        <source>Compatibility</source>
+        <translation>Kompatibilität</translation>
+    </message>
+    <message>
+        <source>rules 1 · share code 1</source>
+        <translation>Regeln 1 · Teilen-Code 1</translation>
+    </message>
+    <message>
+        <source>Stroopy is free software under the GNU General Public License, version 3 or later. It contains no ads and no tracking, and it works without Google services.</source>
+        <translation>Stroopy ist freie Software unter der GNU General Public License, Version 3 oder neuer. Es enthält keine Werbung und kein Tracking und funktioniert ohne Google-Dienste.</translation>
+    </message>
+</context>
+<context>
     <name>HighscoresPage</name>
     <message>
         <source>Highscores</source>
@@ -174,6 +333,10 @@
     <message>
         <source>Enter code</source>
         <translation>Code eingeben</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Hilfe</translation>
     </message>
     <message>
         <source>Settings</source>

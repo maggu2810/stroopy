@@ -2,6 +2,7 @@
 pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls.Material
+import QtQuick.Templates as T
 
 ApplicationWindow {
     id: window
@@ -14,6 +15,17 @@ ApplicationWindow {
     }
     function goHome() {
         stack.replace(null, homePage)
+    }
+    function moveFocus(forward: bool) {
+        const current = window.activeFocusItem
+        const next = current ? current.nextItemInFocusChain(forward) : null
+        if (next)
+            next.forceActiveFocus(forward ? Qt.TabFocusReason : Qt.BacktabFocusReason)
+    }
+    function activateFocused() {
+        const item = window.activeFocusItem as T.AbstractButton
+        if (item && item.enabled)
+            item.click()
     }
 
     width: 420
@@ -36,11 +48,79 @@ ApplicationWindow {
         }
     }
 
+    Shortcut {
+        sequence: "F11"
+        onActivated: window.visibility = window.visibility === Window.FullScreen ? Window.Windowed
+                                                                                 : Window.FullScreen
+    }
+
+    // Keys not handled by a page: menu navigation (docs/design/product.md, "Key bindings").
+    // Pages handle Esc/Back and gamepad B themselves; an unhandled Back on the home page
+    // lets Android close the app.
     StackView {
         id: stack
 
         anchors.fill: parent
+        focus: true
         initialItem: homePage
+        // Hand keyboard focus to the new page right away; pages focus a specific control on activation.
+        onCurrentItemChanged: currentItem?.forceActiveFocus()
+
+        Keys.onPressed: event => {
+            AppTheme.keyHints = true
+            switch (event.key) {
+            case Qt.Key_Up:
+            case Qt.Key_Left:
+                window.moveFocus(false)
+                break
+            case Qt.Key_Down:
+            case Qt.Key_Right:
+                window.moveFocus(true)
+                break
+            case Qt.Key_Return:
+            case Qt.Key_Enter:
+            case Qt.Key_Select:
+                window.activateFocused()
+                break
+            default:
+                event.accepted = false
+                return
+            }
+            event.accepted = true
+        }
+    }
+
+    Connections {
+        target: Gamepad
+
+        function onPressed(button: int) {
+            AppTheme.keyHints = true
+            if (button === Gamepad.A)
+                window.activateFocused()
+        }
+    }
+
+    // Focus frame for keyboard, gamepad and TV remote navigation.
+    Rectangle {
+        readonly property Item target: {
+            const item = window.activeFocusItem as T.Control
+            return AppTheme.keyHints && item && item.visualFocus ? item : null
+        }
+        // Also depends on window size and page transitions, so it follows layout changes.
+        readonly property rect geometry: target && window.width > 0 && window.height > 0 && !stack.busy
+                                         ? target.mapToItem(parent, 0, 0, target.width, target.height)
+                                         : Qt.rect(0, 0, 0, 0)
+
+        parent: Overlay.overlay
+        visible: target !== null
+        x: geometry.x - 4
+        y: geometry.y - 4
+        width: geometry.width + 8
+        height: geometry.height + 8
+        radius: 10
+        color: "transparent"
+        border.width: 3
+        border.color: AppTheme.text
     }
 
     Component {
@@ -50,6 +130,7 @@ ApplicationWindow {
             onPlay: mode => window.playGame(mode, "")
             onOpenHighscores: stack.push(highscoresPage)
             onOpenEnterCode: stack.push(enterCodePage)
+            onOpenHelp: stack.push(helpPage)
             onOpenSettings: stack.push(settingsPage)
         }
     }
@@ -99,6 +180,14 @@ ApplicationWindow {
                 if (gameController.startChallenge(mode, seedHex, score, reached))
                     stack.replace(null, gamePage)
             }
+        }
+    }
+
+    Component {
+        id: helpPage
+
+        HelpPage {
+            onBack: stack.pop()
         }
     }
 

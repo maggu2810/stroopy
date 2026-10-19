@@ -14,6 +14,7 @@ SubPage {
     signal playEntry(mode: int, seedHex: string)
 
     title: qsTr("Highscores")
+    StackView.onActivated: tabs.forceActiveFocus()
 
     ColumnLayout {
         anchors.fill: parent
