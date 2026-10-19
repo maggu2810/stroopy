@@ -6,9 +6,10 @@ set -euo pipefail
 
 QT_VERSION="${QT_VERSION:-6.12.0}"
 QT_ROOT="${QT_ROOT:-$HOME/Qt-aqt}"
-MODULES=(qtconnectivity qtwebsockets qtmultimedia qtshadertools)
+MODULES=(qtconnectivity qtwebsockets qtmultimedia qtshadertools qttasktree)
 
 command -v aqt >/dev/null || pipx install aqtinstall
+mkdir -p "$QT_ROOT" && cd "$QT_ROOT"   # aqt writes aqtinstall.log into the cwd
 
 # Desktop kit (also the host kit required for Android cross builds).
 aqt install-qt linux desktop "$QT_VERSION" linux_gcc_64 \
