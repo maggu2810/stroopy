@@ -33,6 +33,8 @@ target_link_libraries(stroopy_ui PUBLIC Qt6::Quick Qt6::QuickControls2 stroopy_c
 qt_add_executable(stroopy main.cpp)
 target_compile_definitions(stroopy PRIVATE STROOPY_VERSION="${PROJECT_VERSION}")
 target_link_libraries(stroopy PRIVATE Qt6::Quick Qt6::QuickControls2 stroopy_ui stroopy_uiplugin)
+# Window icon; rendered from android/assets-src/icon-full.svg by tools/render-android-assets.sh.
+qt_add_resources(stroopy "icons" PREFIX "/" FILES icons/stroopy.png)
 
 # Translations: i18n/Stroopy_<lang>.ts, compiled into the :/i18n resource prefix of the app.
 qt_add_translations(stroopy
@@ -47,6 +49,7 @@ set_target_properties(stroopy PROPERTIES
     QT_ANDROID_PACKAGE_NAME de.maggu2810.android.stroopy.qt
     QT_ANDROID_PACKAGE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../android
     QT_ANDROID_APP_NAME Stroopy
+    QT_ANDROID_APP_ICON "@mipmap/ic_launcher"
     QT_ANDROID_VERSION_NAME ${PROJECT_VERSION}
     QT_ANDROID_VERSION_CODE 1
     QT_ANDROID_MIN_SDK_VERSION 31
