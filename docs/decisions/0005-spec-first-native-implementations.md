@@ -1,4 +1,4 @@
-# 0005: Spec-first, one native implementation per platform
+# 0005: Spec-first, independent native implementations
 
 Status: accepted (2026-10-19)
 
@@ -17,8 +17,9 @@ With AI-assisted development, writing a small core several times is cheap.
 Keeping several implementations **compatible** is the hard part.
 
 ## Decision
-Option **(c)**: each platform gets an idiomatic native app built from
-`docs/spec/`. Compatibility is enforced by **language-neutral conformance
+Option **(c)**: independent, idiomatic implementations (one per toolkit,
+in `apps/<stack>[-<platform>]/`) built from `docs/spec/`. A platform may have
+more than one implementation. Compatibility is enforced by **language-neutral conformance
 test vectors** (`docs/spec/test-vectors/*.json`). Every implementation's test
 suite must load and pass them.
 
@@ -36,10 +37,8 @@ Rules:
   unambiguous.
 - − Features and bug fixes have to be done N times. UI/UX docs
   (`docs/design/`) should be detailed enough to keep apps consistent.
-- **Desktop:** "native" means three toolkits (GTK/AppKit/WinUI). When we get
-  there, we will decide whether to use a single cross-platform desktop
-  toolkit for all three (e.g. Compose Desktop, Qt, or Rust + egui/Slint).
-  That is an exception allowed by this decision.
+- **Desktop:** "native" would mean three toolkits (GTK/AppKit/WinUI). A
+  single cross-platform toolkit is allowed instead (see decision 0006: Qt).
 - Escape hatch: if duplicated core logic becomes a burden, the pure-Kotlin
   core (decision 0003) can be turned into a Kotlin Multiplatform library for
   iOS and desktop without changing the specs.

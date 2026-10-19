@@ -27,9 +27,9 @@ and open-source game, Android first with iOS and desktop later, in the spirit of
 
 ```
 AGENTS.md                 this file
-apps/                     our implementations, one native app per platform
-  android/                Kotlin + Jetpack Compose
-  (ios/, desktop/)        future
+apps/                     our implementations, one dir per toolkit/language
+  compose-android/        Kotlin + Jetpack Compose → Android
+  (qt/, swiftui-ios/, …)  future; a platform may have several implementations
 docs/
   spec/                   NORMATIVE specs: rules, share code, protocol
     test-vectors/         language-neutral JSON conformance vectors
@@ -69,7 +69,7 @@ tools/                    helper scripts (e.g. fetch-original.sh)
    `Session` abstraction, not on a concrete transport.
 5. **Docs first for decisions.** Record non-trivial choices (stack, licence,
    protocol, PRNG) in `docs/decisions/`.
-6. **Spec-first, native per platform.** Every app is built from
+6. **Spec-first, independent implementations.** Every app is built from
    `docs/spec/` and must pass `docs/spec/test-vectors/`. Fix ambiguities in
    the spec first, then in every app. Never let an app become the de-facto
    spec (see decision 0005).
