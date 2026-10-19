@@ -10,8 +10,8 @@ when the implementation is cross-platform (e.g. `qt`).
 
 | dir | stack | targets | status |
 |---|---|---|---|
-| `compose-android/` | Kotlin + Jetpack Compose | Android | planned |
-| `qt/` | C++ + Qt 6 / QML | Linux, Windows, macOS (Android, iOS possible) | future |
+| `qt/` | C++23 + Qt 6 / QML | Linux, Android (later Windows, macOS, iOS) | **active** |
+| `compose-android/` | Kotlin + Jetpack Compose | Android | postponed |
 | `swiftui-ios/` | Swift + SwiftUI | iOS | future |
 
 Every implementation:
