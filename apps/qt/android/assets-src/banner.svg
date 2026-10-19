@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<!-- Android TV banner (320x180). Rendered to res/drawable/banner.png by tools/render-android-assets.sh -->
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" viewBox="0 0 320 180">
+  <rect width="320" height="180" fill="#1d2330"/>
+  <text x="160" y="104" text-anchor="middle" font-family="Roboto, DejaVu Sans, sans-serif"
+        font-size="46" font-weight="bold" letter-spacing="3">
+    <tspan fill="#f1c40f">S</tspan><tspan fill="#e74c3c">T</tspan><tspan fill="#3498db">R</tspan><tspan fill="#2ecc71">O</tspan><tspan fill="#e67e22">O</tspan><tspan fill="#9b59b6">P</tspan><tspan fill="#ff89e5">Y</tspan>
+  </text>
+  <text x="160" y="138" text-anchor="middle" font-family="Roboto, DejaVu Sans, sans-serif"
+        font-size="15" fill="#9aa4b5">Does the colour match the word?</text>
+</svg>
