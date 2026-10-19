@@ -5,13 +5,13 @@ Targets: **Linux desktop**, **Android arm64** (later Windows, macOS, iOS).
 
 | | |
 |---|---|
-| Supported versions | rules **1** · share code — · protocol — |
+| Supported versions | rules **1** · share code **1** · protocol — |
 | Android application id | `de.maggu2810.android.stroopy.qt` |
 
 ## Layout
 
 ```
-src/core/   game core in plain C++23, no Qt (rules v1, game session)
+src/core/   game core in plain C++23, no Qt (rules v1, share code v1, game session)
 src/app/    Qt Quick app: GameController (C++) + QML UI
 tests/      Qt Test conformance suite for docs/spec/test-vectors/rules/v1
 ```
