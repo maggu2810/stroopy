@@ -31,8 +31,11 @@ apps/                     our implementations, one dir per toolkit/language
   compose-android/        Kotlin + Jetpack Compose → Android
   (qt/, swiftui-ios/, …)  future; a platform may have several implementations
 docs/
-  spec/                   NORMATIVE specs: rules, share code, protocol
-    test-vectors/         language-neutral JSON conformance vectors
+  spec/                   NORMATIVE, versioned specs (frozen once published)
+    rules/v<N>.md         item generation, timing, scoring
+    share-code/v<N>.md    descriptor encoding (binary, text, QR, link)
+    protocol/v<N>.md      multiplayer messages
+    test-vectors/<area>/v<N>/   JSON conformance vectors
   design/                 proposals, UX, rationale
   research/               analyses of other apps, protocols, libraries
   decisions/              decision records (NNNN-title.md)
@@ -63,7 +66,8 @@ tools/                    helper scripts (e.g. fetch-original.sh)
    our own specified PRNG (not `java.util.Random` or `Math.random`), so every
    platform and version produces identical sequences. Any change to
    generation or timing **bumps the rules version** and keeps the old
-   versions playable for shared seeds. Cover this with golden tests.
+   versions playable for shared seeds. Published spec versions are frozen.
+   Cover them with conformance vectors (decision 0007).
 4. **Network only reports, never drives.** Timers run locally. Multiplayer
    messages carry progress and results. Game logic depends on a `Transport` /
    `Session` abstraction, not on a concrete transport.
@@ -82,15 +86,20 @@ tools/                    helper scripts (e.g. fetch-original.sh)
   (`docs/decisions/0001-app-name-and-id.md`)
 - Licence: **GPL-3.0-or-later** (`LICENSE`, `docs/decisions/0002-license.md`).
   Every source file starts with `SPDX-License-Identifier: GPL-3.0-or-later`.
-- Platform strategy: spec-first, one native app per platform, held together
-  by conformance vectors (`docs/decisions/0005-spec-first-native-implementations.md`)
+- Platform strategy: spec-first, independent native implementations held
+  together by conformance vectors
+  (`docs/decisions/0005-spec-first-native-implementations.md`)
 - Android: **Kotlin + Jetpack Compose**, game core as a pure-Kotlin module
   (`docs/decisions/0003-android-tech-stack.md`)
 - PRNG: **SplitMix64** (`docs/decisions/0004-prng-splitmix64.md`)
+- Desktop: **Qt 6 + QML/C++** in `apps/qt/` (`docs/decisions/0006-desktop-qt.md`)
+- Compatibility: independent integer versions for **rules**, **share code**
+  and **protocol**. App versions never decide compatibility
+  (`docs/decisions/0007-compatibility-versions.md`)
 
 ## Open decisions
 
-- Desktop toolkit (when we get there; see decision 0005).
+- Kirigami on top of Qt Quick or plain Qt Quick (when `apps/qt/` starts).
 
 ## Conventions
 

@@ -4,18 +4,20 @@ Status: **proposal**. Decisions go to `docs/decisions/` once they are agreed.
 
 ## 1. Key insight: a game is a seed
 
-If item generation is fully deterministic (see `docs/spec/game-rules.md`, to be
-written), a whole game is described by a **game descriptor**:
+If item generation is fully deterministic (see `docs/spec/rules/`), a whole
+game is described by a **game descriptor**:
 
 ```
-v=1            rules version (any change to generation or timing bumps it)
+rules=1        rules version R (decision 0007), not an app version
 mode=classic   classic | chrono | find | tap
 seed=<64 bit>  PRNG seed
-cb=0|1         colour-blind palette (affects inks only, not logic)
 ```
 
-The word *language* is **not** part of the descriptor, because logic is
-index-based. Each player can read the words in their own language.
+The descriptor holds only what changes the sequence. Per-player display
+preferences are **not** part of it: the word *language* (logic is
+index-based, so each player reads the words in their own language) and the
+colour-blind palette (it changes inks, not logic). The share-code format
+version `S` is carried by the encoding itself (prefix `SY<S>-`).
 
 Consequences:
 
@@ -37,7 +39,7 @@ Consequences:
 
 | message | content |
 |---|---|
-| `hello` | player name, app version, supported rules versions |
+| `hello` | player name, supported protocol and rules versions; app name and version (informational only) |
 | `game` | descriptor plus a start time (host clock + countdown) |
 | `progress` | player, item index reached, score, alive/dead, timestamp |
 | `finished` | player, final score, item index where they died, total time |
