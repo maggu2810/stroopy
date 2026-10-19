@@ -9,12 +9,21 @@ SubPage {
 
     title: qsTr("Settings")
 
-    ColumnLayout {
+    StackView.onActivated: languageBox.forceActiveFocus()
+
+    ScrollView {
+        id: scroll
+
         anchors.fill: parent
-        anchors.margins: 24
+        contentWidth: availableWidth
+
+    ColumnLayout {
+        x: (scroll.availableWidth - width) / 2
+        width: Math.min(scroll.availableWidth - 48, 560)
         spacing: 16
 
         Label {
+            Layout.topMargin: 24
             text: qsTr("Language")
             color: AppTheme.textMuted
         }
@@ -41,15 +50,16 @@ SubPage {
             onToggled: AppSettings.vibration = checked
         }
 
-        Item { Layout.fillHeight: true }
-
         Button {
             Layout.fillWidth: true
+            Layout.topMargin: 24
+            Layout.bottomMargin: 24
             text: qsTr("Clear highscores")
             flat: true
             Material.foreground: AppTheme.bad
             onClicked: confirmClear.open()
         }
+    }
     }
 
     Dialog {

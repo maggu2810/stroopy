@@ -11,6 +11,23 @@ Page {
 
     background: Rectangle { color: AppTheme.background }
 
+    Keys.onPressed: event => {
+        if (event.key === Qt.Key_Escape || event.key === Qt.Key_Back) {
+            page.back()
+            event.accepted = true
+        }
+    }
+
+    Connections {
+        target: Gamepad
+        enabled: page.StackView.status === StackView.Active
+
+        function onPressed(button: int) {
+            if (button === Gamepad.B)
+                page.back()
+        }
+    }
+
     header: ToolBar {
         Material.background: AppTheme.surface
 
@@ -18,6 +35,7 @@ Page {
             anchors.fill: parent
 
             ToolButton {
+                focusPolicy: Qt.NoFocus
                 text: "‹"
                 font.pixelSize: 28
                 onClicked: page.back()
