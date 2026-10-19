@@ -7,8 +7,11 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-find_package(Qt6 6.12 REQUIRED COMPONENTS Core Gui Qml Quick QuickControls2)
-qt_standard_project_setup(REQUIRES 6.12)
+find_package(Qt6 6.12 REQUIRED COMPONENTS Core Gui Qml Quick QuickControls2 LinguistTools)
+qt_standard_project_setup(REQUIRES 6.12
+    I18N_SOURCE_LANGUAGE en
+    I18N_TRANSLATED_LANGUAGES de
+)
 
 # Shared spec directory (conformance vectors) of the repository.
 set(STROOPY_SPEC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../docs/spec")
