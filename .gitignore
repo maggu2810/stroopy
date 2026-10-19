@@ -10,3 +10,6 @@ local.properties
 .idea/
 *.iml
 .DS_Store
+
+# aqtinstall writes its log into the working directory
+aqtinstall.log
