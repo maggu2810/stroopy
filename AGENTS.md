@@ -82,7 +82,6 @@ tools/                    helper scripts (e.g. fetch-original.sh)
   (`docs/decisions/0001-app-name-and-id.md`)
 - Licence: **GPL-3.0-or-later** (`LICENSE`, `docs/decisions/0002-license.md`).
   Every source file starts with `SPDX-License-Identifier: GPL-3.0-or-later`.
-
 - Platform strategy: spec-first, one native app per platform, held together
   by conformance vectors (`docs/decisions/0005-spec-first-native-implementations.md`)
 - Android: **Kotlin + Jetpack Compose**, game core as a pure-Kotlin module
