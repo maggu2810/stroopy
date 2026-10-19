@@ -1,0 +1,137 @@
+{
+ "shareCode": 1,
+ "generator": "tools/reference/gen_share_code_vectors.py",
+ "description": "Text input -> decoded descriptor, or an error ('invalid' or 'unsupported').",
+ "valid": [
+  {
+   "input": "SY1-040G-0000-0000-001A-0402-Y01G-J960",
+   "note": "canonical",
+   "expected": {
+    "rules": 1,
+    "mode": 1,
+    "seed": "0x000000000000002a",
+    "result": {
+     "score": 47,
+     "reached": 48
+    }
+   }
+  },
+  {
+   "input": "sy1-040g-0000-0000-001a-0402-y01g-j960",
+   "note": "lower case",
+   "expected": {
+    "rules": 1,
+    "mode": 1,
+    "seed": "0x000000000000002a",
+    "result": {
+     "score": 47,
+     "reached": 48
+    }
+   }
+  },
+  {
+   "input": "SY1-040G00000000001A0402Y01GJ960",
+   "note": "without group separators",
+   "expected": {
+    "rules": 1,
+    "mode": 1,
+    "seed": "0x000000000000002a",
+    "result": {
+     "score": 47,
+     "reached": 48
+    }
+   }
+  },
+  {
+   "input": "I scored 47 in Stroopy Classic: SY1-040G-0000-0000-001A-0402-Y01G-J960 \u2014 beat me!",
+   "note": "embedded in a message",
+   "expected": {
+    "rules": 1,
+    "mode": 1,
+    "seed": "0x000000000000002a",
+    "result": {
+     "score": 47,
+     "reached": 48
+    }
+   }
+  },
+  {
+   "input": "stroopy://play?c=SY1-040G-0000-0000-001A-03CT-T",
+   "note": "link",
+   "expected": {
+    "rules": 1,
+    "mode": 1,
+    "seed": "0x000000000000002a"
+   }
+  },
+  {
+   "input": "SY1-O4OG-OOOO-OOOO-OOIA-O4O2-YOIG-J96O",
+   "note": "O/I aliases",
+   "expected": {
+    "rules": 1,
+    "mode": 1,
+    "seed": "0x000000000000002a",
+    "result": {
+     "score": 47,
+     "reached": 48
+    }
+   }
+  },
+  {
+   "input": "SY1-040G-0000-0000-00lA-0402-Y0lG-J960",
+   "note": "lower-case L alias",
+   "expected": {
+    "rules": 1,
+    "mode": 1,
+    "seed": "0x000000000000002a",
+    "result": {
+     "score": 47,
+     "reached": 48
+    }
+   }
+  }
+ ],
+ "errors": [
+  {
+   "input": "SY1-040G-0000-0000-001A-0402-Y01G-J961",
+   "error": "invalid",
+   "note": "checksum mismatch"
+  },
+  {
+   "input": "SY1-040G-0000-0000-001A-0402-Y01G-J96",
+   "error": "invalid",
+   "note": "too short"
+  },
+  {
+   "input": "SY1-040G-0000-0000-001A-0402-Y01G-J9600",
+   "error": "invalid",
+   "note": "too long"
+  },
+  {
+   "input": "SY1-040G-U000-0000-001A-0402-Y01G-J960",
+   "error": "invalid",
+   "note": "U is not in the alphabet"
+  },
+  {
+   "input": "SY1-040G-0000-0000-001A-0BWY-Y",
+   "error": "invalid",
+   "note": "unknown flag bit"
+  },
+  {
+   "input": "SY1-040G00000000001A03CTV",
+   "error": "invalid",
+   "note": "non-zero padding bits"
+  },
+  {
+   "input": "hello world",
+   "error": "invalid",
+   "note": "no code"
+  },
+  {
+   "input": "SY2-040G-0000-0000-001A-0402-Y01G-J960",
+   "error": "unsupported",
+   "version": 2,
+   "note": "unknown share-code version"
+  }
+ ]
+}
