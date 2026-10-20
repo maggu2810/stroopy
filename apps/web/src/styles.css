@@ -682,3 +682,92 @@ input.code {
 .key-hints .prose:focus {
   outline: none;
 }
+
+/* ---- multiplayer ---- */
+
+button.multi {
+  width: 100%;
+  border-radius: var(--radius);
+  background: var(--surface-hi);
+}
+.room-code {
+  font-family: ui-monospace, "JetBrains Mono", monospace;
+  font-size: clamp(28px, 8vw, 40px);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.relays {
+  align-self: center;
+  color: var(--muted);
+}
+.relays.bad {
+  color: var(--bad);
+}
+.ranking,
+.players {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ranking li {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--surface);
+  counter-increment: rank;
+}
+.ranking li::before {
+  content: counter(rank);
+  width: 1.5em;
+  color: var(--muted);
+}
+.ranking li.me .name {
+  color: var(--accent);
+}
+.ranking .name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ranking .points {
+  font-size: 22px;
+  font-weight: 800;
+}
+.ranking .state {
+  width: 8.5em;
+  text-align: right;
+}
+.players li {
+  padding: 6px 0;
+}
+.mode-pick {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.mode-pick button {
+  border-radius: 10px;
+}
+.mode-pick button.active {
+  background: var(--text);
+  color: var(--bg);
+}
+.opponents {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  font-size: 15px;
+}
+.opponent .name {
+  max-width: 10em;
+  display: inline-block;
+  vertical-align: bottom;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.opponent.out {
+  opacity: 0.6;
+}

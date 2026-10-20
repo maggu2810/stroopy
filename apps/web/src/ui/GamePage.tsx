@@ -7,6 +7,7 @@ import { controller } from "../app/controller.ts";
 import { vibrate } from "../app/haptics.ts";
 import { t } from "../app/i18n.ts";
 import { Pad, shoulderHeld, usePageInput } from "../app/input.ts";
+import { room } from "../app/multiplayer.ts";
 import { ink, word } from "../app/theme.ts";
 
 // Diamond directions: 0 up, 1 right, 2 down, 3 left.
@@ -87,6 +88,7 @@ export function GamePage(props: { onQuit: () => void }) {
         <span class="n">#{c.n}</span>
         <span class="score">{c.score.value}</span>
       </header>
+      <Opponents />
       {(mode === Mode.Chrono || mode === Mode.Tap) && (
         <div class="timebar">
           {running && <div key={mode === Mode.Tap ? current.n : "chrono"} class="fill" style={{ animationDuration: `${c.limitMs}ms` }} />}
@@ -138,6 +140,24 @@ export function GamePage(props: { onQuit: () => void }) {
           )}
         </div>
       )}
+    </div>
+  );
+}
+
+/** Multiplayer: every other player in this game, with item and score, ✗ once out. */
+function Opponents() {
+  const r = room.value;
+  const code = r?.me.value.game?.code;
+  if (!r || !code) return null;
+  const others = r.players.value.filter((p) => p.game?.code === code);
+  if (!others.length) return null;
+  return (
+    <div class="opponents">
+      {others.map((p) => (
+        <span class={`opponent ${p.game!.over ? "out" : ""}`}>
+          <span class="name">{p.name}</span> <b>{p.game!.score}</b> <span class="muted">{p.game!.over ? "✗" : `#${p.game!.n}`}</span>
+        </span>
+      ))}
     </div>
   );
 }

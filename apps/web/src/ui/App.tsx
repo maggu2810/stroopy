@@ -2,6 +2,7 @@
 import { Mode, RULES_VERSION } from "../core/rules-v1.ts";
 import { controller } from "../app/controller.ts";
 import { submit } from "../app/highscores.ts";
+import { quitRoomGame, room } from "../app/multiplayer.ts";
 import { reset, stack } from "../app/nav.ts";
 import { BackupPage } from "./BackupPage.tsx";
 import { Toast } from "./common.tsx";
@@ -10,6 +11,8 @@ import { GamePage } from "./GamePage.tsx";
 import { HelpPage } from "./HelpPage.tsx";
 import { HighscoresPage } from "./HighscoresPage.tsx";
 import { HomePage } from "./HomePage.tsx";
+import { LobbyPage } from "./LobbyPage.tsx";
+import { MultiplayerPage } from "./MultiplayerPage.tsx";
 import { ResultPage } from "./ResultPage.tsx";
 import { SettingsPage } from "./SettingsPage.tsx";
 
@@ -27,10 +30,13 @@ controller.onOver(() => {
     reached: controller.reached,
     challenge: controller.isChallenge.value,
   });
-  reset({ name: "result", rank });
+  // Multiplayer: the lobby shows everybody's result.
+  if (room.value) stack.value = [{ name: "home" }, { name: "lobby" }];
+  else reset({ name: "result", rank });
 });
 
 function quitGame() {
+  if (room.value) return quitRoomGame();
   controller.abort();
   reset();
 }
@@ -64,6 +70,10 @@ function CurrentPage() {
       return <BackupPage />;
     case "help":
       return <HelpPage />;
+    case "multiplayer":
+      return <MultiplayerPage text={page.text} />;
+    case "lobby":
+      return <LobbyPage />;
   }
 }
 

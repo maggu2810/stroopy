@@ -8,7 +8,7 @@ account ([decision 0010](../../docs/decisions/0010-web-app-pwa.md)).
 |---|---|
 | stack | TypeScript, [Bun](https://bun.sh) (package manager, bundler, tests, dev server), Preact + signals |
 | targets | any current browser; iOS/iPadOS via Safari *Add to Home Screen*; Android/desktop *Install app* |
-| supports | rules **1**, share code **1**, backup **1** |
+| supports | rules **1**, share code **1**, backup **1**, protocol **1** (Nostr) |
 | licence | GPL-3.0-or-later; dependencies MIT / Apache-2.0 |
 
 ## Commands
@@ -21,6 +21,7 @@ bun run typecheck
 bun run build        # production build into dist/ (static files, service worker)
 bun run preview      # build and serve dist/ on http://localhost:3000
 bun run test:ui      # browser UI test in headless Chromium; optional arg: screenshot dir
+bun run test:multiplayer  # two browsers play over the public Nostr relays (needs internet)
 ```
 
 `HOST=0.0.0.0 bun run preview` makes it reachable from a phone on the same
@@ -38,6 +39,7 @@ index.html            entry; build.ts adds manifest/icon links
 build.ts              production build + service worker precache list
 public/               manifest and icons (rendered by tools/render-assets.sh)
 src/core/             spec implementations: rules, game, share code, backup
+src/net/              protocol v1: room codes, messages, Nostr events, relay pool, room
 src/app/              state: settings, i18n, highscores, game controller, input
 src/ui/               Preact pages (one per screen of docs/design/product.md)
 src/sw.ts             service worker (offline cache)

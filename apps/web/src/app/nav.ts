@@ -10,7 +10,9 @@ export type Page =
   | { name: "enterCode"; text?: string }
   | { name: "settings" }
   | { name: "backup" }
-  | { name: "help" };
+  | { name: "help" }
+  | { name: "multiplayer"; text?: string }
+  | { name: "lobby" };
 
 export const stack = signal<Page[]>([{ name: "home" }]);
 

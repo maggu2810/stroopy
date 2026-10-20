@@ -36,6 +36,9 @@ export function HomePage(props: { onPlay: (mode: Mode) => void }) {
               </button>
             ))}
           </div>
+          <button class="multi" onClick={() => push({ name: "multiplayer" })}>
+            {t("Multiplayer")}
+          </button>
           <div class="links">
             <button class="flat" onClick={() => push({ name: "highscores" })}>{t("Highscores")}</button>
             <button class="flat" onClick={() => push({ name: "enterCode" })}>{t("Enter code")}</button>
