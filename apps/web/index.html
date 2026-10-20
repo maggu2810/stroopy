@@ -1,0 +1,22 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+    <meta name="theme-color" content="#1d2330" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description" content="Stroopy: a free Stroop-effect colour game. Does the colour match the word?" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Stroopy" />
+    <title>Stroopy</title>
+    <!-- build.ts adds the manifest and icon links (files from public/, which the bundler must not touch). -->
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <noscript>Stroopy needs JavaScript.</noscript>
+    <script type="module" src="./src/main.tsx"></script>
+  </body>
+</html>
