@@ -11,6 +11,7 @@ when the implementation is cross-platform (e.g. `qt`).
 | dir | stack | targets | status |
 |---|---|---|---|
 | `qt/` | C++23 + Qt 6 / QML | Linux, Android (later Windows, macOS, iOS) | **active** |
+| `web/` | TypeScript + Bun + Preact (PWA) | browsers; iOS via *Add to Home Screen* | **active** |
 | `compose-android/` | Kotlin + Jetpack Compose | Android | postponed |
 | `swiftui-ios/` | Swift + SwiftUI | iOS | future |
 
