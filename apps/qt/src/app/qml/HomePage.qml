@@ -10,6 +10,7 @@ Page {
     readonly property bool landscape: width > height
 
     signal play(mode: int)
+    signal openMultiplayer()
     signal openHighscores()
     signal openEnterCode()
     signal openHelp()
@@ -106,6 +107,14 @@ Page {
                         }
                     }
                 }
+            }
+
+            Button {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 56
+                text: qsTr("Multiplayer")
+                Material.roundedScale: Material.MediumScale
+                onClicked: page.openMultiplayer()
             }
 
             GridLayout {

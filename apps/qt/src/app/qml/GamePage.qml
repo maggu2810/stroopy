@@ -180,6 +180,28 @@ FocusScope {
             }
         }
 
+        // Multiplayer: every other player in this game, with item and score, ✗ once out.
+        Flow {
+            Layout.fillWidth: true
+            visible: Multiplayer.active && Multiplayer.opponents.length > 0
+            spacing: 16
+
+            Repeater {
+                model: Multiplayer.active ? Multiplayer.opponents : []
+
+                delegate: Label {
+                    required property var modelData
+
+                    text: modelData.name + "  <b>" + modelData.score + "</b>  "
+                          + (modelData.over ? "✗" : "#" + modelData.n)
+                    textFormat: Text.StyledText
+                    color: AppTheme.text
+                    opacity: modelData.over ? 0.6 : 1
+                    font.pixelSize: 15
+                }
+            }
+        }
+
         Bar {
             id: timeBar
 

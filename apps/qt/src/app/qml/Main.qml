@@ -16,6 +16,9 @@ ApplicationWindow {
     function goHome() {
         stack.replace(null, homePage)
     }
+    function showLobby() {
+        stack.replace(null, [homePage, lobbyPage])
+    }
     function moveFocus(forward: bool) {
         const current = window.activeFocusItem
         const next = current ? current.nextItemInFocusChain(forward) : null
@@ -41,10 +44,31 @@ ApplicationWindow {
         id: gameController
 
         onPhaseChanged: {
+            Multiplayer.setBusy(phase === GameController.Countdown || phase === GameController.Running)
+            if (phase === GameController.Running || phase === GameController.Over)
+                Multiplayer.report(n, score, phase === GameController.Over)
             if (phase !== GameController.Over)
                 return
             window.lastRank = Highscores.submit(rules, mode, seedHex, score, reached, isChallenge)
-            stack.replace(null, resultPage)
+            // Multiplayer: the lobby shows everybody's result.
+            if (Multiplayer.active)
+                window.showLobby()
+            else
+                stack.replace(null, resultPage)
+        }
+        onScoreChanged: if (phase === GameController.Running) Multiplayer.report(n, score, false)
+        onChallengeChanged: if (phase === GameController.Running) Multiplayer.report(n, score, false)
+    }
+
+    Connections {
+        target: Multiplayer
+
+        function onPlay(mode: int, seedHex: string) {
+            if (gameController.start(mode, seedHex))
+                stack.replace(null, [homePage, lobbyPage, gamePage])
+        }
+        function onOpened() {
+            window.showLobby()
         }
     }
 
@@ -128,6 +152,7 @@ ApplicationWindow {
 
         HomePage {
             onPlay: mode => window.playGame(mode, "")
+            onOpenMultiplayer: stack.push(multiplayerPage)
             onOpenHighscores: stack.push(highscoresPage)
             onOpenEnterCode: stack.push(enterCodePage)
             onOpenHelp: stack.push(helpPage)
@@ -141,6 +166,14 @@ ApplicationWindow {
         GamePage {
             controller: gameController
             onQuit: {
+                // Multiplayer: quitting counts as being out at the current item; stay in the room.
+                if (Multiplayer.active) {
+                    const running = gameController.phase === GameController.Running
+                    Multiplayer.report(running ? gameController.n : 1, gameController.score, true)
+                    gameController.abort()
+                    window.showLobby()
+                    return
+                }
                 gameController.abort()
                 window.goHome()
             }
@@ -197,6 +230,25 @@ ApplicationWindow {
         SettingsPage {
             onBack: stack.pop()
             onOpenBackup: stack.push(backupPage)
+        }
+    }
+
+    Component {
+        id: multiplayerPage
+
+        MultiplayerPage {
+            onBack: stack.pop()
+        }
+    }
+
+    Component {
+        id: lobbyPage
+
+        LobbyPage {
+            onBack: {
+                Multiplayer.leave()
+                window.goHome()
+            }
         }
     }
 

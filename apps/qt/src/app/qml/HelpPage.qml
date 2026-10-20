@@ -88,9 +88,17 @@ SubPage {
                            + "against your score.")
             }
 
+            Heading { text: qsTr("Multiplayer") }
+            Paragraph {
+                text: qsTr("Create a room and send its code (SYR1-…) to your friends; they join under "
+                           + "“Multiplayer”. The host picks the mode and starts, then everyone plays the same "
+                           + "sequence at the same time and sees the others’ progress. Rooms run over public "
+                           + "Nostr relays: no account, no server of ours, but names and scores are not encrypted.")
+            }
+
             Heading { text: qsTr("About") }
             Entry { term: qsTr("Version"); definition: Qt.application.version }
-            Entry { term: qsTr("Compatibility"); definition: qsTr("rules 1 · share code 1") }
+            Entry { term: qsTr("Compatibility"); definition: qsTr("rules 1 · share code 1 · backup 1 · protocol 1") }
             Paragraph {
                 Layout.bottomMargin: 24
                 text: qsTr("Stroopy is free software under the GNU General Public License, version 3 or "
