@@ -316,6 +316,14 @@
         <translation>Jedes Spiel ist eine Folge, die sich exakt wiederholen lässt. Kopiere nach einem Spiel oder bei jedem Bestenlisten-Eintrag den Code (zum Beispiel SY1-…) und schicke ihn an Freunde. Sie fügen ihn unter „Code eingeben“ ein – auch eine ganze Nachricht funktioniert – und spielen genau dieselbe Folge gegen deine Punktzahl.</translation>
     </message>
     <message>
+        <source>Multiplayer</source>
+        <translation>Mehrspieler</translation>
+    </message>
+    <message>
+        <source>Create a room and send its code (SYR1-…) to your friends; they join under “Multiplayer”. The host picks the mode and starts, then everyone plays the same sequence at the same time and sees the others’ progress. Rooms run over public Nostr relays: no account, no server of ours, but names and scores are not encrypted.</source>
+        <translation>Erstelle einen Raum und schicke seinen Code (SYR1-…) an deine Freunde; sie treten unter „Mehrspieler“ bei. Der Gastgeber wählt den Modus und startet, dann spielen alle gleichzeitig dieselbe Folge und sehen den Fortschritt der anderen. Räume laufen über öffentliche Nostr-Relays: kein Konto, kein eigener Server, aber Namen und Punkte sind nicht verschlüsselt.</translation>
+    </message>
+    <message>
         <source>About</source>
         <translation>Über</translation>
     </message>
@@ -328,8 +336,8 @@
         <translation>Kompatibilität</translation>
     </message>
     <message>
-        <source>rules 1 · share code 1</source>
-        <translation>Regeln 1 · Teilen-Code 1</translation>
+        <source>rules 1 · share code 1 · backup 1 · protocol 1</source>
+        <translation>Regeln 1 · Teilen-Code 1 · Sicherung 1 · Protokoll 1</translation>
     </message>
     <message>
         <source>Stroopy is free software under the GNU General Public License, version 3 or later. It contains no ads and no tracking, and it works without Google services.</source>
@@ -386,6 +394,10 @@
         <translation>Nur eine Karte stimmt</translation>
     </message>
     <message>
+        <source>Multiplayer</source>
+        <translation>Mehrspieler</translation>
+    </message>
+    <message>
         <source>Highscores</source>
         <translation>Bestenlisten</translation>
     </message>
@@ -403,10 +415,127 @@
     </message>
 </context>
 <context>
+    <name>LobbyPage</name>
+    <message>
+        <source>Room</source>
+        <translation>Raum</translation>
+    </message>
+    <message>
+        <source>Invite</source>
+        <translation>Einladen</translation>
+    </message>
+    <message>
+        <source>Relays: %1/%2</source>
+        <translation>Relays: %1/%2</translation>
+    </message>
+    <message>
+        <source>Last game: %1</source>
+        <translation>Letztes Spiel: %1</translation>
+    </message>
+    <message>
+        <source>%1 (you)</source>
+        <translation>%1 (du)</translation>
+    </message>
+    <message>
+        <source>out at #%1</source>
+        <translation>raus bei #%1</translation>
+    </message>
+    <message>
+        <source>playing #%1</source>
+        <translation>spielt #%1</translation>
+    </message>
+    <message>
+        <source>Players</source>
+        <translation>Spieler</translation>
+    </message>
+    <message>
+        <source>Nobody else is here yet. Invite others with the room code.</source>
+        <translation>Noch niemand sonst da. Lade andere mit dem Raumcode ein.</translation>
+    </message>
+    <message>
+        <source>Join the running game</source>
+        <translation>Dem laufenden Spiel beitreten</translation>
+    </message>
+    <message>
+        <source>Mode</source>
+        <translation>Modus</translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation>Starten</translation>
+    </message>
+    <message>
+        <source>Waiting for %1 to start: %2</source>
+        <translation>Warte, bis %1 startet: %2</translation>
+    </message>
+    <message>
+        <source>Waiting for the host…</source>
+        <translation>Warte auf den Gastgeber …</translation>
+    </message>
+    <message>
+        <source>Leave room</source>
+        <translation>Raum verlassen</translation>
+    </message>
+    <message>
+        <source>Room code copied to the clipboard</source>
+        <translation>Raumcode in die Zwischenablage kopiert</translation>
+    </message>
+</context>
+<context>
     <name>Main</name>
     <message>
         <source>Stroopy</source>
         <translation>Stroopy</translation>
+    </message>
+</context>
+<context>
+    <name>Multiplayer</name>
+    <message>
+        <source>Play Stroopy with me: %1</source>
+        <translation>Spiel Stroopy mit mir: %1</translation>
+    </message>
+</context>
+<context>
+    <name>MultiplayerPage</name>
+    <message>
+        <source>Multiplayer</source>
+        <translation>Mehrspieler</translation>
+    </message>
+    <message>
+        <source>Play the same sequence at the same time, over the internet. Everyone sees how far the others get.</source>
+        <translation>Spielt dieselbe Folge gleichzeitig über das Internet. Alle sehen, wie weit die anderen kommen.</translation>
+    </message>
+    <message>
+        <source>Player name</source>
+        <translation>Spielername</translation>
+    </message>
+    <message>
+        <source>Shown to other players. Names and scores travel unencrypted through public Nostr relays.</source>
+        <translation>Wird anderen Spielern angezeigt. Namen und Punkte gehen unverschlüsselt über öffentliche Nostr-Relays.</translation>
+    </message>
+    <message>
+        <source>Create room</source>
+        <translation>Raum erstellen</translation>
+    </message>
+    <message>
+        <source>Join room</source>
+        <translation>Raum beitreten</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>Einfügen</translation>
+    </message>
+    <message>
+        <source>Join</source>
+        <translation>Beitreten</translation>
+    </message>
+    <message>
+        <source>This room needs a newer version of Stroopy.</source>
+        <translation>Dieser Raum braucht eine neuere Version von Stroopy.</translation>
+    </message>
+    <message>
+        <source>No valid room code found.</source>
+        <translation>Kein gültiger Raumcode gefunden.</translation>
     </message>
 </context>
 <context>

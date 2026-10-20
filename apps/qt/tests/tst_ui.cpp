@@ -4,6 +4,7 @@
 #include "backup.hpp"
 #include "gamecontroller.hpp"
 #include "highscores.hpp"
+#include "multiplayer.hpp"
 
 #include <QDir>
 #include <QQmlApplicationEngine>
@@ -161,10 +162,10 @@ private slots:
 
     void helpPage()
     {
-        // Focus chain on home: 4 modes, then Highscores, Enter code, Help, Settings.
+        // Focus chain on home: 4 modes, then Multiplayer, Highscores, Enter code, Help, Settings.
         resize(420, 820);
         QTest::qWait(600);
-        for (int i = 0; i < 6; ++i)
+        for (int i = 0; i < 7; ++i)
             key(Qt::Key_Down);
         key(Qt::Key_Return);
         shot(u"help-portrait"_s);
@@ -174,12 +175,37 @@ private slots:
         shot(u"home-after-help"_s);
     }
 
-    void backupRoundTrip()
+    void multiplayerPages()
     {
-        // Home: 7 x Down reaches Settings; there, Tab x 5 reaches the backup button.
+        // Home: 4 x Down reaches Multiplayer; the page focuses "Create room".
         resize(420, 820);
         QTest::qWait(600);
-        for (int i = 0; i < 7; ++i)
+        for (int i = 0; i < 4; ++i)
+            key(Qt::Key_Down);
+        key(Qt::Key_Return);
+        shot(u"multiplayer-portrait"_s);
+        // Creating a room connects to the public relays: only on request.
+        if (qEnvironmentVariableIntValue("STROOPY_UI_NETWORK")) {
+            auto *mp = m_engine->singletonInstance<Multiplayer *>("Stroopy", "Multiplayer");
+            key(Qt::Key_Return);
+            QTRY_VERIFY_WITH_TIMEOUT(mp->connected() > 0, 15000);
+            shot(u"lobby-portrait"_s);
+            resize(1280, 720);
+            shot(u"lobby-landscape"_s);
+            key(Qt::Key_Escape); // leaves the room
+            QVERIFY(!mp->active());
+        } else {
+            key(Qt::Key_Escape);
+        }
+        QTest::qWait(600);
+    }
+
+    void backupRoundTrip()
+    {
+        // Home: 8 x Down reaches Settings; there, Tab x 5 reaches the backup button.
+        resize(420, 820);
+        QTest::qWait(600);
+        for (int i = 0; i < 8; ++i)
             key(Qt::Key_Down);
         key(Qt::Key_Return);
         QTest::qWait(600);

@@ -13,6 +13,7 @@ qt_add_qml_module(stroopy_ui
         gamepad.hpp gamepad.cpp
         haptics.hpp haptics.cpp
         highscores.hpp highscores.cpp
+        multiplayer.hpp multiplayer.cpp
         sharing.hpp sharing.cpp
     QML_FILES
         qml/Main.qml
@@ -27,10 +28,12 @@ qt_add_qml_module(stroopy_ui
         qml/SettingsPage.qml
         qml/HelpPage.qml
         qml/BackupPage.qml
+        qml/MultiplayerPage.qml
+        qml/LobbyPage.qml
 )
 
 target_include_directories(stroopy_ui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(stroopy_ui PUBLIC Qt6::Quick Qt6::QuickControls2 stroopy_core)
+target_link_libraries(stroopy_ui PUBLIC Qt6::Quick Qt6::QuickControls2 stroopy_core stroopy_net)
 
 qt_add_executable(stroopy main.cpp)
 target_compile_definitions(stroopy PRIVATE STROOPY_VERSION="${PROJECT_VERSION}")
@@ -58,6 +61,20 @@ set_target_properties(stroopy PROPERTIES
     QT_ANDROID_TARGET_SDK_VERSION 37
     QT_ANDROID_COMPILE_SDK_VERSION 37
 )
+
+if(ANDROID)
+    # TLS for wss:// relays: Qt's OpenSSL backend needs libssl/libcrypto in the APK.
+    # Prebuilt OpenSSL 3 (Apache-2.0) from KDAB, as recommended by the Qt documentation.
+    include(FetchContent)
+    FetchContent_Declare(android_openssl
+        URL https://github.com/KDAB/android_openssl/archive/b71f1470962019bd89534a2919f5925f93bc5779.tar.gz
+        URL_HASH SHA256=6c1dfff0af367bba2f2c2a27f1c2061019537524dc7892ee8efbdc8e1c6224fa
+        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+    )
+    FetchContent_MakeAvailable(android_openssl)
+    include(${android_openssl_SOURCE_DIR}/android_openssl.cmake)
+    add_android_openssl_libraries(stroopy)
+endif()
 
 if(NOT ANDROID)
     include(GNUInstallDirs)
