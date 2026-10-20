@@ -29,7 +29,7 @@ src/core/   game core in plain C++23, no Qt (rules v1, share code v1, game sessi
 src/app/    Qt Quick app: C++ (GameController, Highscores, Sharing, AppSettings) + QML UI
 src/app/i18n/  translations (Stroopy_<lang>.ts); refresh with the update_translations target
 android/    Android package sources: manifest (TV, vibration), StroopyActivity (gamepad
-            buttons → JNI), TV banner (assets-src/banner.svg → tools/render-android-assets.sh)
+            buttons → JNI), TV banner (assets/artwork/banner.svg → tools/render-assets.sh)
 tests/      conformance tests (rules v1, share code v1) and a headless UI test (tst_ui)
 ```
 
