@@ -43,6 +43,8 @@ export class Room {
   /** A newer game the host started while we were still playing. */
   readonly pending = signal<{ code: string; mode: number; seed: bigint } | null>(null);
   readonly everyone = computed(() => [this.me.value, ...this.players.value]);
+  /** Players who left after playing; their results stay in the ranking. */
+  readonly departed = signal<Player[]>([]);
   readonly hostKey = computed(() => {
     const claimants = this.everyone.value.filter((p) => p.host).map((p) => p.key);
     return claimants.sort()[0] ?? null;
@@ -165,8 +167,7 @@ export class Room {
   private tick() {
     const now = Date.now();
     if (now - this.lastSent >= HEARTBEAT_MS) this.sendStatus(true);
-    const alive = this.players.value.filter((p) => now - p.lastSeen < PRESENCE_TIMEOUT_MS);
-    if (alive.length !== this.players.value.length) this.players.value = alive;
+    this.remove((p) => now - p.lastSeen >= PRESENCE_TIMEOUT_MS);
     // No host for 15 s: the present player with the lowest key takes over (§4).
     if (this.hostKey.value !== null) this.lastHostSeen = now;
     else if (now - this.lastHostSeen >= PRESENCE_TIMEOUT_MS && this.everyone.value.map((p) => p.key).sort()[0] === this.me.value.key) {
@@ -175,12 +176,20 @@ export class Room {
     }
   }
 
+  private remove(gone: (p: Player) => boolean) {
+    const leaving = this.players.value.filter(gone);
+    if (!leaving.length) return;
+    this.players.value = this.players.value.filter((p) => !gone(p));
+    const keep = this.departed.value.filter((d) => !leaving.some((p) => p.key === d.key));
+    this.departed.value = [...keep, ...leaving.filter((p) => p.game)];
+  }
+
   private receive(e: NostrEvent) {
     if (e.pubkey === this.me.value.key) return;
     const m = parseMessage(e.content);
     if (!m) return;
     if (m.type === "bye") {
-      this.players.value = this.players.value.filter((p) => p.key !== e.pubkey);
+      this.remove((p) => p.key === e.pubkey);
       return;
     }
     const known = this.players.value.find((p) => p.key === e.pubkey);

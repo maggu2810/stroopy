@@ -168,7 +168,8 @@ access happens only while the player is in a room.
   starts differ by network delay. Fairness across latency is not a goal.
 - **Results**: when the own game is over, the lobby comes back with the
   ranking of that game; it keeps updating until all players are out (or
-  gone). Multiplayer games enter the local highscores like any other game.
+  gone). Players who leave keep their result in that ranking. Multiplayer
+  games enter the local highscores like any other game.
 - A guest who arrives while a game runs joins it at once (same sequence,
   later start).
 - Quitting a running game (Back/Esc) counts as being out at the current

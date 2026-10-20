@@ -11,7 +11,8 @@
     "test": "bun test",
     "typecheck": "tsc --noEmit",
     "test:ui": "bun tests/e2e/ui.ts",
-    "test:multiplayer": "bun tests/e2e/multiplayer.ts"
+    "test:multiplayer": "bun tests/e2e/multiplayer.ts",
+    "test:interop": "bun tests/e2e/interop-qt.ts"
   },
   "dependencies": {
     "@noble/curves": "^2.4.0",
