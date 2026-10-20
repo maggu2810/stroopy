@@ -196,6 +196,15 @@ ApplicationWindow {
 
         SettingsPage {
             onBack: stack.pop()
+            onOpenBackup: stack.push(backupPage)
+        }
+    }
+
+    Component {
+        id: backupPage
+
+        BackupPage {
+            onBack: stack.pop()
         }
     }
 }

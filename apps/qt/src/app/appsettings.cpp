@@ -4,6 +4,7 @@
 #include <QCoreApplication>
 #include <QLocale>
 #include <QQmlEngine>
+#include <QRandomGenerator>
 
 using namespace Qt::StringLiterals;
 
@@ -12,6 +13,9 @@ const QStringList languages{u"en"_s, u"de"_s};
 const auto keyLanguage = u"language"_s;
 const auto keyColourBlind = u"colourBlind"_s;
 const auto keyVibration = u"vibration"_s;
+const auto keyPlayerName = u"playerName"_s;
+const auto keyRelays = u"relays"_s;
+constexpr std::size_t maxNameLength = 24;
 } // namespace
 
 AppSettings *AppSettings::create(QQmlEngine *qmlEngine, QJSEngine *)
@@ -27,6 +31,13 @@ AppSettings::AppSettings(QQmlEngine *engine)
 {
     if (!languages.contains(m_language))
         m_language.clear();
+    m_relays = m_settings.value(keyRelays).toString();
+    m_playerName = cleanName(m_settings.value(keyPlayerName).toString());
+    if (m_playerName.isEmpty()) {
+        // Chosen once, so the name stays the same until the user changes it.
+        m_playerName = u"Player%1"_s.arg(QRandomGenerator::global()->bounded(100, 1000));
+        m_settings.setValue(keyPlayerName, m_playerName);
+    }
     applyLanguage();
 }
 
@@ -83,4 +94,49 @@ void AppSettings::setVibration(bool on)
     m_vibration = on;
     m_settings.setValue(keyVibration, on);
     emit vibrationChanged();
+}
+
+QString AppSettings::cleanName(const QString &name)
+{
+    std::u32string out;
+    for (const auto c : name.toStdU32String())
+        if (c >= 0x20 && c != 0x7F)
+            out += c;
+    out = QString::fromStdU32String(out).trimmed().toStdU32String();
+    return QString::fromStdU32String(out.substr(0, maxNameLength));
+}
+
+void AppSettings::setPlayerName(const QString &name)
+{
+    const auto value = cleanName(name);
+    if (value.isEmpty() || value == m_playerName)
+        return;
+    m_playerName = value;
+    m_settings.setValue(keyPlayerName, value);
+    emit playerNameChanged();
+}
+
+void AppSettings::setRelays(const QString &relays)
+{
+    QStringList urls;
+    for (const auto &line : relays.split(u'\n'))
+        if (const auto url = line.trimmed(); !url.isEmpty())
+            urls.append(url);
+    const auto value = urls.join(u'\n');
+    if (value == m_relays)
+        return;
+    m_relays = value;
+    m_settings.setValue(keyRelays, value);
+    emit relaysChanged();
+}
+
+QStringList AppSettings::defaultRelays() const
+{
+    // docs/spec/protocol/v1.md §3.4
+    return {u"wss://relay.damus.io"_s, u"wss://nos.lol"_s, u"wss://relay.primal.net"_s};
+}
+
+QStringList AppSettings::effectiveRelays() const
+{
+    return m_relays.isEmpty() ? defaultRelays() : m_relays.split(u'\n');
 }

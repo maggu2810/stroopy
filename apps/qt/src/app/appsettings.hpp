@@ -22,6 +22,11 @@ class AppSettings : public QObject {
     Q_PROPERTY(QStringList supportedLanguages READ supportedLanguages CONSTANT)
     Q_PROPERTY(bool colourBlind READ colourBlind WRITE setColourBlind NOTIFY colourBlindChanged)
     Q_PROPERTY(bool vibration READ vibration WRITE setVibration NOTIFY vibrationChanged)
+    // Shown to other players (docs/spec/protocol/v1.md); 1-24 characters.
+    Q_PROPERTY(QString playerName READ playerName WRITE setPlayerName NOTIFY playerNameChanged)
+    // Nostr relay URLs, one per line; "" = the default relays.
+    Q_PROPERTY(QString relays READ relays WRITE setRelays NOTIFY relaysChanged)
+    Q_PROPERTY(QStringList defaultRelays READ defaultRelays CONSTANT)
 
 public:
     static AppSettings *create(QQmlEngine *qmlEngine, QJSEngine *jsEngine);
@@ -34,11 +39,22 @@ public:
     void setColourBlind(bool on);
     bool vibration() const { return m_vibration; }
     void setVibration(bool on);
+    QString playerName() const { return m_playerName; }
+    void setPlayerName(const QString &name);
+    QString relays() const { return m_relays; }
+    void setRelays(const QString &relays);
+    QStringList defaultRelays() const;
+    // The relays in use: the user's list, or the default relays if it is empty.
+    QStringList effectiveRelays() const;
+    // Removes control characters, trims and truncates to 24 code points ("" stays "").
+    static QString cleanName(const QString &name);
 
 signals:
     void languageChanged();
     void colourBlindChanged();
     void vibrationChanged();
+    void playerNameChanged();
+    void relaysChanged();
 
 private:
     explicit AppSettings(QQmlEngine *engine);
@@ -51,4 +67,6 @@ private:
     QString m_effectiveLanguage;
     bool m_colourBlind = false;
     bool m_vibration = true;
+    QString m_playerName;
+    QString m_relays;
 };

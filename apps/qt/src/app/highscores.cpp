@@ -31,6 +31,16 @@ bool better(const QVariant &a, const QVariant &b)
     return ma[u"time"_s].toDateTime() < mb[u"time"_s].toDateTime();
 }
 
+// Exact duplicate: all fields equal (time at second precision, seed by value).
+bool same(const QVariantMap &a, const QVariantMap &b)
+{
+    for (const auto &key : {u"rules"_s, u"mode"_s, u"score"_s, u"reached"_s, u"challenge"_s})
+        if (a[key] != b[key])
+            return false;
+    return a[u"seedHex"_s].toString().toULongLong(nullptr, 16) == b[u"seedHex"_s].toString().toULongLong(nullptr, 16)
+           && a[u"time"_s].toDateTime().toSecsSinceEpoch() == b[u"time"_s].toDateTime().toSecsSinceEpoch();
+}
+
 } // namespace
 
 Highscores::Highscores(QObject *parent) : QObject{parent}
@@ -59,7 +69,8 @@ int Highscores::submit(int rules, int mode, const QString &seedHex, int score, i
         return 0;
     const QVariantMap entry{
         {u"rules"_s, rules}, {u"mode"_s, mode}, {u"seedHex"_s, seedHex}, {u"score"_s, score},
-        {u"reached"_s, reached}, {u"time"_s, QDateTime::currentDateTime()}, {u"challenge"_s, challenge},
+        {u"reached"_s, reached},
+        {u"time"_s, QDateTime::fromSecsSinceEpoch(QDateTime::currentSecsSinceEpoch())}, {u"challenge"_s, challenge},
     };
     auto list = entries(mode);
     const auto pos = std::ranges::upper_bound(list, QVariant{entry}, better) - list.begin();
@@ -74,6 +85,43 @@ int Highscores::submit(int rules, int mode, const QString &seedHex, int score, i
     ++m_revision;
     emit changed();
     return static_cast<int>(pos) + 1;
+}
+
+int Highscores::merge(const QVariantList &entries)
+{
+    QVariantList added;
+    for (const auto &value : entries) {
+        const auto entry = value.toMap();
+        const auto duplicate = [&](const QVariant &e) { return same(e.toMap(), entry); };
+        if (entry[u"score"_s].toInt() <= 0 || std::ranges::any_of(m_entries, duplicate)
+            || std::ranges::any_of(added, duplicate))
+            continue;
+        added.append(entry);
+    }
+    if (added.isEmpty())
+        return 0;
+
+    QVariantList kept;
+    QList<int> modes;
+    for (const auto &e : std::as_const(m_entries) + added)
+        if (const auto mode = e.toMap()[u"mode"_s].toInt(); !modes.contains(mode))
+            modes.append(mode);
+    for (const auto mode : modes) {
+        QVariantList list;
+        std::ranges::copy_if(m_entries + added, std::back_inserter(list),
+                             [mode](const QVariant &e) { return e.toMap()[u"mode"_s].toInt() == mode; });
+        std::ranges::stable_sort(list, better);
+        list.resize(std::min<qsizetype>(list.size(), maxEntriesPerMode));
+        kept.append(list);
+    }
+    const auto count = std::ranges::count_if(added, [&](const QVariant &a) {
+        return std::ranges::any_of(kept, [&](const QVariant &k) { return same(k.toMap(), a.toMap()); });
+    });
+    m_entries = kept;
+    save();
+    ++m_revision;
+    emit changed();
+    return static_cast<int>(count);
 }
 
 void Highscores::clear()

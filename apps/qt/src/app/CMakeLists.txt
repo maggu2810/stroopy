@@ -8,6 +8,7 @@ qt_add_qml_module(stroopy_ui
     URI Stroopy
     SOURCES
         appsettings.hpp appsettings.cpp
+        backup.hpp backup.cpp
         gamecontroller.hpp gamecontroller.cpp
         gamepad.hpp gamepad.cpp
         haptics.hpp haptics.cpp
@@ -25,6 +26,7 @@ qt_add_qml_module(stroopy_ui
         qml/EnterCodePage.qml
         qml/SettingsPage.qml
         qml/HelpPage.qml
+        qml/BackupPage.qml
 )
 
 target_include_directories(stroopy_ui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
