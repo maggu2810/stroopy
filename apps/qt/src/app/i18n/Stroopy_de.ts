@@ -65,6 +65,65 @@
     </message>
 </context>
 <context>
+    <name>BackupPage</name>
+    <message>
+        <source>Backup</source>
+        <translation>Sicherung</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Exportieren</translation>
+    </message>
+    <message>
+        <source>All highscores and settings in one code. Keep it somewhere safe, e.g. in a note or a message to yourself, and import it on another device or in another Stroopy app.</source>
+        <translation>Alle Highscores und Einstellungen in einem Code. Bewahre ihn sicher auf, z. B. in einer Notiz oder einer Nachricht an dich selbst, und importiere ihn auf einem anderen Gerät oder in einer anderen Stroopy-App.</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Kopieren</translation>
+    </message>
+    <message>
+        <source>Backup copied.</source>
+        <translation>Sicherung kopiert.</translation>
+    </message>
+    <message>
+        <source>Import</source>
+        <translation>Importieren</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>Einfügen</translation>
+    </message>
+    <message>
+        <source>This backup needs a newer version of Stroopy.</source>
+        <translation>Diese Sicherung braucht eine neuere Version von Stroopy.</translation>
+    </message>
+    <message>
+        <source>No valid backup found.</source>
+        <translation>Keine gültige Sicherung gefunden.</translation>
+    </message>
+    <message>
+        <source>Highscores: %1</source>
+        <translation>Highscores: %1</translation>
+    </message>
+    <message>
+        <source>Settings included</source>
+        <translation>Mit Einstellungen</translation>
+    </message>
+    <message>
+        <source>No settings included</source>
+        <translation>Ohne Einstellungen</translation>
+    </message>
+    <message>
+        <source>Also restore settings</source>
+        <translation>Auch Einstellungen wiederherstellen</translation>
+    </message>
+    <message>
+        <source>Import done. New highscores: %1</source>
+        <translation>Import fertig. Neue Highscores: %1</translation>
+    </message>
+</context>
+<context>
     <name>EnterCodePage</name>
     <message>
         <source>Enter code</source>
@@ -426,6 +485,22 @@
     <message>
         <source>Vibrate on failure</source>
         <translation>Vibrieren bei Fehler</translation>
+    </message>
+    <message>
+        <source>Player name</source>
+        <translation>Spielername</translation>
+    </message>
+    <message>
+        <source>Shown to other players. Names and scores travel unencrypted through public Nostr relays.</source>
+        <translation>Wird anderen Spielern angezeigt. Namen und Punkte gehen unverschlüsselt über öffentliche Nostr-Relays.</translation>
+    </message>
+    <message>
+        <source>Nostr relays (one per line, empty = default)</source>
+        <translation>Nostr-Relays (eins pro Zeile, leer = Standard)</translation>
+    </message>
+    <message>
+        <source>Backup: export / import</source>
+        <translation>Sicherung: exportieren / importieren</translation>
     </message>
     <message>
         <source>Clear highscores</source>

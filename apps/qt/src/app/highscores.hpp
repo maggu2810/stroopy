@@ -25,6 +25,11 @@ public:
     // Stores the game if it makes the top list; returns its 1-based rank or 0.
     Q_INVOKABLE int submit(int rules, int mode, const QString &seedHex, int score, int reached, bool challenge);
     Q_INVOKABLE void clear();
+    // All entries of all modes, for backups.
+    QVariantList all() const { return m_entries; }
+    // Adds entries (same map layout), drops exact duplicates and keeps the top list per mode.
+    // Returns the number of entries that were added and kept.
+    int merge(const QVariantList &entries);
     int revision() const { return m_revision; }
 
 signals:

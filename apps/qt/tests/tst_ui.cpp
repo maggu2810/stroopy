@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Headless UI test: drives the real QML app with key presses (docs/design/product.md, "Input").
 // Set STROOPY_SCREENSHOT_DIR to also save screenshots of the visited screens.
+#include "backup.hpp"
 #include "gamecontroller.hpp"
+#include "highscores.hpp"
 
 #include <QDir>
 #include <QQmlApplicationEngine>
@@ -170,6 +172,41 @@ private slots:
         shot(u"help-landscape"_s);
         key(Qt::Key_Escape);
         shot(u"home-after-help"_s);
+    }
+
+    void backupRoundTrip()
+    {
+        // Home: 7 x Down reaches Settings; there, Tab x 5 reaches the backup button.
+        resize(420, 820);
+        QTest::qWait(600);
+        for (int i = 0; i < 7; ++i)
+            key(Qt::Key_Down);
+        key(Qt::Key_Return);
+        QTest::qWait(600);
+        shot(u"settings-portrait"_s);
+        for (int i = 0; i < 5; ++i)
+            key(Qt::Key_Tab);
+        key(Qt::Key_Return);
+        shot(u"backup-portrait"_s);
+        resize(1280, 720);
+        shot(u"backup-landscape"_s);
+
+        auto *highscores = m_engine->singletonInstance<Highscores *>("Stroopy", "Highscores");
+        auto *backup = m_engine->singletonInstance<Backup *>("Stroopy", "Backup");
+        QVERIFY(highscores && backup);
+        const auto before = highscores->all().size();
+        QVERIFY(before > 0); // the classic game above scored 3
+        const auto code = backup->exportCode();
+        QVERIFY(code.startsWith(u"SYB1-"_s));
+        QCOMPARE(backup->importCode(code, true), 0); // everything already there
+        highscores->clear();
+        QCOMPARE(Backup::inspect(u"Here it is:\n"_s + code)[u"entries"_s].toInt(), before);
+        QCOMPARE(backup->importCode(code, true), before);
+        QCOMPARE(highscores->all().size(), before);
+        QCOMPARE(backup->exportCode(), code);
+        QCOMPARE(backup->importCode(u"SYB1-XXXX"_s, true), -1);
+        key(Qt::Key_Escape);
+        key(Qt::Key_Escape);
     }
 };
 
