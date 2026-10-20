@@ -495,8 +495,8 @@
         <translation>Wird anderen Spielern angezeigt. Namen und Punkte gehen unverschlüsselt über öffentliche Nostr-Relays.</translation>
     </message>
     <message>
-        <source>Nostr relays (one per line, empty = default)</source>
-        <translation>Nostr-Relays (eins pro Zeile, leer = Standard)</translation>
+        <source>Nostr relays (separated by spaces, empty = default)</source>
+        <translation>Nostr-Relays (durch Leerzeichen getrennt, leer = Standard)</translation>
     </message>
     <message>
         <source>Backup: export / import</source>

@@ -44,6 +44,11 @@ FocusScope {
         }
         if (!running)
             return
+        // Classic/chrono: B = FALSE, A = TRUE (docs/design/product.md, "Key bindings").
+        if (trueFalseMode && (button === Gamepad.B || button === Gamepad.A)) {
+            controller.answer(button === Gamepad.A ? 1 : 0)
+            return
+        }
         // Face buttons in diamond order: Y top, B right, A bottom, X left.
         switch (button) {
         case Gamepad.Y: answerDirection(0, Gamepad.shoulderHeld); break
