@@ -35,7 +35,7 @@ target_link_libraries(stroopy_ui PUBLIC Qt6::Quick Qt6::QuickControls2 stroopy_c
 qt_add_executable(stroopy main.cpp)
 target_compile_definitions(stroopy PRIVATE STROOPY_VERSION="${PROJECT_VERSION}")
 target_link_libraries(stroopy PRIVATE Qt6::Quick Qt6::QuickControls2 stroopy_ui stroopy_uiplugin)
-# Window icon; rendered from android/assets-src/icon-full.svg by tools/render-android-assets.sh.
+# Window icon; rendered from assets/artwork/icon-full.svg by tools/render-assets.sh.
 qt_add_resources(stroopy "icons" PREFIX "/" FILES icons/stroopy.png)
 
 # Translations: i18n/Stroopy_<lang>.ts, compiled into the :/i18n resource prefix of the app.

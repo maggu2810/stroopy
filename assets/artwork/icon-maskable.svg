@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<!-- Full-bleed square icon (web "maskable" icon, Apple touch icon): the platform applies its own mask.
+     Same 108-unit canvas as the Android adaptive icon; the content stays inside the safe zone. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 108 108">
+  <rect width="108" height="108" fill="#1d2330"/>
+  <circle cx="54" cy="54" r="27" fill="none" stroke="#e74c3c" stroke-opacity="0.18" stroke-width="5.5"/>
+  <path d="M54 27 A27 27 0 1 1 30.62 40.5" fill="none" stroke="#e74c3c" stroke-width="5.5" stroke-linecap="round"/>
+  <text x="54" y="67" text-anchor="middle" font-family="Roboto, DejaVu Sans, sans-serif"
+        font-size="38" font-weight="bold" fill="#3498db">S</text>
+</svg>
