@@ -10,7 +10,8 @@
     "preview": "bun run build.ts && bun src/dev.ts --dist",
     "test": "bun test",
     "typecheck": "tsc --noEmit",
-    "test:ui": "bun tests/e2e/ui.ts"
+    "test:ui": "bun tests/e2e/ui.ts",
+    "test:multiplayer": "bun tests/e2e/multiplayer.ts"
   },
   "dependencies": {
     "@noble/curves": "^2.4.0",

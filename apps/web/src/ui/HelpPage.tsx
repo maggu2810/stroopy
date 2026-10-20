@@ -59,12 +59,14 @@ export function HelpPage() {
         <p>
           {t("Every game is a sequence that can be replayed exactly. After a game, or for any highscore, copy the code (for example SY1-…) and send it to a friend. They paste it under “Enter code” – even a whole message works – and play the very same sequence against your score.")}
         </p>
+        <h3>{t("Multiplayer")}</h3>
+        <p>{t("Create a room and send its code (SYR1-…) to your friends; they join under “Multiplayer”. The host picks the mode and starts, then everyone plays the same sequence at the same time and sees the others’ progress. Rooms run over public Nostr relays: no account, no server of ours, but names and scores are not encrypted.")}</p>
         <h3>{t("Install")}</h3>
         <p>{t("Stroopy runs in the browser and works offline after the first visit. Add it to your home screen (iPhone: Share → Add to Home Screen) to start it like an app. Browsers may delete website data; keep a backup code (Settings → Backup).")}</p>
         <h3>{t("About")}</h3>
         <dl>
           <Entry term={t("Version")}>{pkg.version}</Entry>
-          <Entry term={t("Compatibility")}>{t("rules 1 · share code 1 · backup 1")}</Entry>
+          <Entry term={t("Compatibility")}>{t("rules 1 · share code 1 · backup 1 · protocol 1")}</Entry>
         </dl>
         <p>
           {t("Stroopy is free software under the GNU General Public License, version 3 or later. It contains no ads and no tracking, and it works without Google services.")}

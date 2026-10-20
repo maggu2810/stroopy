@@ -15,9 +15,8 @@ defined in `docs/spec/`, not here.
 | Enter code | paste or type a share code (or scan a QR code), preview mode, rules version and the sharer's score, then play |
 | Settings | language, colour-blind palette, vibration, player name, relays; **Export backup**, **Import backup**, clear highscores |
 | Multiplayer | **Create room** or **Join room** (room code, pasted message or link); player name |
-| Lobby | room code (copy/share, QR later), connection state (relays connected), players (name, host, last result), mode picker and **Start** for the host; **Leave** |
+| Lobby | room code (copy/share, QR later), connection state (relays connected), the **ranking of the last game** (updating live until everyone is out), players (name, host), mode picker and **Start** for the host; **Leave** |
 | Game (multiplayer) | as above, plus a strip with every other player: name, item and score, ✗ once they are out |
-| Room results | ranking of the last game, updating live until everyone is out; share code of the game; the host can start the next game; **Leave** |
 | Help | in-app documentation, available offline: how each mode works, the controls for touch, keyboard, gamepad and TV remote, sharing and challenges, and an *About* section (app version, supported rules/share-code/protocol versions, licence, source) |
 
 ## Layout
@@ -167,12 +166,13 @@ access happens only while the player is in a room.
   is enabled when at least one relay is connected.
 - **Game**: everyone gets the 3-2-1-GO countdown on receiving the start, so
   starts differ by network delay. Fairness across latency is not a goal.
-- **Room results**: shown when the own game is over; it keeps updating
-  until all players are out (or gone). Multiplayer games enter the local
-  highscores like any other game.
+- **Results**: when the own game is over, the lobby comes back with the
+  ranking of that game; it keeps updating until all players are out (or
+  gone). Multiplayer games enter the local highscores like any other game.
 - A guest who arrives while a game runs joins it at once (same sequence,
   later start).
-- Leaving (Back/Esc) asks for confirmation while a game runs.
+- Quitting a running game (Back/Esc) counts as being out at the current
+  item; the player stays in the room. Back in the lobby leaves the room.
 
 ## Languages
 

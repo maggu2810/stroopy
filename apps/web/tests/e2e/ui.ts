@@ -144,7 +144,8 @@ await test("tap by keyboard", async (p) => {
 await test("help page", async (p) => {
   await resize(p, 420, 820);
   await p.waitForSelector(".home");
-  await key(p, "ArrowDown", 6);
+  // Focus chain on home: 4 modes, Multiplayer, Highscores, Enter code, Help, Settings.
+  await key(p, "ArrowDown", 7);
   await key(p, "Enter");
   await p.waitForSelector(".help");
   await shot(p, "help-portrait");
@@ -156,7 +157,7 @@ await test("help page", async (p) => {
 
 await test("settings and backup round trip", async (p) => {
   await resize(p, 420, 820);
-  await key(p, "ArrowDown", 7);
+  await key(p, "ArrowDown", 8);
   await key(p, "Enter");
   await p.waitForSelector(".settings");
   await shot(p, "settings-portrait");
