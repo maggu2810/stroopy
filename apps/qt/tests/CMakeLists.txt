@@ -15,6 +15,13 @@ target_compile_definitions(tst_share_code_v1 PRIVATE
 )
 add_test(NAME share_code_v1_conformance COMMAND tst_share_code_v1)
 
+qt_add_executable(tst_backup_v1 tst_backup_v1.cpp)
+target_link_libraries(tst_backup_v1 PRIVATE Qt6::Test stroopy_core)
+target_compile_definitions(tst_backup_v1 PRIVATE
+    STROOPY_VECTORS_DIR="${STROOPY_SPEC_DIR}/test-vectors"
+)
+add_test(NAME backup_v1_conformance COMMAND tst_backup_v1)
+
 find_package(Qt6 REQUIRED COMPONENTS Quick QuickControls2)
 qt_add_executable(tst_ui tst_ui.cpp)
 target_link_libraries(tst_ui PRIVATE Qt6::Test Qt6::Quick Qt6::QuickControls2 stroopy_ui stroopy_uiplugin)
