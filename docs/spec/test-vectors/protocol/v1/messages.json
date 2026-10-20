@@ -1,0 +1,155 @@
+{
+ "protocol": 1,
+ "generator": "tools/reference/gen_protocol_vectors.py",
+ "description": "Event content -> normalised message, or null when the message must be ignored. For 'start' the decoded descriptor (rules, mode, seed) is given.",
+ "cases": [
+  {
+   "content": "{\"p\":1,\"type\":\"bye\"}",
+   "note": "bye",
+   "expected": {
+    "type": "bye"
+   }
+  },
+  {
+   "content": "{\"p\":1,\"type\":\"start\",\"code\":\"SY1-040G-0000-0000-001A-03CT-T\"}",
+   "note": "start",
+   "expected": {
+    "type": "start",
+    "rules": 1,
+    "mode": 1,
+    "seed": "0x000000000000002a"
+   }
+  },
+  {
+   "content": "{\"p\":1,\"type\":\"status\",\"name\":\"Ann\",\"host\":true,\"rules\":[1],\"mode\":1,\"game\":{\"code\":\"SY1-040G-0000-0000-001A-03CT-T\",\"n\":12,\"score\":11,\"over\":false}}",
+   "note": "status with game",
+   "expected": {
+    "type": "status",
+    "name": "Ann",
+    "host": true,
+    "rules": [
+     1
+    ],
+    "mode": 1,
+    "game": {
+     "code": "SY1-040G-0000-0000-001A-03CT-T",
+     "n": 12,
+     "score": 11,
+     "over": false
+    }
+   }
+  },
+  {
+   "content": "{\"p\":1,\"type\":\"status\",\"name\":\"Bob\",\"host\":false,\"rules\":[1,2],\"extra\":{\"x\":1}}",
+   "note": "unknown field ignored",
+   "expected": {
+    "type": "status",
+    "name": "Bob",
+    "host": false,
+    "rules": [
+     1,
+     2
+    ]
+   }
+  },
+  {
+   "content": "{\"p\":1,\"type\":\"status\",\"name\":\"  \\u0007Clara\\n  \",\"host\":false,\"rules\":[1]}",
+   "note": "name cleaned",
+   "expected": {
+    "type": "status",
+    "name": "Clara",
+    "host": false,
+    "rules": [
+     1
+    ]
+   }
+  },
+  {
+   "content": "{\"p\":1,\"type\":\"status\",\"name\":\"ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ\",\"host\":false,\"rules\":[1]}",
+   "note": "name truncated to 24",
+   "expected": {
+    "type": "status",
+    "name": "ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ",
+    "host": false,
+    "rules": [
+     1
+    ]
+   }
+  },
+  {
+   "content": "{\"p\":1,\"type\":\"status\",\"name\":\"\\n\",\"host\":false,\"rules\":[1]}",
+   "note": "empty name becomes ?",
+   "expected": {
+    "type": "status",
+    "name": "?",
+    "host": false,
+    "rules": [
+     1
+    ]
+   }
+  },
+  {
+   "content": "{\"p\":1,\"type\":\"status\",\"name\":\"Dan\",\"host\":false,\"rules\":[1],\"game\":{\"code\":\"SY1-040G-0000-0000-001A-03CT-T\",\"n\":48,\"score\":47,\"over\":true}}",
+   "note": "game over",
+   "expected": {
+    "type": "status",
+    "name": "Dan",
+    "host": false,
+    "rules": [
+     1
+    ],
+    "game": {
+     "code": "SY1-040G-0000-0000-001A-03CT-T",
+     "n": 48,
+     "score": 47,
+     "over": true
+    }
+   }
+  },
+  {
+   "content": "{\"p\":2,\"type\":\"status\",\"name\":\"Eve\",\"host\":false,\"rules\":[1]}",
+   "note": "other protocol version",
+   "expected": null
+  },
+  {
+   "content": "{\"p\":1,\"type\":\"hello\"}",
+   "note": "unknown type",
+   "expected": null
+  },
+  {
+   "content": "{\"p\":1,\"type\":\"status\",\"name\":\"Eve\",\"host\":\"yes\",\"rules\":[1]}",
+   "note": "host not a bool",
+   "expected": null
+  },
+  {
+   "content": "{\"p\":1,\"type\":\"status\",\"name\":\"Eve\",\"host\":false,\"rules\":[]}",
+   "note": "empty rules",
+   "expected": null
+  },
+  {
+   "content": "{\"p\":1,\"type\":\"status\",\"name\":\"Eve\",\"host\":false,\"rules\":[1],\"game\":{\"code\":\"x\",\"n\":-1,\"score\":0,\"over\":false}}",
+   "note": "negative n",
+   "expected": null
+  },
+  {
+   "content": "{\"p\":1,\"type\":\"start\",\"code\":\"SY1-040G-0000-0000-001A-0402-Y01G-J960\"}",
+   "note": "start code with a result",
+   "expected": null
+  },
+  {
+   "content": "{\"p\":1,\"type\":\"start\",\"code\":\"nonsense\"}",
+   "note": "start code invalid",
+   "expected": null
+  },
+  {
+   "content": "[1,2,3]",
+   "note": "not an object",
+   "expected": null
+  },
+  {
+   "content": "{\"p\":1,\"type\":",
+   "note": "not JSON",
+   "expected": null
+  }
+ ]
+}

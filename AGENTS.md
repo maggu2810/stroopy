@@ -48,13 +48,15 @@ it by passing their vectors. App versions are irrelevant for compatibility.
 ```
 AGENTS.md                 this file
 apps/                     our implementations, one dir per toolkit/language
-  compose-android/        Kotlin + Jetpack Compose → Android
-  (qt/, swiftui-ios/, …)  future; a platform may have several implementations
+  qt/                     C++/Qt 6/QML → Linux desktop, Android (active)
+  web/                    TypeScript/Bun/Preact PWA → browsers, iOS (active)
+  compose-android/        Kotlin + Jetpack Compose → Android (postponed)
 docs/
   spec/                   NORMATIVE, versioned specs (frozen once published)
     rules/v<N>.md         item generation, timing, scoring
     share-code/v<N>.md    descriptor encoding (binary, text, QR, link)
-    protocol/v<N>.md      multiplayer messages
+    protocol/v<N>.md      multiplayer rooms, messages, Nostr transport
+    backup/v<N>.md        highscores + settings backup code
     test-vectors/<area>/v<N>/   JSON conformance vectors
   design/                 proposals, UX, rationale
   research/               analyses of other apps, protocols, libraries
@@ -66,6 +68,7 @@ third-party/              material from other apps, for STUDY ONLY
     apk/                  git-ignored
     decompiled/           git-ignored (jadx + apktool output)
 tools/                    helper scripts (e.g. fetch-original.sh)
+  reference/              Python reference implementations + vector generators
 ```
 
 ## Ground rules
@@ -110,7 +113,7 @@ tools/                    helper scripts (e.g. fetch-original.sh)
   together by conformance vectors
   (`docs/decisions/0005-spec-first-native-implementations.md`)
 - Android: **Kotlin + Jetpack Compose**, game core as a pure-Kotlin module
-  (`docs/decisions/0003-android-tech-stack.md`)
+  (`docs/decisions/0003-android-tech-stack.md`), postponed by 0008
 - PRNG: **SplitMix64** (`docs/decisions/0004-prng-splitmix64.md`)
 - Desktop: **Qt 6 + QML/C++** in `apps/qt/` (`docs/decisions/0006-desktop-qt.md`)
 - Compatibility: independent integer versions for **rules**, **share code**
@@ -121,10 +124,17 @@ tools/                    helper scripts (e.g. fetch-original.sh)
   postponed (`docs/decisions/0008-qt-first.md`)
 - Toolchains: always the **latest** stable Qt/CMake/C++/SDKs and their newest
   features (`docs/decisions/0009-latest-toolchains.md`)
+- iOS and browsers: a **PWA** in `apps/web/` (TypeScript, Bun, Preact)
+  (`docs/decisions/0010-web-app-pwa.md`)
+- Backup: one **backup code** for highscores and shared settings
+  (`docs/decisions/0011-backup-code.md`)
+- Live multiplayer: **Nostr first**, protocol v1
+  (`docs/decisions/0012-nostr-first-protocol.md`)
 
 ## Open decisions
 
-- Kirigami on top of Qt Quick or plain Qt Quick (when `apps/qt/` starts).
+- Kirigami on top of Qt Quick or plain Qt Quick (plain Qt Quick so far).
+- Hosting of the web app (Codeberg Pages, GitHub Pages or own domain).
 
 ## Conventions
 

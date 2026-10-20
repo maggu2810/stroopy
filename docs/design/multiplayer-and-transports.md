@@ -1,6 +1,9 @@
 # Multiplayer without our own server
 
-Status: **proposal**. Decisions go to `docs/decisions/` once they are agreed.
+Status: **proposal**, partly decided. Live multiplayer over Nostr is now
+specified in `docs/spec/protocol/v1.md` (decision 0012); where this document
+differs (message names, clock sync, order of transports), the spec wins.
+Decisions go to `docs/decisions/` once they are agreed.
 
 ## 1. Key insight: a game is a seed
 
@@ -122,8 +125,9 @@ Game logic only sees `Session`, and messages are versioned. Suggested
 implementation order:
 
 1. Single player, deterministic seed, share/replay a sequence (no network).
-2. **LAN** (NSD + TCP) multiplayer: proves the protocol, easy to debug.
-3. **Nostr** internet multiplayer.
+2. **Nostr** internet multiplayer: the only transport a browser can use
+   (decision 0012), so it comes first.
+3. **LAN** (NSD + TCP) for native apps.
 4. **Bluetooth LE** for offline play without shared Wi-Fi.
 
 ## 5. Multiplayer UX (simultaneous, identical sequence)

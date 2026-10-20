@@ -13,3 +13,4 @@ local.properties
 
 # aqtinstall writes its log into the working directory
 aqtinstall.log
+__pycache__/
