@@ -29,8 +29,15 @@ network. Service workers (offline, install) need HTTPS or `localhost`.
 
 ## Deploying
 
+Live at <https://maggu2810.github.io/stroopy/>
+([decision 0013](../../docs/decisions/0013-web-hosting-github-pages.md)).
+`.github/workflows/web-pages.yml` type-checks, tests, builds and publishes it
+on every push to `main` that touches `apps/web/` or the test vectors; it can
+also be started by hand (Actions → *Run workflow*). One-time setup: repository
+Settings → Pages → Source: *GitHub Actions*.
+
 `dist/` is plain static files with relative paths, so any static HTTPS host
-works, also in a sub-directory (Codeberg Pages, GitHub Pages, own server).
+works, also in a sub-directory.
 
 ## Layout
 
