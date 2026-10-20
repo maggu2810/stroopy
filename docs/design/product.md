@@ -8,12 +8,16 @@ defined in `docs/spec/`, not here.
 
 | screen | content |
 |---|---|
-| Home | title; the four modes (classic, chrono, find, tap); entry points to **Highscores**, **Enter code**, **Help** and **Settings** |
+| Home | title; the four modes (classic, chrono, find, tap); entry points to **Multiplayer**, **Highscores**, **Enter code**, **Help** and **Settings** |
 | Game | 3-2-1-GO countdown, then the mode's play view (see rules v1); score and item number; quit |
 | Result | score, item reached, "new highscore" marker; **Share**, **Play this sequence again**, **New game**, **Home** |
 | Highscores | one list per mode (tabs/segmented), best first |
 | Enter code | paste or type a share code (or scan a QR code), preview mode, rules version and the sharer's score, then play |
-| Settings | language, colour-blind palette, vibration |
+| Settings | language, colour-blind palette, vibration, player name, relays; **Export backup**, **Import backup**, clear highscores |
+| Multiplayer | **Create room** or **Join room** (room code, pasted message or link); player name |
+| Lobby | room code (copy/share, QR later), connection state (relays connected), players (name, host, last result), mode picker and **Start** for the host; **Leave** |
+| Game (multiplayer) | as above, plus a strip with every other player: name, item and score, ✗ once they are out |
+| Room results | ranking of the last game, updating live until everyone is out; share code of the game; the host can start the next game; **Leave** |
 | Help | in-app documentation, available offline: how each mode works, the controls for touch, keyboard, gamepad and TV remote, sharing and challenges, and an *About* section (app version, supported rules/share-code/protocol versions, licence, source) |
 
 ## Layout
@@ -74,6 +78,12 @@ Notes:
 - **Gamepads** on Android: their buttons arrive as key events and follow the
   table above. Analog sticks are not used.
 - **Desktop gamepads**: later, e.g. via SDL.
+- **Web (PWA)** (decision 0010): installable via the browser's *Add to Home
+  Screen* / *Install*; works offline after the first visit. The URL
+  parameter `?c=<share code>` opens *Enter code* with the code, `?r=<room
+  code>` opens the join flow. Gamepads via the browser Gamepad API (standard
+  mapping), same bindings as the table above. The app requests persistent
+  storage; the backup code is the safety net.
 
 ## Highscores
 
@@ -104,6 +114,24 @@ Every finished game and every highscore entry can be shared as:
 The app also accepts a pasted message that *contains* a code: it extracts
 the first valid code.
 
+## Backup
+
+Highscores and settings can be moved to another device or another Stroopy
+app with one **backup code** (`docs/spec/backup/v1.md`,
+decision 0011).
+
+- **Export backup** (Settings) shows the code with **Copy** and, where the
+  platform has one, **Share**. It always contains all highscores and all
+  shared settings.
+- **Import backup** (Settings) takes pasted text (the code may be embedded
+  in a message or wrapped over lines), shows what it contains (number of
+  highscores per mode, whether settings are included), and offers
+  **Import** with a switch **Also restore settings** (on by default).
+- Highscores are **merged**: imported entries are added, exact duplicates
+  dropped, and each mode keeps its top 10. Nothing is deleted.
+- An invalid code or an unsupported version shows an error and changes
+  nothing.
+
 ## Settings
 
 | setting | values | default |
@@ -111,12 +139,40 @@ the first valid code.
 | Language | *Follow system*, English, Deutsch (more later) | Follow system |
 | Colour-blind palette | on / off | off |
 | Vibration on failure | on / off | on |
+| Player name | 1–24 characters, shown to other players | `Player` + 3 random digits, chosen once |
+| Nostr relays | list of `wss://` URLs, one per line; empty = default relays (protocol v1 §3.4) | empty |
 
 - *Follow system* uses the OS UI language if it is supported, and English
   otherwise.
 - A language change applies **immediately**, without a restart. This includes
   the colour words in the game.
 - Settings persist across app starts.
+
+## Multiplayer
+
+Live games over public Nostr relays (`docs/spec/protocol/v1.md`). Network
+access happens only while the player is in a room.
+
+- **Create room**: a new room id, the creator is host. The lobby shows the
+  room code and a **Copy**/**Share** action with a short message
+  ("Play Stroopy with me: SYR1-…").
+- **Join room**: paste or type a room code (also inside a message or link).
+  A link `stroopy://join?r=…` or the web app URL with `?r=…` opens the join
+  flow directly.
+- The player name is edited on the Multiplayer screen and stored in the
+  settings. A note says that names and scores travel unencrypted through
+  public relays.
+- **Lobby**: players with a host marker, a relay status (e.g. "2/3 relays"),
+  the host's mode selection (guests see it read-only). The host's **Start**
+  is enabled when at least one relay is connected.
+- **Game**: everyone gets the 3-2-1-GO countdown on receiving the start, so
+  starts differ by network delay. Fairness across latency is not a goal.
+- **Room results**: shown when the own game is over; it keeps updating
+  until all players are out (or gone). Multiplayer games enter the local
+  highscores like any other game.
+- A guest who arrives while a game runs joins it at once (same sequence,
+  later start).
+- Leaving (Back/Esc) asks for confirmation while a game runs.
 
 ## Languages
 

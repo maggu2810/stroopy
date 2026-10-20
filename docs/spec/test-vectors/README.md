@@ -28,3 +28,18 @@ Conventions:
 |---|---|
 | `encode.json` | descriptor (+ result) → record bytes (hex) and text code; CRC check value |
 | `decode.json` | `valid`: text inputs (lower case, aliases, embedded, link) → descriptor; `errors`: inputs that must fail as `invalid` or `unsupported` |
+
+## backup/v1 (`docs/spec/backup/v1.md`)
+
+| file | checks |
+|---|---|
+| `encode.json` | entries + settings → record bytes (hex) and text code |
+| `decode.json` | `valid`: text inputs (lower case, wrapped, embedded, trailing text, aliases, unknown settings key) → entries and settings; `errors`: inputs that must fail as `invalid` or `unsupported` |
+
+## protocol/v1 (`docs/spec/protocol/v1.md`)
+
+| file | checks |
+|---|---|
+| `rooms.json` | room id ↔ room code, Nostr room tag; parsing (embedded, link, typed bare id, aliases) and errors |
+| `events.json` | NIP-01 serialisation, event id and BIP-340 signature (zero aux randomness); events to reject |
+| `messages.json` | event content → normalised message, or `null` when it must be ignored |
