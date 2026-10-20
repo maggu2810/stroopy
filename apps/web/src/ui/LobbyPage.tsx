@@ -19,7 +19,7 @@ export function LobbyPage() {
   const connected = r.connected.value;
   const lastCode = me.game?.code;
   const last = lastCode ? decodeText(lastCode) : null;
-  const ranking = lastCode ? everyone.filter((p) => p.game?.code === lastCode).sort(rank) : [];
+  const ranking = lastCode ? [...everyone, ...r.departed.value].filter((p) => p.game?.code === lastCode).sort(rank) : [];
   const hostName = everyone.find((p) => p.key === r.hostKey.value)?.name;
   const canStart = isHost && connected > 0 && r.commonRules.value.includes(RULES_VERSION);
 
