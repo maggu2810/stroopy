@@ -1,0 +1,384 @@
+{
+ "backup": 1,
+ "generator": "tools/reference/gen_backup_vectors.py",
+ "description": "Text input -> entries and settings (keys as strings, unknown keys dropped; null = no settings section), or an error ('invalid' or 'unsupported').",
+ "valid": [
+  {
+   "input": "SYB1-0400-6081-0000-0000-0002-M01F-00R6-NNRZ-G000-80FZ-ZZZZ-ZZZZ-ZZZG-0300-1NND-GW80-044G-E093-8NKR-KAYD-XW00-6004-0000-0000-0M0G-00K4-CM10-0081-0C00-2004-005C-713E-DSJJ-1W4Z-HTM0-A012-EXSQ-6EHF-5XS6-AV31-F4Q6-8RBD-ENSJ-WTBF-19VQ-6WST-5WQP-WVVK-5SP6-YV49-R0",
+   "note": "canonical",
+   "expected": {
+    "entries": [
+     {
+      "mode": 1,
+      "rules": 1,
+      "seed": "0x000000000000002a",
+      "score": 47,
+      "reached": 48,
+      "time": 1792483200,
+      "challenge": false
+     },
+     {
+      "mode": 4,
+      "rules": 1,
+      "seed": "0xffffffffffffffff",
+      "score": 12,
+      "reached": 13,
+      "time": 1792569600,
+      "challenge": true
+     },
+     {
+      "mode": 9,
+      "rules": 7,
+      "seed": "0x0123456789abcdef",
+      "score": 3,
+      "reached": 4,
+      "time": 0,
+      "challenge": false
+     }
+    ],
+    "settings": {
+     "1": "de",
+     "2": true,
+     "3": false,
+     "4": "Änne 🎨",
+     "5": "wss://relay.damus.io\nwss://nos.lol"
+    }
+   }
+  },
+  {
+   "input": "syb1-0400-6081-0000-0000-0002-m01f-00r6-nnrz-g000-80fz-zzzz-zzzz-zzzg-0300-1nnd-gw80-044g-e093-8nkr-kayd-xw00-6004-0000-0000-0m0g-00k4-cm10-0081-0c00-2004-005c-713e-dsjj-1w4z-htm0-a012-exsq-6ehf-5xs6-av31-f4q6-8rbd-ensj-wtbf-19vq-6wst-5wqp-wvvk-5sp6-yv49-r0",
+   "note": "lower case",
+   "expected": {
+    "entries": [
+     {
+      "mode": 1,
+      "rules": 1,
+      "seed": "0x000000000000002a",
+      "score": 47,
+      "reached": 48,
+      "time": 1792483200,
+      "challenge": false
+     },
+     {
+      "mode": 4,
+      "rules": 1,
+      "seed": "0xffffffffffffffff",
+      "score": 12,
+      "reached": 13,
+      "time": 1792569600,
+      "challenge": true
+     },
+     {
+      "mode": 9,
+      "rules": 7,
+      "seed": "0x0123456789abcdef",
+      "score": 3,
+      "reached": 4,
+      "time": 0,
+      "challenge": false
+     }
+    ],
+    "settings": {
+     "1": "de",
+     "2": true,
+     "3": false,
+     "4": "Änne 🎨",
+     "5": "wss://relay.damus.io\nwss://nos.lol"
+    }
+   }
+  },
+  {
+   "input": "SYB1-04006081000000000002M01F00R6NNRZG00080FZZZZZZZZZZZZG03001NNDGW80044GE0938NKRKAYDXW006004000000000M0G00K4CM1000810C002004005C713EDSJJ1W4ZHTM0A012EXSQ6EHF5XS6AV31F4Q68RBDENSJWTBF19VQ6WST5WQPWVVK5SP6YV49R0",
+   "note": "without group separators",
+   "expected": {
+    "entries": [
+     {
+      "mode": 1,
+      "rules": 1,
+      "seed": "0x000000000000002a",
+      "score": 47,
+      "reached": 48,
+      "time": 1792483200,
+      "challenge": false
+     },
+     {
+      "mode": 4,
+      "rules": 1,
+      "seed": "0xffffffffffffffff",
+      "score": 12,
+      "reached": 13,
+      "time": 1792569600,
+      "challenge": true
+     },
+     {
+      "mode": 9,
+      "rules": 7,
+      "seed": "0x0123456789abcdef",
+      "score": 3,
+      "reached": 4,
+      "time": 0,
+      "challenge": false
+     }
+    ],
+    "settings": {
+     "1": "de",
+     "2": true,
+     "3": false,
+     "4": "Änne 🎨",
+     "5": "wss://relay.damus.io\nwss://nos.lol"
+    }
+   }
+  },
+  {
+   "input": "SYB1-0400-6081-0000-0000-0002-M01F-\n00R6-NNRZ-G000-80FZ-ZZZZ-ZZZZ-\nZZZG-0300-1NND-GW80-044G-E093-\n8NKR-KAYD-XW00-6004-0000-0000-\n0M0G-00K4-CM10-0081-0C00-2004-\n005C-713E-DSJJ-1W4Z-HTM0-A012-\nEXSQ-6EHF-5XS6-AV31-F4Q6-8RBD-\nENSJ-WTBF-19VQ-6WST-5WQP-WVVK-\n5SP6-YV49-R0",
+   "note": "wrapped over several lines",
+   "expected": {
+    "entries": [
+     {
+      "mode": 1,
+      "rules": 1,
+      "seed": "0x000000000000002a",
+      "score": 47,
+      "reached": 48,
+      "time": 1792483200,
+      "challenge": false
+     },
+     {
+      "mode": 4,
+      "rules": 1,
+      "seed": "0xffffffffffffffff",
+      "score": 12,
+      "reached": 13,
+      "time": 1792569600,
+      "challenge": true
+     },
+     {
+      "mode": 9,
+      "rules": 7,
+      "seed": "0x0123456789abcdef",
+      "score": 3,
+      "reached": 4,
+      "time": 0,
+      "challenge": false
+     }
+    ],
+    "settings": {
+     "1": "de",
+     "2": true,
+     "3": false,
+     "4": "Änne 🎨",
+     "5": "wss://relay.damus.io\nwss://nos.lol"
+    }
+   }
+  },
+  {
+   "input": "My Stroopy backup:\nSYB1-0400-6081-0000-0000-0002-M01F-00R6-NNRZ-G000-80FZ-ZZZZ-ZZZZ-ZZZG-0300-1NND-GW80-044G-E093-8NKR-KAYD-XW00-6004-0000-0000-0M0G-00K4-CM10-0081-0C00-2004-005C-713E-DSJJ-1W4Z-HTM0-A012-EXSQ-6EHF-5XS6-AV31-F4Q6-8RBD-ENSJ-WTBF-19VQ-6WST-5WQP-WVVK-5SP6-YV49-R0\nThank you!",
+   "note": "embedded; text after the code is ignored",
+   "expected": {
+    "entries": [
+     {
+      "mode": 1,
+      "rules": 1,
+      "seed": "0x000000000000002a",
+      "score": 47,
+      "reached": 48,
+      "time": 1792483200,
+      "challenge": false
+     },
+     {
+      "mode": 4,
+      "rules": 1,
+      "seed": "0xffffffffffffffff",
+      "score": 12,
+      "reached": 13,
+      "time": 1792569600,
+      "challenge": true
+     },
+     {
+      "mode": 9,
+      "rules": 7,
+      "seed": "0x0123456789abcdef",
+      "score": 3,
+      "reached": 4,
+      "time": 0,
+      "challenge": false
+     }
+    ],
+    "settings": {
+     "1": "de",
+     "2": true,
+     "3": false,
+     "4": "Änne 🎨",
+     "5": "wss://relay.damus.io\nwss://nos.lol"
+    }
+   }
+  },
+  {
+   "input": "SYB1-0400-6081-0000-0000-0002-M01F-00R6-NNRZ-G000-80FZ-ZZZZ-ZZZZ-ZZZG-0300-1NND-GW80-044G-E093-8NKR-KAYD-XW00-6004-0000-0000-0M0G-00K4-CM10-0081-0C00-2004-005C-713E-DSJJ-1W4Z-HTM0-A012-EXSQ-6EHF-5XS6-AV31-F4Q6-8RBD-ENSJ-WTBF-19VQ-6WST-5WQP-WVVK-5SP6-YV49-R0-ABCD",
+   "note": "extra characters after the code are ignored",
+   "expected": {
+    "entries": [
+     {
+      "mode": 1,
+      "rules": 1,
+      "seed": "0x000000000000002a",
+      "score": 47,
+      "reached": 48,
+      "time": 1792483200,
+      "challenge": false
+     },
+     {
+      "mode": 4,
+      "rules": 1,
+      "seed": "0xffffffffffffffff",
+      "score": 12,
+      "reached": 13,
+      "time": 1792569600,
+      "challenge": true
+     },
+     {
+      "mode": 9,
+      "rules": 7,
+      "seed": "0x0123456789abcdef",
+      "score": 3,
+      "reached": 4,
+      "time": 0,
+      "challenge": false
+     }
+    ],
+    "settings": {
+     "1": "de",
+     "2": true,
+     "3": false,
+     "4": "Änne 🎨",
+     "5": "wss://relay.damus.io\nwss://nos.lol"
+    }
+   }
+  },
+  {
+   "input": "SYB1-O4OO-6O8l-OOOO-OOOO-OOO2-MOlF-OOR6-NNRZ-GOOO-8OFZ-ZZZZ-ZZZZ-ZZZG-O3OO-lNND-GW8O-O44G-EO93-8NKR-KAYD-XWOO-6OO4-OOOO-OOOO-OMOG-OOK4-CMlO-OO8l-OCOO-2OO4-OO5C-7l3E-DSJJ-lW4Z-HTMO-AOl2-EXSQ-6EHF-5XS6-AV3l-F4Q6-8RBD-ENSJ-WTBF-l9VQ-6WST-5WQP-WVVK-5SP6-YV49-RO",
+   "note": "O/L aliases",
+   "expected": {
+    "entries": [
+     {
+      "mode": 1,
+      "rules": 1,
+      "seed": "0x000000000000002a",
+      "score": 47,
+      "reached": 48,
+      "time": 1792483200,
+      "challenge": false
+     },
+     {
+      "mode": 4,
+      "rules": 1,
+      "seed": "0xffffffffffffffff",
+      "score": 12,
+      "reached": 13,
+      "time": 1792569600,
+      "challenge": true
+     },
+     {
+      "mode": 9,
+      "rules": 7,
+      "seed": "0x0123456789abcdef",
+      "score": 3,
+      "reached": 4,
+      "time": 0,
+      "challenge": false
+     }
+    ],
+    "settings": {
+     "1": "de",
+     "2": true,
+     "3": false,
+     "4": "Änne 🎨",
+     "5": "wss://relay.damus.io\nwss://nos.lol"
+    }
+   }
+  },
+  {
+   "input": "SYB1-0400-2081-0000-0000-0002-M01F-00R6-NNRZ-G000-40R0-040J-M003-0410-7GPC",
+   "note": "unknown settings key is skipped",
+   "expected": {
+    "entries": [
+     {
+      "mode": 1,
+      "rules": 1,
+      "seed": "0x000000000000002a",
+      "score": 47,
+      "reached": 48,
+      "time": 1792483200,
+      "challenge": false
+     }
+    ],
+    "settings": {
+     "3": true
+    }
+   }
+  }
+ ],
+ "errors": [
+  {
+   "input": "SYB1-0400-6081-0000-1000-0002-M01F-00R6-NNRZ-G000-80FZ-ZZZZ-ZZZZ-ZZZG-0300-1NND-GW80-044G-E093-8NKR-KAYD-XW00-6004-0000-0000-0M0G-00K4-CM10-0081-0C00-2004-005C-713E-DSJJ-1W4Z-HTM0-A012-EXSQ-6EHF-5XS6-AV31-F4Q6-8RBD-ENSJ-WTBF-19VQ-6WST-5WQP-WVVK-5SP6-YV49-R0",
+   "note": "checksum mismatch",
+   "error": "invalid"
+  },
+  {
+   "input": "SYB1-0400-6081-0000-0000-0002-M01F-00R6-NNRZ-G000-80FZ-ZZZZ-ZZZZ-ZZZG-0300-1NND-GW80-044G-E093-8NKR-KAYD-XW00-6004-0000-0000-0M0G-00K4-CM10-0081-0C00-2004-005C-713E-DSJJ-1W4Z-HTM0-A012-EXSQ-6EHF-5XS6-AV31-F4Q6-8RBD-ENSJ-WTBF-19VQ-6WST-5WQP-WVVK-5SP6-YV49",
+   "note": "too short",
+   "error": "invalid"
+  },
+  {
+   "input": "SYB1-0400006DX5",
+   "note": "non-zero padding bits",
+   "error": "invalid"
+  },
+  {
+   "input": "SYB1-0C00-2081-0000-0000-0002-M01F-00R6-NNRZ-G000-40G0-040G-8003-85Q6-XZAT",
+   "note": "unknown flag bit",
+   "error": "invalid"
+  },
+  {
+   "input": "SYB1-0400-2081-0000-0000-0002-M01F-00R6-NNRZ-G010-40G0-040G-8003-85Q6-XW19",
+   "note": "unknown entry flag bit",
+   "error": "invalid"
+  },
+  {
+   "input": "SYB1-0400-2081-0000-0000-0002-M01F-00R6-NNRZ-G000-40G0-0410-8003-85Q6-WBJ1",
+   "note": "boolean value 2",
+   "error": "invalid"
+  },
+  {
+   "input": "SYB1-0400-2081-0000-0000-0002-M01F-00R6-NNRZ-G000-40G0-040G-4003-85Q6-WYS2",
+   "note": "repeated key",
+   "error": "invalid"
+  },
+  {
+   "input": "SYB1-0400-2081-0000-0000-0002-M01F-00R6-NNRZ-G000-40G0-040W-G003-85Q6-WGRG",
+   "note": "reserved key",
+   "error": "invalid"
+  },
+  {
+   "input": "SYB1-0400-2081-0000-0000-0002-M01F-00R6-NNRZ-G000-40G0-040G-8003-ZXQ6-W4SX",
+   "note": "invalid UTF-8",
+   "error": "invalid"
+  },
+  {
+   "input": "nothing here",
+   "note": "no backup",
+   "error": "invalid"
+  },
+  {
+   "input": "SY1-0400-6081-0000-0000-0002-M01F-00R6-NNRZ-G000-80FZ-ZZZZ-ZZZZ-ZZZG-0300-1NND-GW80-044G-E093-8NKR-KAYD-XW00-6004-0000-0000-0M0G-00K4-CM10-0081-0C00-2004-005C-713E-DSJJ-1W4Z-HTM0-A012-EXSQ-6EHF-5XS6-AV31-F4Q6-8RBD-ENSJ-WTBF-19VQ-6WST-5WQP-WVVK-5SP6-YV49-R0",
+   "note": "share-code prefix is not a backup",
+   "error": "invalid"
+  },
+  {
+   "input": "SYB2-0400-6081-0000-0000-0002-M01F-00R6-NNRZ-G000-80FZ-ZZZZ-ZZZZ-ZZZG-0300-1NND-GW80-044G-E093-8NKR-KAYD-XW00-6004-0000-0000-0M0G-00K4-CM10-0081-0C00-2004-005C-713E-DSJJ-1W4Z-HTM0-A012-EXSQ-6EHF-5XS6-AV31-F4Q6-8RBD-ENSJ-WTBF-19VQ-6WST-5WQP-WVVK-5SP6-YV49-R0",
+   "error": "unsupported",
+   "version": 2,
+   "note": "unknown backup version"
+  }
+ ]
+}

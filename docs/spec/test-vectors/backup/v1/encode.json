@@ -1,0 +1,474 @@
+{
+ "backup": 1,
+ "generator": "tools/reference/gen_backup_vectors.py",
+ "description": "Entries + settings (keys as strings; null = no settings section) -> record bytes (hex) and text code. Decoding 'text' must give them back (with clamped values).",
+ "cases": [
+  {
+   "entries": [],
+   "settings": null,
+   "record": "01000000f274",
+   "text": "SYB1-0000-1WKM",
+   "note": "empty, no settings"
+  },
+  {
+   "entries": [],
+   "settings": {},
+   "record": "0101000000cde9",
+   "text": "SYB1-0400-006D-X4",
+   "note": "empty settings section"
+  },
+  {
+   "entries": [
+    {
+     "mode": 1,
+     "rules": 1,
+     "seed": "0x000000000000002a",
+     "score": 47,
+     "reached": 48,
+     "time": 1792483200,
+     "challenge": false
+    }
+   ],
+   "settings": {
+    "1": "",
+    "2": false,
+    "3": true
+   },
+   "record": "010100010101000000000000002a002f00306ad71f8000030100000200010003000101761f",
+   "text": "SYB1-0400-2081-0000-0000-0002-M01F-00R6-NNRZ-G000-6080-0010-0080-0C00-20BP-3W",
+   "note": "defaults"
+  },
+  {
+   "entries": [
+    {
+     "mode": 1,
+     "rules": 1,
+     "seed": "0x000000000000002a",
+     "score": 47,
+     "reached": 48,
+     "time": 1792483200,
+     "challenge": false
+    },
+    {
+     "mode": 4,
+     "rules": 1,
+     "seed": "0xffffffffffffffff",
+     "score": 12,
+     "reached": 13,
+     "time": 1792569600,
+     "challenge": true
+    },
+    {
+     "mode": 9,
+     "rules": 7,
+     "seed": "0x0123456789abcdef",
+     "score": 3,
+     "reached": 4,
+     "time": 0,
+     "challenge": false
+    }
+   ],
+   "settings": {
+    "1": "de",
+    "2": true,
+    "3": false,
+    "4": "Änne 🎨",
+    "5": "wss://relay.damus.io\nwss://nos.lol"
+   },
+   "record": "010100030101000000000000002a002f00306ad71f80000401ffffffffffffffff000c000d6ad871000109070123456789abcdef000300040000000000050100026465020001010300010004000ac3846e6e6520f09f8ea80500227773733a2f2f72656c61792e64616d75732e696f0a7773733a2f2f6e6f732e6c6f6c89c0",
+   "text": "SYB1-0400-6081-0000-0000-0002-M01F-00R6-NNRZ-G000-80FZ-ZZZZ-ZZZZ-ZZZG-0300-1NND-GW80-044G-E093-8NKR-KAYD-XW00-6004-0000-0000-0M0G-00K4-CM10-0081-0C00-2004-005C-713E-DSJJ-1W4Z-HTM0-A012-EXSQ-6EHF-5XS6-AV31-F4Q6-8RBD-ENSJ-WTBF-19VQ-6WST-5WQP-WVVK-5SP6-YV49-R0",
+   "note": "all settings; unknown mode and rules are kept"
+  },
+  {
+   "entries": [
+    {
+     "mode": 1,
+     "rules": 1,
+     "seed": "0x000000000000002a",
+     "score": 70000,
+     "reached": 100000,
+     "time": 1792483200,
+     "challenge": false
+    }
+   ],
+   "settings": null,
+   "record": "010000010101000000000000002affffffff6ad71f80002e26",
+   "text": "SYB1-0000-2081-0000-0000-0002-NZZZ-ZZZP-NNRZ-G002-W9G",
+   "note": "score/reached clamped to 65535"
+  },
+  {
+   "entries": [
+    {
+     "mode": 1,
+     "rules": 1,
+     "seed": "0x0000000000000000",
+     "score": 100,
+     "reached": 101,
+     "time": 1792483200,
+     "challenge": true
+    },
+    {
+     "mode": 2,
+     "rules": 1,
+     "seed": "0x9e3779b97f4a7c15",
+     "score": 99,
+     "reached": 100,
+     "time": 1792486800,
+     "challenge": false
+    },
+    {
+     "mode": 3,
+     "rules": 1,
+     "seed": "0x3c6ef372fe94f82a",
+     "score": 98,
+     "reached": 99,
+     "time": 1792490400,
+     "challenge": false
+    },
+    {
+     "mode": 4,
+     "rules": 1,
+     "seed": "0xdaa66d2c7ddf743f",
+     "score": 97,
+     "reached": 98,
+     "time": 1792494000,
+     "challenge": true
+    },
+    {
+     "mode": 1,
+     "rules": 1,
+     "seed": "0x78dde6e5fd29f054",
+     "score": 96,
+     "reached": 97,
+     "time": 1792497600,
+     "challenge": false
+    },
+    {
+     "mode": 2,
+     "rules": 1,
+     "seed": "0x1715609f7c746c69",
+     "score": 95,
+     "reached": 96,
+     "time": 1792501200,
+     "challenge": false
+    },
+    {
+     "mode": 3,
+     "rules": 1,
+     "seed": "0xb54cda58fbbee87e",
+     "score": 94,
+     "reached": 95,
+     "time": 1792504800,
+     "challenge": true
+    },
+    {
+     "mode": 4,
+     "rules": 1,
+     "seed": "0x538454127b096493",
+     "score": 93,
+     "reached": 94,
+     "time": 1792508400,
+     "challenge": false
+    },
+    {
+     "mode": 1,
+     "rules": 1,
+     "seed": "0xf1bbcdcbfa53e0a8",
+     "score": 92,
+     "reached": 93,
+     "time": 1792512000,
+     "challenge": false
+    },
+    {
+     "mode": 2,
+     "rules": 1,
+     "seed": "0x8ff34785799e5cbd",
+     "score": 91,
+     "reached": 92,
+     "time": 1792515600,
+     "challenge": true
+    },
+    {
+     "mode": 3,
+     "rules": 1,
+     "seed": "0x2e2ac13ef8e8d8d2",
+     "score": 90,
+     "reached": 91,
+     "time": 1792519200,
+     "challenge": false
+    },
+    {
+     "mode": 4,
+     "rules": 1,
+     "seed": "0xcc623af8783354e7",
+     "score": 89,
+     "reached": 90,
+     "time": 1792522800,
+     "challenge": false
+    },
+    {
+     "mode": 1,
+     "rules": 1,
+     "seed": "0x6a99b4b1f77dd0fc",
+     "score": 88,
+     "reached": 89,
+     "time": 1792526400,
+     "challenge": true
+    },
+    {
+     "mode": 2,
+     "rules": 1,
+     "seed": "0x08d12e6b76c84d11",
+     "score": 87,
+     "reached": 88,
+     "time": 1792530000,
+     "challenge": false
+    },
+    {
+     "mode": 3,
+     "rules": 1,
+     "seed": "0xa708a824f612c926",
+     "score": 86,
+     "reached": 87,
+     "time": 1792533600,
+     "challenge": false
+    },
+    {
+     "mode": 4,
+     "rules": 1,
+     "seed": "0x454021de755d453b",
+     "score": 85,
+     "reached": 86,
+     "time": 1792537200,
+     "challenge": true
+    },
+    {
+     "mode": 1,
+     "rules": 1,
+     "seed": "0xe3779b97f4a7c150",
+     "score": 84,
+     "reached": 85,
+     "time": 1792540800,
+     "challenge": false
+    },
+    {
+     "mode": 2,
+     "rules": 1,
+     "seed": "0x81af155173f23d65",
+     "score": 83,
+     "reached": 84,
+     "time": 1792544400,
+     "challenge": false
+    },
+    {
+     "mode": 3,
+     "rules": 1,
+     "seed": "0x1fe68f0af33cb97a",
+     "score": 82,
+     "reached": 83,
+     "time": 1792548000,
+     "challenge": true
+    },
+    {
+     "mode": 4,
+     "rules": 1,
+     "seed": "0xbe1e08c47287358f",
+     "score": 81,
+     "reached": 82,
+     "time": 1792551600,
+     "challenge": false
+    },
+    {
+     "mode": 1,
+     "rules": 1,
+     "seed": "0x5c55827df1d1b1a4",
+     "score": 80,
+     "reached": 81,
+     "time": 1792555200,
+     "challenge": false
+    },
+    {
+     "mode": 2,
+     "rules": 1,
+     "seed": "0xfa8cfc37711c2db9",
+     "score": 79,
+     "reached": 80,
+     "time": 1792558800,
+     "challenge": true
+    },
+    {
+     "mode": 3,
+     "rules": 1,
+     "seed": "0x98c475f0f066a9ce",
+     "score": 78,
+     "reached": 79,
+     "time": 1792562400,
+     "challenge": false
+    },
+    {
+     "mode": 4,
+     "rules": 1,
+     "seed": "0x36fbefaa6fb125e3",
+     "score": 77,
+     "reached": 78,
+     "time": 1792566000,
+     "challenge": false
+    },
+    {
+     "mode": 1,
+     "rules": 1,
+     "seed": "0xd5336963eefba1f8",
+     "score": 76,
+     "reached": 77,
+     "time": 1792569600,
+     "challenge": true
+    },
+    {
+     "mode": 2,
+     "rules": 1,
+     "seed": "0x736ae31d6e461e0d",
+     "score": 75,
+     "reached": 76,
+     "time": 1792573200,
+     "challenge": false
+    },
+    {
+     "mode": 3,
+     "rules": 1,
+     "seed": "0x11a25cd6ed909a22",
+     "score": 74,
+     "reached": 75,
+     "time": 1792576800,
+     "challenge": false
+    },
+    {
+     "mode": 4,
+     "rules": 1,
+     "seed": "0xafd9d6906cdb1637",
+     "score": 73,
+     "reached": 74,
+     "time": 1792580400,
+     "challenge": true
+    },
+    {
+     "mode": 1,
+     "rules": 1,
+     "seed": "0x4e115049ec25924c",
+     "score": 72,
+     "reached": 73,
+     "time": 1792584000,
+     "challenge": false
+    },
+    {
+     "mode": 2,
+     "rules": 1,
+     "seed": "0xec48ca036b700e61",
+     "score": 71,
+     "reached": 72,
+     "time": 1792587600,
+     "challenge": false
+    },
+    {
+     "mode": 3,
+     "rules": 1,
+     "seed": "0x8a8043bceaba8a76",
+     "score": 70,
+     "reached": 71,
+     "time": 1792591200,
+     "challenge": true
+    },
+    {
+     "mode": 4,
+     "rules": 1,
+     "seed": "0x28b7bd766a05068b",
+     "score": 69,
+     "reached": 70,
+     "time": 1792594800,
+     "challenge": false
+    },
+    {
+     "mode": 1,
+     "rules": 1,
+     "seed": "0xc6ef372fe94f82a0",
+     "score": 68,
+     "reached": 69,
+     "time": 1792598400,
+     "challenge": false
+    },
+    {
+     "mode": 2,
+     "rules": 1,
+     "seed": "0x6526b0e96899feb5",
+     "score": 67,
+     "reached": 68,
+     "time": 1792602000,
+     "challenge": true
+    },
+    {
+     "mode": 3,
+     "rules": 1,
+     "seed": "0x035e2aa2e7e47aca",
+     "score": 66,
+     "reached": 67,
+     "time": 1792605600,
+     "challenge": false
+    },
+    {
+     "mode": 4,
+     "rules": 1,
+     "seed": "0xa195a45c672ef6df",
+     "score": 65,
+     "reached": 66,
+     "time": 1792609200,
+     "challenge": false
+    },
+    {
+     "mode": 1,
+     "rules": 1,
+     "seed": "0x3fcd1e15e67972f4",
+     "score": 64,
+     "reached": 65,
+     "time": 1792612800,
+     "challenge": true
+    },
+    {
+     "mode": 2,
+     "rules": 1,
+     "seed": "0xde0497cf65c3ef09",
+     "score": 63,
+     "reached": 64,
+     "time": 1792616400,
+     "challenge": false
+    },
+    {
+     "mode": 3,
+     "rules": 1,
+     "seed": "0x7c3c1188e50e6b1e",
+     "score": 62,
+     "reached": 63,
+     "time": 1792620000,
+     "challenge": false
+    },
+    {
+     "mode": 4,
+     "rules": 1,
+     "seed": "0x1a738b426458e733",
+     "score": 61,
+     "reached": 62,
+     "time": 1792623600,
+     "challenge": true
+    }
+   ],
+   "settings": {
+    "1": "de",
+    "2": true,
+    "3": false,
+    "4": "Änne 🎨",
+    "5": "wss://relay.damus.io\nwss://nos.lol"
+   },
+   "record": "0101002801010000000000000000006400656ad71f800102019e3779b97f4a7c15006300646ad72d900003013c6ef372fe94f82a006200636ad73ba0000401daa66d2c7ddf743f006100626ad749b001010178dde6e5fd29f054006000616ad757c00002011715609f7c746c69005f00606ad765d0000301b54cda58fbbee87e005e005f6ad773e0010401538454127b096493005d005e6ad781f0000101f1bbcdcbfa53e0a8005c005d6ad790000002018ff34785799e5cbd005b005c6ad79e100103012e2ac13ef8e8d8d2005a005b6ad7ac20000401cc623af8783354e70059005a6ad7ba300001016a99b4b1f77dd0fc005800596ad7c84001020108d12e6b76c84d11005700586ad7d650000301a708a824f612c926005600576ad7e460000401454021de755d453b005500566ad7f270010101e3779b97f4a7c150005400556ad8008000020181af155173f23d65005300546ad80e900003011fe68f0af33cb97a005200536ad81ca0010401be1e08c47287358f005100526ad82ab00001015c55827df1d1b1a4005000516ad838c0000201fa8cfc37711c2db9004f00506ad846d001030198c475f0f066a9ce004e004f6ad854e000040136fbefaa6fb125e3004d004e6ad862f0000101d5336963eefba1f8004c004d6ad87100010201736ae31d6e461e0d004b004c6ad87f1000030111a25cd6ed909a22004a004b6ad88d20000401afd9d6906cdb16370049004a6ad89b300101014e115049ec25924c004800496ad8a940000201ec48ca036b700e61004700486ad8b7500003018a8043bceaba8a76004600476ad8c56001040128b7bd766a05068b004500466ad8d370000101c6ef372fe94f82a0004400456ad8e1800002016526b0e96899feb5004300446ad8ef90010301035e2aa2e7e47aca004200436ad8fda0000401a195a45c672ef6df004100426ad90bb00001013fcd1e15e67972f4004000416ad919c0010201de0497cf65c3ef09003f00406ad927d00003017c3c1188e50e6b1e003e003f6ad935e00004011a738b426458e733003d003e6ad943f001050100026465020001010300010004000ac3846e6e6520f09f8ea80500227773733a2f2f72656c61792e64616d75732e696f0a7773733a2f2f6e6f732e6c6f6c469a",
+   "text": "SYB1-0402-G081-0000-0000-0000-0034-01JP-NNRZ-G00G-40CY-6XWV-JZTA-FGAG-0RR0-CHND-EBCG-001G-2F3E-YDSF-X57R-5806-4033-DBBK-Q800-0G0X-N9KD-5HYX-YX1Z-01GG-0RKA-TX4V-0081-05WD-VSQ5-ZMMZ-0N00-C006-2TPQ-AZ00-00G1-2WAP-17VW-EHP6-J02Z-01G6-NNV5-T000-60DN-9KD5-HYXY-X1Z0-0QG0-BXND-EWZ0-0420-2MW4-AG97-P2B4-JC05-T02Y-DBBR-3W00-040Z-3EYD-SFX5-7R58-01E0-0QBA-TY80-0002-067Z-6HW5-F6F5-SF80-BC05-RTPQ-KR80-20R1-5RNC-2FQR-X3CD-402T-01DP-NNXC-4000-80EC-C8XF-GY1K-AKKG-0P80-B9ND-FEHG-000G-2TMS-PJRZ-EZEG-ZG05-G02S-DBBW-GG01-080G-HM9E-DDVC-GK8H-01BG-0P3A-TZB5-0003-06KG-HA14-YR9C-J9G0-AR05-ETPQ-WHG0-0101-8N02-3QKN-BN2K-P02N-01B6-NNZJ-E00G-20F3-EYDS-FX57-R580-0N00-ANND-G040-0010-30DF-2N8Q-7WHX-CM05-602M-DBC0-X400-0C0H-ZSMF-1BSK-SEBT-0190-0MVA-V0EA-0084-06Z1-W264-EA3K-B3R0-A405-4TPR-5AR0-0081-BHAR-4ZFH-T6RT-802G-018P-NP1R-R000-40FT-HKY3-EW8W-5PWG-0KR0-A1ND-GHPG-041G-3664-EQRF-0SN9-SR04-W02F-DBC5-9R00-0G0K-DYZF-N9QV-29F3-016G-0KKA-V1HF-0001-07AK-6TB3-XVXT-3Y00-9G04-TTPR-E400-20G1-EDNE-67BE-8RF0-T02B-0166-NP3Z-2000-608H-M9ED-DVCG-K8H0-0JG0-9DND-H390-0020-3BYS-TT86-SPRP-6W04-J02A-DBC9-PC01-040M-W4AG-97P2-B4JC-0140-0JBA-V2MM-0002-07P4-HJG3-DDR0-WR80-8W04-GTPR-PX80-00R1-HA04-7F7A-QA57-C026-013P-NP65-C00G-8098-PYYQ-CTG5-0T5G-0H80-8SND-HMVG-000G-3HQF-6WQY-JKW2-M004-8025-DBCE-3000-080P-A9NG-X5M9-KZNN-011G-0H3A-V3QS-0083-041N-WAN2-WZJ7-NJG0-8804-6TPR-ZPG0-0101-M6AT-8Q37-5VVD-Y021-0116-NP8B-P000-209Z-SMF1-BSKS-EBT0-0G00-85ND-J6E0-0410-3QG4-JZ7P-BGZF-1403-Y020-DBCJ-FM00-0C0Q-RF0H-H3JG-WTRY-00Z0-0FVA-V4TY-0004-04D7-72T2-CHCE-ECR0-7M03-WTPS-8FR0-2181-0016-8S82-000G-20R0-0400-800A-RE26-WVK5-43R9-Z3N8-0M02-4XVK-ECX2-YBVJ-CNP6-2Y9E-CHGP-TXBK-5SMP-Y2KQ-EDSK-MBSF-DSQQ-6BKC-DXP4-D6G",
+   "note": "full backup, 40 entries"
+  }
+ ]
+}
