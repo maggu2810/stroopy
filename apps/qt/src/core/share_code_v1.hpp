@@ -2,6 +2,8 @@
 // Share code v1 (docs/spec/share-code/v1.md): game descriptor <-> record bytes <-> text code.
 #pragma once
 
+#include "codec.hpp"
+
 #include <cstdint>
 #include <expected>
 #include <optional>
@@ -27,11 +29,7 @@ struct Descriptor {
     bool operator==(const Descriptor &) const = default;
 };
 
-struct Error {
-    enum class Kind : std::uint8_t { Invalid, Unsupported };
-    Kind kind;
-    int version = 0; // share-code version found, for Unsupported
-};
+using Error = codec::Error;
 
 std::uint16_t crc16(std::string_view data) noexcept;
 
