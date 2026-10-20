@@ -67,6 +67,7 @@ third-party/              material from other apps, for STUDY ONLY
     NOTES.md              provenance (source, version, sha256)
     apk/                  git-ignored
     decompiled/           git-ignored (jadx + apktool output)
+.github/workflows/        CI: web-pages.yml publishes apps/web to GitHub Pages
 tools/                    helper scripts (e.g. fetch-original.sh)
   reference/              Python reference implementations + vector generators
 ```
@@ -130,11 +131,12 @@ tools/                    helper scripts (e.g. fetch-original.sh)
   (`docs/decisions/0011-backup-code.md`)
 - Live multiplayer: **Nostr first**, protocol v1
   (`docs/decisions/0012-nostr-first-protocol.md`)
+- Web hosting: **GitHub Pages**, built by GitHub Actions
+  (`docs/decisions/0013-web-hosting-github-pages.md`)
 
 ## Open decisions
 
 - Kirigami on top of Qt Quick or plain Qt Quick (plain Qt Quick so far).
-- Hosting of the web app (Codeberg Pages, GitHub Pages or own domain).
 
 ## Conventions
 
