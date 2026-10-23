@@ -2,6 +2,10 @@
 
 Status: accepted (2026-10-19)
 
+> **Note (2026-10-23):** the web app is publicly hosted on GitHub Pages
+> (decision 0013). That is a website, not store distribution, so this
+> decision still holds.
+
 ## Context
 The maintainer wants the game on their Linux (KDE) desktop and Android phone
 first. Public store distribution (F-Droid, Play) is not planned for now: the

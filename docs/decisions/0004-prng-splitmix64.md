@@ -2,6 +2,10 @@
 
 Status: accepted (2026-10-19)
 
+> **Note (2026-10-23):** the first implementations are C++ (`uint64_t`) and
+> TypeScript, which has no native 64-bit integer and uses `BigInt` masked to
+> 64 bits.
+
 ## Context
 Shared seeds and multiplayer require bit-identical sequences on every
 platform and in every language.

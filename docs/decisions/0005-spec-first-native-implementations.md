@@ -1,6 +1,16 @@
 # 0005: Spec-first, independent native implementations
 
-Status: accepted (2026-10-19)
+Status: accepted (2026-10-19); amended by 0007, 0008, 0010
+
+> **Note (2026-10-23):** later decisions changed the picture this record
+> assumes:
+> - Qt, listed under option (a), is used for Linux *and* Android (0006,
+>   0008), and iOS is served by a web app (0010). So in practice we combine
+>   (a) and (c): few implementations, each covering several platforms, all
+>   bound by the specs and vectors. The rules below are unchanged.
+> - "Beyond Android" assumed a native Android app first; Qt came first (0008).
+> - Rule 3: share code and backup are versioned too (0007, 0011).
+> - The Kotlin escape hatch depends on the postponed Compose app (0008).
 
 ## Context
 Beyond Android we want iOS and desktop (Linux, Windows, macOS) at some point.
@@ -20,7 +30,7 @@ Keeping several implementations **compatible** is the hard part.
 Option **(c)**: independent, idiomatic implementations (one per toolkit,
 in `apps/<stack>[-<platform>]/`) built from `docs/spec/`. A platform may have
 more than one implementation. Compatibility is enforced by **language-neutral conformance
-test vectors** (`docs/spec/test-vectors/*.json`). Every implementation's test
+test vectors** (`docs/spec/test-vectors/<area>/v<N>/*.json`, see decision 0007). Every implementation's test
 suite must load and pass them.
 
 Rules:
