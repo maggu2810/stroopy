@@ -2,6 +2,8 @@
 
 Status: accepted (2026-10-20)
 
+> **Note (2026-10-23):** the host is GitHub Pages (decision 0013).
+
 ## Context
 iOS is wanted, but there will be no paid Apple developer account. Without
 one, every native route fails for the people we share with:

@@ -2,6 +2,10 @@
 
 Status: accepted (2026-10-19)
 
+> **Note (2026-10-23):** the prefix `SY` is refined by decision 0007 and the
+> specs: share codes use `SY<S>-`, room codes `SYR<P>-`, backup codes
+> `SYB<B>-`. Links are `stroopy://play?c=…` and `stroopy://join?r=…`.
+
 ## Context
 We remake the discontinued "True Color" (`com.aurelhubert.truecolor`). Reusing
 its name could confuse users and may conflict with trademarks. The game

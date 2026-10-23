@@ -12,7 +12,8 @@ and open-source game, Android first with iOS and desktop later, in the spirit of
   colour? The game gets faster as you progress.
 - **No Google dependencies**: no Play Services, Firebase, Play Billing,
   Play Games or ads/analytics SDKs. It must run on de-Googled phones
-  (LineageOS, GrapheneOS, /e/OS…) and be eligible for **F-Droid**.
+  (LineageOS, GrapheneOS, /e/OS…) and stay eligible for **F-Droid**, even
+  though publishing there is not planned for now (decision 0008).
   (AndroidX/Jetpack libraries are fine, since they are open source and need
   no Play Services.)
 - **Single player** and **simultaneous multiplayer** on an *identical* colour
@@ -142,3 +143,5 @@ tools/                    helper scripts (e.g. fetch-original.sh)
 
 - Commit messages: imperative mood, short subject line.
 - Keep `docs/` up to date with behaviour changes in the same commit.
+- Decision records are append-only: revise by a new record and link it from
+  the old one's status (`docs/decisions/README.md`).

@@ -1,6 +1,15 @@
 # 0007: Compatibility versions, independent of app versions
 
-Status: accepted (2026-10-19)
+Status: accepted (2026-10-19); amended 2026-10-20 by 0011 and 0012
+
+> **Note (2026-10-23):** this record was edited in place on 2026-10-20,
+> before this note convention existed. Originally there were three versions,
+> and protocol versions were negotiated in a `hello` message, in which peers
+> listed their supported `P` and `R` ranges and their app version (for
+> debugging); the host picked the highest common `P`. Protocol v1 (0012)
+> replaced that: the room code fixes `P`, and `status` messages carry the
+> supported `R`. Decision 0011 added the backup version `B`
+> (`docs/spec/backup/v<N>.md`).
 
 ## Context
 Shared codes and multiplayer must work between different implementations

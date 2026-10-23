@@ -1,6 +1,11 @@
 # 0006: Desktop: Qt 6
 
-Status: accepted (2026-10-19)
+Status: accepted (2026-10-19); scope widened by 0008
+
+> **Note (2026-10-23):** `apps/qt/` also targets Android (decision 0008).
+> Live multiplayer starts with Nostr (decision 0012), so only Qt WebSockets
+> is used so far; mDNS, Bluetooth and camera QR scanning come later.
+> Kirigami is still undecided (plain Qt Quick so far).
 
 ## Context
 Desktop targets are Linux, Windows and macOS. The maintainer runs KDE Plasma,
