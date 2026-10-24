@@ -1,35 +1,33 @@
-# 0006: Desktop: Qt 6
+# 0006: Qt 6 for desktop and Android
 
-Status: accepted (2026-10-19); scope widened by 0008
-
-> **Note (2026-10-23):** `apps/qt/` also targets Android (decision 0008).
-> Live multiplayer starts with Nostr (decision 0012), so only Qt WebSockets
-> is used so far; mDNS, Bluetooth and camera QR scanning come later.
-> Kirigami is still undecided (plain Qt Quick so far).
+Status: accepted (2026-10-19)
 
 ## Context
-Desktop targets are Linux, Windows and macOS. The maintainer runs KDE Plasma,
-which is built on Qt. Candidates: one toolkit per OS (GTK/WinUI/AppKit),
-Qt, Compose Desktop (JVM), Rust + Slint/egui, Electron/Tauri.
+Targets are Linux desktop and Android first, then Windows and macOS. The
+maintainer runs KDE Plasma, which is built on Qt. Candidates: one toolkit
+per OS (GTK/WinUI/AppKit), Qt, Compose Multiplatform (JVM), Rust +
+Slint/egui, Electron/Tauri.
 
 ## Decision
-The desktop implementation uses **Qt 6** with **Qt Quick/QML** for the UI
-and **C++** for logic, built with **CMake**. It lives in `apps/qt/`.
+`apps/qt/` uses **Qt 6** with **Qt Quick/QML** for the UI and **C++** for
+logic, built with **CMake**. It targets Linux desktop and Android (arm64),
+and can later target Windows, macOS and iOS.
 
 ## Rationale
 - Native on KDE. It looks and behaves well on GNOME, Windows and macOS too.
-- One codebase for all three desktop OSes. It can also target Android and
-  iOS, which would give an alternative mobile implementation.
-- Qt has modules for what we need: Qt Network (TCP, mDNS via
-  third-party/KDNSSD, or the planned Qt mDNS support), Qt WebSockets (Nostr),
-  Qt Bluetooth (BLE), Qt Multimedia (QR scanning via camera).
+- One codebase for all desktop OSes and Android.
+- Qt has modules for what we need: Qt WebSockets for Nostr (decision 0012),
+  and later Qt Network (LAN), Qt Bluetooth (BLE) and Qt Multimedia (QR
+  scanning).
 - Licence: Qt is available under LGPL-3.0/GPL-3.0, which is compatible with
   our GPL-3.0-or-later.
-- Optional: KDE **Kirigami** on top of Qt Quick for convergent desktop/mobile
-  UI and Plasma integration. To be decided when `apps/qt/` starts.
 
 ## Consequences
 - GTK is not planned. A GTK app looks foreign on KDE, and a Qt app is
   acceptable on GNOME.
+- The UI uses plain Qt Quick. Whether to add KDE **Kirigami** is an open
+  decision.
+- Android integrations without a Qt API (vibration, gamepad buttons, share
+  sheet, links) use small JNI/Java bridges.
 - The game core is written in C++ against `docs/spec/` and the conformance
-  vectors (decision 0005). It does not wrap the Kotlin core.
+  vectors (decision 0005).

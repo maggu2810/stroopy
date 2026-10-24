@@ -2,8 +2,6 @@
 
 Status: accepted (2026-10-20)
 
-> **Note (2026-10-23):** the host is GitHub Pages (decision 0013).
-
 ## Context
 iOS is wanted, but there will be no paid Apple developer account. Without
 one, every native route fails for the people we share with:
@@ -20,25 +18,25 @@ Safari's *Add to Home Screen* installs a web app with its own icon,
 fullscreen and offline support, with no account and no review.
 
 ## Decision
-- New implementation **`apps/web/`**: a **Progressive Web App** in
+- Implementation **`apps/web/`**: a **Progressive Web App** in
   **TypeScript**, built and tested with **Bun** (package manager, bundler,
   test runner, dev server). UI with **Preact** + signals (MIT, ~5 kB);
   Nostr signatures with **@noble/curves** / **@noble/hashes** (MIT, audited,
   no dependencies).
 - It is an independent implementation of `docs/spec/` (decision 0005) and
-  passes the same conformance vectors (`bun test`). It does not reuse the Qt
-  code, and Qt for WebAssembly is not used: it would be a multi-MB download
-  with a slow start, and iOS Safari is its weakest target.
+  passes the same conformance vectors (`bun test`). Qt for WebAssembly is
+  not used: it would be a multi-MB download with a slow start, and iOS
+  Safari is its weakest target.
 - It follows `docs/design/product.md` like every other app, including the
   responsive portrait/landscape layouts and keyboard/gamepad input.
-- Hosting: any static HTTPS host (e.g. Codeberg Pages, GitHub Pages, own
-  domain). This is not a game server: nothing runs there but file delivery.
+- It is a static site: nothing runs on the host but file delivery
+  (hosting: decision 0013).
 
 ## Consequences
 - Works on iOS, Android, desktop and TVs with a browser, without install.
 - Browser limits: no Bluetooth (Safari has no Web Bluetooth), no raw LAN
-  sockets. Live multiplayer in the browser is **Nostr only** (WebSockets).
-  This moves Nostr ahead of LAN in the transport order (decision 0012).
+  sockets. Live multiplayer in the browser is **Nostr only** (WebSockets),
+  which is why Nostr is the first transport (decision 0012).
 - Browser storage can be lost (home-screen icon removed, storage pressure,
-  new phone). The app asks for persistent storage and offers an export/import
-  backup code (decision 0011).
+  new phone). The app asks for persistent storage and offers a backup code
+  (decision 0011).

@@ -2,6 +2,10 @@
 
 Status: accepted (2026-10-19)
 
+## Context
+The project is new and has no users on old platforms. Supporting old
+compilers or SDKs would only cost time.
+
 ## Decision
 Use the newest stable releases and features, with no compatibility with old
 versions:
@@ -18,7 +22,8 @@ versions:
   compiled QML via qmlsc / qmltc where useful.
 - Android: latest SDK platform and NDK supported by the Qt release in use.
   `minSdk` as high as practical.
-- Kotlin/Compose, Swift/SwiftUI and other stacks follow the same rule when
+- Web: latest Bun, TypeScript and Preact; current browsers only.
+- Other stacks (Kotlin/Compose, Swift/SwiftUI) follow the same rule when
   they start.
 
 ## Consequences
