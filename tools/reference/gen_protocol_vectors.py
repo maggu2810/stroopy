@@ -89,7 +89,7 @@ def main(out: Path):
         {"input": "SYR1-ABCD-EFGU", "error": "invalid", "note": "U is not in the alphabet"},
         {"input": "ABCD-EFG", "error": "invalid", "note": "bare id too short"},
         {"input": "say ABCDEFGH please", "error": "invalid", "note": "bare id must be the whole input"},
-        {"input": "SY1-040G-0000-0000-001A-03CT-T", "error": "invalid", "note": "a share code is not a room"},
+        {"input": "SYG1-040G-0000-0000-001A-03CT-T", "error": "invalid", "note": "a share code is not a room"},
         {"input": "SYR2-ABCD-EFGH", "error": "unsupported", "version": 2, "note": "unknown protocol version"},
     ]
     for d in errors:
@@ -148,7 +148,7 @@ def main(out: Path):
         ('{"p":1,"type":"status","name":"Eve","host":false,"rules":[]}', "empty rules"),
         ('{"p":1,"type":"status","name":"Eve","host":false,"rules":[1],"game":{"code":"x","n":-1,"score":0,'
          '"over":false}}', "negative n"),
-        ('{"p":1,"type":"start","code":"SY1-040G-0000-0000-001A-0402-Y01G-J960"}', "start code with a result"),
+        ('{"p":1,"type":"start","code":"SYG1-040G-0000-0000-001A-0402-Y01G-J960"}', "start code with a result"),
         ('{"p":1,"type":"start","code":"nonsense"}', "start code invalid"),
         ('[1,2,3]', "not an object"),
         ('{"p":1,"type":', "not JSON"),

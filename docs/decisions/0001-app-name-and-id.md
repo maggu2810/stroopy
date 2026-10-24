@@ -1,9 +1,9 @@
 # 0001: App name and application id
 
-Status: accepted (2026-10-19)
+Status: accepted (2026-10-19); amended by 0014
 
 > **Note (2026-10-23):** the prefix `SY` is refined by decision 0007 and the
-> specs: share codes use `SY<S>-`, room codes `SYR<P>-`, backup codes
+> specs: share codes use `SYG<S>-` (decision 0014), room codes `SYR<P>-`, backup codes
 > `SYB<B>-`. Links are `stroopy://play?c=…` and `stroopy://join?r=…`.
 
 ## Context

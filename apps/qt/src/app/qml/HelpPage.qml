@@ -83,7 +83,7 @@ SubPage {
             Heading { text: qsTr("Sharing and challenges") }
             Paragraph {
                 text: qsTr("Every game is a sequence that can be replayed exactly. After a game, or for any "
-                           + "highscore, copy the code (for example SY1-…) and send it to a friend. They paste it "
+                           + "highscore, copy the code (for example SYG1-…) and send it to a friend. They paste it "
                            + "under “Enter code” – even a whole message works – and play the very same sequence "
                            + "against your score.")
             }

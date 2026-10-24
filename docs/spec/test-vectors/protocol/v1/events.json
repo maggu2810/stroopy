@@ -30,10 +30,10 @@
    "secretKey": "c90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b14e5c9",
    "createdAt": 1792483201,
    "roomId": "79FGFGPH",
-   "content": "{\"p\":1,\"type\":\"start\",\"code\":\"SY1-040G-0000-0000-001A-03CT-T\"}",
-   "serialised": "[0,\"dd308afec5777e13121fa72b9cc1b7cc0139715309b086c960e18fd969774eb8\",1792483201,25713,[[\"t\",\"stroopy-p1-79fgfgph\"]],\"{\\\"p\\\":1,\\\"type\\\":\\\"start\\\",\\\"code\\\":\\\"SY1-040G-0000-0000-001A-03CT-T\\\"}\"]",
+   "content": "{\"p\":1,\"type\":\"start\",\"code\":\"SYG1-040G-0000-0000-001A-03CT-T\"}",
+   "serialised": "[0,\"dd308afec5777e13121fa72b9cc1b7cc0139715309b086c960e18fd969774eb8\",1792483201,25713,[[\"t\",\"stroopy-p1-79fgfgph\"]],\"{\\\"p\\\":1,\\\"type\\\":\\\"start\\\",\\\"code\\\":\\\"SYG1-040G-0000-0000-001A-03CT-T\\\"}\"]",
    "event": {
-    "id": "25f3634c33f0246415a24be9bc0b27e9e6ec646926a4fd56c2cf01750d8ee606",
+    "id": "4c596f1d817d15ab723ceacfb292a066e0465a7b7356490aa5d9d4e5119c8e95",
     "pubkey": "dd308afec5777e13121fa72b9cc1b7cc0139715309b086c960e18fd969774eb8",
     "created_at": 1792483201,
     "kind": 25713,
@@ -43,18 +43,18 @@
       "stroopy-p1-79fgfgph"
      ]
     ],
-    "content": "{\"p\":1,\"type\":\"start\",\"code\":\"SY1-040G-0000-0000-001A-03CT-T\"}",
-    "sig": "d3ee024325663cca88032b0a4b1984e35b9669a055107509353b4ab568b55347627492209297110b92ed81f7d4f122d072160c76c4e11de2425bec178e8b79dc"
+    "content": "{\"p\":1,\"type\":\"start\",\"code\":\"SYG1-040G-0000-0000-001A-03CT-T\"}",
+    "sig": "76962c460f258283420bb4ee49990d662d3c7f5774f6142fe9a025b33e35195cf3a612c2b05db11d9904697d7a38f5038d578064af9c51904d954dd0cb0c0f4e"
    }
   },
   {
    "secretKey": "0000000000000000000000000000000000000000000000000000000000000001",
    "createdAt": 1792483202,
    "roomId": "79FGFGPH",
-   "content": "{\"p\":1,\"type\":\"status\",\"name\":\"Ann\",\"host\":true,\"rules\":[1],\"mode\":1,\"game\":{\"code\":\"SY1-040G-0000-0000-001A-03CT-T\",\"n\":12,\"score\":11,\"over\":false}}",
-   "serialised": "[0,\"79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798\",1792483202,25713,[[\"t\",\"stroopy-p1-79fgfgph\"]],\"{\\\"p\\\":1,\\\"type\\\":\\\"status\\\",\\\"name\\\":\\\"Ann\\\",\\\"host\\\":true,\\\"rules\\\":[1],\\\"mode\\\":1,\\\"game\\\":{\\\"code\\\":\\\"SY1-040G-0000-0000-001A-03CT-T\\\",\\\"n\\\":12,\\\"score\\\":11,\\\"over\\\":false}}\"]",
+   "content": "{\"p\":1,\"type\":\"status\",\"name\":\"Ann\",\"host\":true,\"rules\":[1],\"mode\":1,\"game\":{\"code\":\"SYG1-040G-0000-0000-001A-03CT-T\",\"n\":12,\"score\":11,\"over\":false}}",
+   "serialised": "[0,\"79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798\",1792483202,25713,[[\"t\",\"stroopy-p1-79fgfgph\"]],\"{\\\"p\\\":1,\\\"type\\\":\\\"status\\\",\\\"name\\\":\\\"Ann\\\",\\\"host\\\":true,\\\"rules\\\":[1],\\\"mode\\\":1,\\\"game\\\":{\\\"code\\\":\\\"SYG1-040G-0000-0000-001A-03CT-T\\\",\\\"n\\\":12,\\\"score\\\":11,\\\"over\\\":false}}\"]",
    "event": {
-    "id": "12f2c54fa00bdef3e71780d42fc832438363f75082c7fcf822463c326a50dd8d",
+    "id": "a391d1a216c26b90da4a778d7cc6dfc6e123e94d6d32ffafbaf997f52da13d7f",
     "pubkey": "79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798",
     "created_at": 1792483202,
     "kind": 25713,
@@ -64,8 +64,8 @@
       "stroopy-p1-79fgfgph"
      ]
     ],
-    "content": "{\"p\":1,\"type\":\"status\",\"name\":\"Ann\",\"host\":true,\"rules\":[1],\"mode\":1,\"game\":{\"code\":\"SY1-040G-0000-0000-001A-03CT-T\",\"n\":12,\"score\":11,\"over\":false}}",
-    "sig": "d79d43796b1817b8feea848c2b26c54e9757d25c5377dfdd7c46bf61fc0bd843a2e81eae31a6b32c28385070ca28c1e0631a821d188594ccaebb47c34b16be03"
+    "content": "{\"p\":1,\"type\":\"status\",\"name\":\"Ann\",\"host\":true,\"rules\":[1],\"mode\":1,\"game\":{\"code\":\"SYG1-040G-0000-0000-001A-03CT-T\",\"n\":12,\"score\":11,\"over\":false}}",
+    "sig": "7a667af9963df0e50eba5d6bd690b0c847ea571ad00944aa2363423f16c008d9b315199ce6ec7904481a50e1d8dc83aa25839babc3ae5d506bb7a3bfeb339098"
    }
   },
   {

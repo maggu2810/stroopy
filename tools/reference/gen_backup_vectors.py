@@ -99,7 +99,7 @@ def main(out: Path):
         {"input": broken(lambda r: r.__setitem__(s_pos + 1 + 4, 200)), "note": "reserved key"},
         {"input": broken(lambda r: r.__setitem__(s_pos + 1 + 4 + 3, 0xFF)), "note": "invalid UTF-8"},
         {"input": "nothing here", "note": "no backup"},
-        {"input": base.replace("SYB1-", "SY1-"), "note": "share-code prefix is not a backup"},
+        {"input": base.replace("SYB1-", "SYG1-"), "note": "share-code prefix is not a backup"},
     ]
     for d in errors:
         d["error"] = "invalid"

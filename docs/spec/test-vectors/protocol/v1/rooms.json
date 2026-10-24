@@ -93,7 +93,7 @@
    "note": "bare id must be the whole input"
   },
   {
-   "input": "SY1-040G-0000-0000-001A-03CT-T",
+   "input": "SYG1-040G-0000-0000-001A-03CT-T",
    "error": "invalid",
    "note": "a share code is not a room"
   },

@@ -35,12 +35,12 @@ std::vector<std::uint8_t> encodeRecord(const Descriptor &d)
 std::string encodeText(const Descriptor &descriptor)
 {
     const auto record = encodeRecord(descriptor);
-    return "SY" + std::to_string(version) + "-" + codec::grouped(codec::base32(std::span{record}.subspan(1)));
+    return "SYG" + std::to_string(version) + "-" + codec::grouped(codec::base32(std::span{record}.subspan(1)));
 }
 
 std::expected<Descriptor, Error> decodeText(std::string_view text)
 {
-    static const std::regex pattern{R"(SY([0-9]+)-([0-9A-Za-z]+(?:-[0-9A-Za-z]+)*))",
+    static const std::regex pattern{R"(SYG([0-9]+)-([0-9A-Za-z]+(?:-[0-9A-Za-z]+)*))",
                                     std::regex::ECMAScript | std::regex::icase};
     std::match_results<std::string_view::const_iterator> match;
     if (!std::regex_search(text.begin(), text.end(), match, pattern))

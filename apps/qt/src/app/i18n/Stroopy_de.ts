@@ -312,8 +312,8 @@
         <translation>Teilen und Herausforderungen</translation>
     </message>
     <message>
-        <source>Every game is a sequence that can be replayed exactly. After a game, or for any highscore, copy the code (for example SY1-…) and send it to a friend. They paste it under “Enter code” – even a whole message works – and play the very same sequence against your score.</source>
-        <translation>Jedes Spiel ist eine Folge, die sich exakt wiederholen lässt. Kopiere nach einem Spiel oder bei jedem Bestenlisten-Eintrag den Code (zum Beispiel SY1-…) und schicke ihn an Freunde. Sie fügen ihn unter „Code eingeben“ ein – auch eine ganze Nachricht funktioniert – und spielen genau dieselbe Folge gegen deine Punktzahl.</translation>
+        <source>Every game is a sequence that can be replayed exactly. After a game, or for any highscore, copy the code (for example SYG1-…) and send it to a friend. They paste it under “Enter code” – even a whole message works – and play the very same sequence against your score.</source>
+        <translation>Jedes Spiel ist eine Folge, die sich exakt wiederholen lässt. Kopiere nach einem Spiel oder bei jedem Bestenlisten-Eintrag den Code (zum Beispiel SYG1-…) und schicke ihn an Freunde. Sie fügen ihn unter „Code eingeben“ ein – auch eine ganze Nachricht funktioniert – und spielen genau dieselbe Folge gegen deine Punktzahl.</translation>
     </message>
     <message>
         <source>Multiplayer</source>

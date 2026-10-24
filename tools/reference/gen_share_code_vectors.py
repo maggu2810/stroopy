@@ -43,15 +43,15 @@ def main(out: Path):
 
     base = encode[5]["text"]          # with result
     plain = encode[1]["text"]
-    body = base[4:]
+    body = base[len("SYG1-"):]
     decode = [
         {"input": base, "note": "canonical"},
         {"input": base.lower(), "note": "lower case"},
-        {"input": "SY1-" + body.replace("-", ""), "note": "without group separators"},
+        {"input": "SYG1-" + body.replace("-", ""), "note": "without group separators"},
         {"input": f"I scored 47 in Stroopy Classic: {base} — beat me!", "note": "embedded in a message"},
         {"input": f"stroopy://play?c={plain}", "note": "link"},
-        {"input": "SY1-" + body.replace("0", "O").replace("1", "I"), "note": "O/I aliases"},
-        {"input": "SY1-" + body.replace("1", "l"), "note": "lower-case L alias"},
+        {"input": "SYG1-" + body.replace("0", "O").replace("1", "I"), "note": "O/I aliases"},
+        {"input": "SYG1-" + body.replace("1", "l"), "note": "lower-case L alias"},
     ]
     for d in decode:
         r = sc.decode_text(d["input"])
@@ -72,11 +72,12 @@ def main(out: Path):
         {"input": flip_last(base), "error": "invalid", "note": "checksum mismatch"},
         {"input": base[:-1], "error": "invalid", "note": "too short"},
         {"input": base + "0", "error": "invalid", "note": "too long"},
-        {"input": "SY1-" + body[:5] + "U" + body[6:], "error": "invalid", "note": "U is not in the alphabet"},
+        {"input": "SYG1-" + body[:5] + "U" + body[6:], "error": "invalid", "note": "U is not in the alphabet"},
         {"input": sc.encode_text(bytes(bad_flags)), "error": "invalid", "note": "unknown flag bit"},
-        {"input": "SY1-" + nonzero_pad, "error": "invalid", "note": "non-zero padding bits"},
+        {"input": "SYG1-" + nonzero_pad, "error": "invalid", "note": "non-zero padding bits"},
         {"input": "hello world", "error": "invalid", "note": "no code"},
-        {"input": "SY2-" + body, "error": "unsupported", "version": 2, "note": "unknown share-code version"},
+        {"input": "SY1-" + body, "error": "invalid", "note": "prefix without the type letter G"},
+        {"input": "SYG2-" + body, "error": "unsupported", "version": 2, "note": "unknown share-code version"},
     ]
     for d in invalid:
         try:

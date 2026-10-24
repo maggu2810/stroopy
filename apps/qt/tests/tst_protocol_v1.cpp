@@ -117,7 +117,7 @@ private slots:
     void roundTrip()
     {
         const net::Message m = net::Status{.name = u"Ann"_s, .host = true, .rules = {1}, .mode = 3,
-                                           .game = net::GameState{u"SY1-040G-0000-0000-001A-03CT-T"_s, 4, 3, true}};
+                                           .game = net::GameState{u"SYG1-040G-0000-0000-001A-03CT-T"_s, 4, 3, true}};
         QVERIFY(net::parseMessage(net::encodeMessage(m)) == m);
     }
 };
