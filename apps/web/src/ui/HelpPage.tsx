@@ -57,7 +57,7 @@ export function HelpPage() {
         </dl>
         <h3>{t("Sharing and challenges")}</h3>
         <p>
-          {t("Every game is a sequence that can be replayed exactly. After a game, or for any highscore, copy the code (for example SY1-…) and send it to a friend. They paste it under “Enter code” – even a whole message works – and play the very same sequence against your score.")}
+          {t("Every game is a sequence that can be replayed exactly. After a game, or for any highscore, copy the code (for example SYG1-…) and send it to a friend. They paste it under “Enter code” – even a whole message works – and play the very same sequence against your score.")}
         </p>
         <h3>{t("Multiplayer")}</h3>
         <p>{t("Create a room and send its code (SYR1-…) to your friends; they join under “Multiplayer”. The host picks the mode and starts, then everyone plays the same sequence at the same time and sees the others’ progress. Rooms run over public Nostr relays: no account, no server of ours, but names and scores are not encrypted.")}</p>

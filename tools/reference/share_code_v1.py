@@ -5,7 +5,7 @@ import re
 VERSION = 1
 ALPHABET = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
 ALIASES = {"O": "0", "I": "1", "L": "1"}
-PATTERN = re.compile(r"SY([0-9]+)-([0-9A-Za-z]+(?:-[0-9A-Za-z]+)*)", re.IGNORECASE)
+PATTERN = re.compile(r"SYG([0-9]+)-([0-9A-Za-z]+(?:-[0-9A-Za-z]+)*)", re.IGNORECASE)
 
 
 class Invalid(Exception):
@@ -56,7 +56,7 @@ def unbase32(text: str, nbytes: int) -> bytes:
 
 def encode_text(record: bytes) -> str:
     body = base32(record[1:])
-    return f"SY{record[0]}-" + "-".join(body[i:i + 4] for i in range(0, len(body), 4))
+    return f"SYG{record[0]}-" + "-".join(body[i:i + 4] for i in range(0, len(body), 4))
 
 
 def decode_text(text: str):

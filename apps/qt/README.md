@@ -12,7 +12,7 @@ Targets: **Linux desktop**, **Android arm64** (later Windows, macOS, iOS).
 
 - All four modes of rules v1, with 3-2-1-GO countdown and timers
 - Highscores per mode (top 10); share or replay every entry
-- Share codes (`SY1-…`, copied to the clipboard as a message) and *Enter code*
+- Share codes (`SYG1-…`, copied to the clipboard as a message) and *Enter code*
   to play a received sequence as a challenge against the sharer's score
 - Settings: language (follow system / English / Deutsch, applied live),
   colour-blind palette, vibration on failure (Android)

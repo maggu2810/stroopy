@@ -20,7 +20,7 @@ The descriptor holds only what changes the sequence. Per-player display
 preferences are **not** part of it: the word *language* (logic is
 index-based, so each player reads the words in their own language) and the
 colour-blind palette (it changes inks, not logic). The share-code format
-version `S` is carried by the encoding itself (prefix `SY<S>-`).
+version `S` is carried by the encoding itself (prefix `SYG<S>-`).
 
 Consequences:
 
@@ -30,7 +30,7 @@ Consequences:
   offered in three equivalent forms:
   - a **QR code**, shown on the result screen and scanned in the app;
   - a **text code** that can be sent by any messenger and pasted into the
-    app, e.g. `SY1-K7Q2-9F3A-XW1P-M4`: a version prefix, then Crockford
+    app, e.g. `SYG1-K7Q2-9F3A-XW1P-M4`: a version prefix, then Crockford
     Base32 (case-insensitive, no 0/O or 1/I mix-ups), grouped for
     readability, with a checksum to catch typos;
   - a **link**, e.g. `stroopy://play?c=K7Q29F3AXW1PM4`, which carries the

@@ -28,7 +28,7 @@ export function EnterCodePage(props: { text?: string; onPlay: (mode: number, see
         <textarea
           data-autofocus
           rows={4}
-          placeholder="SY1-…"
+          placeholder="SYG1-…"
           spellcheck={false}
           autocapitalize="off"
           value={text}

@@ -134,6 +134,8 @@ tools/                    helper scripts (e.g. fetch-original.sh)
   (`docs/decisions/0012-nostr-first-protocol.md`)
 - Web hosting: **GitHub Pages**, built by GitHub Actions
   (`docs/decisions/0013-web-hosting-github-pages.md`)
+- Text code prefixes: **`SYG`** game, **`SYR`** room, **`SYB`** backup
+  (`docs/decisions/0014-share-code-prefix-syg.md`)
 
 ## Open decisions
 

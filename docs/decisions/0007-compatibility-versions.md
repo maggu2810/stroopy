@@ -1,6 +1,6 @@
 # 0007: Compatibility versions, independent of app versions
 
-Status: accepted (2026-10-19); amended 2026-10-20 by 0011 and 0012
+Status: accepted (2026-10-19); amended 2026-10-20 by 0011 and 0012, 2026-10-24 by 0014
 
 > **Note (2026-10-23):** this record was edited in place on 2026-10-20,
 > before this note convention existed. Originally there were three versions,
@@ -10,6 +10,9 @@ Status: accepted (2026-10-19); amended 2026-10-20 by 0011 and 0012
 > replaced that: the room code fixes `P`, and `status` messages carry the
 > supported `R`. Decision 0011 added the backup version `B`
 > (`docs/spec/backup/v<N>.md`).
+>
+> **Note (2026-10-24):** the share-code prefix is now `SYG<S>-`; share code
+> v1 was changed in place once, before distribution (decision 0014).
 
 ## Context
 Shared codes and multiplayer must work between different implementations

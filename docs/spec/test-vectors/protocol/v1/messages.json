@@ -11,7 +11,7 @@
    }
   },
   {
-   "content": "{\"p\":1,\"type\":\"start\",\"code\":\"SY1-040G-0000-0000-001A-03CT-T\"}",
+   "content": "{\"p\":1,\"type\":\"start\",\"code\":\"SYG1-040G-0000-0000-001A-03CT-T\"}",
    "note": "start",
    "expected": {
     "type": "start",
@@ -21,7 +21,7 @@
    }
   },
   {
-   "content": "{\"p\":1,\"type\":\"status\",\"name\":\"Ann\",\"host\":true,\"rules\":[1],\"mode\":1,\"game\":{\"code\":\"SY1-040G-0000-0000-001A-03CT-T\",\"n\":12,\"score\":11,\"over\":false}}",
+   "content": "{\"p\":1,\"type\":\"status\",\"name\":\"Ann\",\"host\":true,\"rules\":[1],\"mode\":1,\"game\":{\"code\":\"SYG1-040G-0000-0000-001A-03CT-T\",\"n\":12,\"score\":11,\"over\":false}}",
    "note": "status with game",
    "expected": {
     "type": "status",
@@ -32,7 +32,7 @@
     ],
     "mode": 1,
     "game": {
-     "code": "SY1-040G-0000-0000-001A-03CT-T",
+     "code": "SYG1-040G-0000-0000-001A-03CT-T",
      "n": 12,
      "score": 11,
      "over": false
@@ -89,7 +89,7 @@
    }
   },
   {
-   "content": "{\"p\":1,\"type\":\"status\",\"name\":\"Dan\",\"host\":false,\"rules\":[1],\"game\":{\"code\":\"SY1-040G-0000-0000-001A-03CT-T\",\"n\":48,\"score\":47,\"over\":true}}",
+   "content": "{\"p\":1,\"type\":\"status\",\"name\":\"Dan\",\"host\":false,\"rules\":[1],\"game\":{\"code\":\"SYG1-040G-0000-0000-001A-03CT-T\",\"n\":48,\"score\":47,\"over\":true}}",
    "note": "game over",
    "expected": {
     "type": "status",
@@ -99,7 +99,7 @@
      1
     ],
     "game": {
-     "code": "SY1-040G-0000-0000-001A-03CT-T",
+     "code": "SYG1-040G-0000-0000-001A-03CT-T",
      "n": 48,
      "score": 47,
      "over": true
@@ -132,7 +132,7 @@
    "expected": null
   },
   {
-   "content": "{\"p\":1,\"type\":\"start\",\"code\":\"SY1-040G-0000-0000-001A-0402-Y01G-J960\"}",
+   "content": "{\"p\":1,\"type\":\"start\",\"code\":\"SYG1-040G-0000-0000-001A-0402-Y01G-J960\"}",
    "note": "start code with a result",
    "expected": null
   },

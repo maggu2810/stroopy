@@ -18,10 +18,10 @@ export function encodeRecord(d: Descriptor): Uint8Array {
 }
 
 export function encodeText(d: Descriptor): string {
-  return `SY${SHARE_CODE_VERSION}-` + grouped(base32(encodeRecord(d).subarray(1)));
+  return `SYG${SHARE_CODE_VERSION}-` + grouped(base32(encodeRecord(d).subarray(1)));
 }
 
-const PATTERN = /SY([0-9]+)-([0-9A-Za-z]+(?:-[0-9A-Za-z]+)*)/i;
+const PATTERN = /SYG([0-9]+)-([0-9A-Za-z]+(?:-[0-9A-Za-z]+)*)/i;
 
 /** Finds and decodes the first share code in arbitrary text (spec §2.1). */
 export function decodeText(text: string): Decoded<Descriptor> {

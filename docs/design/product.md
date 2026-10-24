@@ -105,10 +105,10 @@ Notes:
 
 Every finished game and every highscore entry can be shared as:
 - a **text code** (copy to clipboard / platform share sheet), e.g.
-  `SY1-…`, that the receiver pastes in *Enter code*;
+  `SYG1-…`, that the receiver pastes in *Enter code*;
 - a **QR code** shown on screen and scanned in *Enter code*;
 - optionally a short message around it ("I scored 47 in Stroopy Classic:
-  SY1-…").
+  SYG1-…").
 
 The app also accepts a pasted message that *contains* a code: it extracts
 the first valid code.

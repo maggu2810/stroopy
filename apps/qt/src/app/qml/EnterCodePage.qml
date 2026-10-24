@@ -31,7 +31,7 @@ SubPage {
 
             Layout.fillWidth: true
             Layout.preferredHeight: 120
-            placeholderText: "SY1-…"
+            placeholderText: "SYG1-…"
             wrapMode: TextEdit.WrapAnywhere
             inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase
             // Leave the text area with Tab / arrow down instead of inserting a tab.
