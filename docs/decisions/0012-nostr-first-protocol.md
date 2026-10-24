@@ -3,13 +3,14 @@
 Status: accepted (2026-10-20)
 
 ## Context
-The design (`docs/design/multiplayer-and-transports.md`) listed LAN first,
-then Nostr. The web app (decision 0010) can only use WebSockets, and playing
-Qt against the web app is the first concrete goal.
+Live multiplayer needs a transport without a server of our own
+(`docs/design/multiplayer-and-transports.md` compares the options). The web
+app (decision 0010) can only use WebSockets, and playing the Qt app against
+the web app is the first concrete goal.
 
 ## Decision
-- **Nostr is the first live transport.** LAN and Bluetooth follow later for
-  native apps.
+- **Nostr is the first live transport.** LAN and Bluetooth may follow later
+  for native apps, carrying the same messages.
 - `docs/spec/protocol/v1.md` (`P = 1`) defines rooms, messages and how they
   travel over Nostr: ephemeral events (not stored by relays), one
   throwaway key per room session, a room tag derived from the room code, and

@@ -1,20 +1,22 @@
-# 0003: Android tech stack
+# 0003: Native Android app: Kotlin and Jetpack Compose
 
-Status: accepted (2026-10-19); postponed by 0008
+Status: postponed (2026-10-19)
 
-> **Note (2026-10-23):** `apps/compose-android/` is postponed in favour of the
-> Qt app (decision 0008). This stack still applies once it starts.
+## Context
+Android is covered first by the Qt app (decision 0008). A native Android
+implementation may follow later, for the best platform integration and a
+smaller APK.
 
 ## Decision
+When `apps/compose-android/` starts, it uses:
 - **Kotlin** and **Jetpack Compose** (AndroidX), Gradle with Kotlin DSL and a
-  version catalog.
-- Game logic, share codes and the protocol live in a **pure-Kotlin module**
-  (no Android imports) that is unit-tested on the JVM against
-  `docs/spec/test-vectors/`.
-- No Google Play Services, Firebase or proprietary SDKs (see AGENTS.md; licence
-  compatibility per decision 0002).
+  version catalog;
+- game logic, share codes, backup and protocol in a **pure-Kotlin module**
+  (no Android imports), unit-tested on the JVM against
+  `docs/spec/test-vectors/`;
+- no Google Play Services, Firebase or other proprietary SDKs (AGENTS.md,
+  decision 0002).
 
 ## Consequences
-The pure-Kotlin core could later become a Kotlin Multiplatform module if we
-ever want to share it. Decision 0005 does not require that, but keeps it
-possible.
+The app is postponed, not dropped. It is an independent implementation of
+the specs (decision 0005) and shares no code with the Qt or web app.

@@ -5,7 +5,8 @@ Guidance for humans and AI agents working in this repository.
 ## Goal
 
 **Stroopy** (`de.maggu2810.android.stroopy`, GPL-3.0-or-later) is a free
-and open-source game, Android first with iOS and desktop later, in the spirit of the discontinued "True Color"
+and open-source game for Linux desktop, Android (including Android TV) and iOS
+(Windows and macOS later), in the spirit of the discontinued "True Color"
 (`com.aurelhubert.truecolor`, last known version 3.0.2):
 
 - A Stroop-effect colour game: is the word's meaning the same as its ink
@@ -21,7 +22,8 @@ and open-source game, Android first with iOS and desktop later, in the spirit of
   died).
 - **Replayable sequences**: after a game, its sequence (seed + mode + rules
   version) can be shared and played later by someone else.
-- Multiplayer without our own server: LAN, Bluetooth and public Nostr relays.
+- Multiplayer without our own server: public Nostr relays first, LAN and
+  Bluetooth later.
   See `docs/design/multiplayer-and-transports.md`.
 
 ## Mental model
@@ -107,24 +109,26 @@ tools/                    helper scripts (e.g. fetch-original.sh)
 
 ## Decided
 
-- Name and id: **Stroopy**, `de.maggu2810.android.stroopy`
-  (`docs/decisions/0001-app-name-and-id.md`)
+- Name, ids, link scheme and code prefixes: **Stroopy**,
+  `de.maggu2810.android.stroopy`, `stroopy://`, **`SYG`** game, **`SYR`**
+  room, **`SYB`** backup (`docs/decisions/0001-app-name-and-id.md`)
 - Licence: **GPL-3.0-or-later** (`LICENSE`, `docs/decisions/0002-license.md`).
   Every source file starts with `SPDX-License-Identifier: GPL-3.0-or-later`.
-- Platform strategy: spec-first, independent native implementations held
-  together by conformance vectors
-  (`docs/decisions/0005-spec-first-native-implementations.md`)
-- Android: **Kotlin + Jetpack Compose**, game core as a pure-Kotlin module
-  (`docs/decisions/0003-android-tech-stack.md`), postponed by 0008
+- Native Android app: **Kotlin + Jetpack Compose**, game core as a
+  pure-Kotlin module, **postponed**
+  (`docs/decisions/0003-android-tech-stack.md`)
 - PRNG: **SplitMix64** (`docs/decisions/0004-prng-splitmix64.md`)
-- Desktop: **Qt 6 + QML/C++** in `apps/qt/` (`docs/decisions/0006-desktop-qt.md`)
-- Compatibility: independent integer versions for **rules**, **share code**
-  and **protocol**. App versions never decide compatibility
+- Platform strategy: spec-first, independent implementations held together
+  by conformance vectors
+  (`docs/decisions/0005-spec-first-native-implementations.md`)
+- Desktop and Android: **Qt 6 + QML/C++** in `apps/qt/`
+  (`docs/decisions/0006-desktop-qt.md`)
+- Compatibility: independent integer versions for **rules**, **share code**,
+  **protocol** and **backup**. App versions never decide compatibility
   (`docs/decisions/0007-compatibility-versions.md`)
-
-- First implementation: **`apps/qt/`** for Linux desktop + Android; Compose
-  postponed (`docs/decisions/0008-qt-first.md`)
-- Toolchains: always the **latest** stable Qt/CMake/C++/SDKs and their newest
+- First implementation: **`apps/qt/`** for Linux desktop + Android; builds
+  are shared directly, no store (`docs/decisions/0008-qt-first.md`)
+- Toolchains: always the **latest** stable releases and their newest
   features (`docs/decisions/0009-latest-toolchains.md`)
 - iOS and browsers: a **PWA** in `apps/web/` (TypeScript, Bun, Preact)
   (`docs/decisions/0010-web-app-pwa.md`)
@@ -134,8 +138,6 @@ tools/                    helper scripts (e.g. fetch-original.sh)
   (`docs/decisions/0012-nostr-first-protocol.md`)
 - Web hosting: **GitHub Pages**, built by GitHub Actions
   (`docs/decisions/0013-web-hosting-github-pages.md`)
-- Text code prefixes: **`SYG`** game, **`SYR`** room, **`SYB`** backup
-  (`docs/decisions/0014-share-code-prefix-syg.md`)
 
 ## Open decisions
 
