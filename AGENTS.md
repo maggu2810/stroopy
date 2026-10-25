@@ -21,7 +21,7 @@ and open-source game for Linux desktop, Android (including Android TV) and iOS
   sequence, with live progress of the other players (score, item reached,
   died).
 - **Replayable sequences**: after a game, its sequence (seed + mode + rules
-  version) can be shared and played later by someone else.
+  version) can be shared as a game code and played later by someone else.
 - Multiplayer without our own server: public Nostr relays first, LAN and
   Bluetooth later.
   See `docs/design/multiplayer-and-transports.md`.
@@ -36,14 +36,17 @@ platform with any toolkit:
    exactly so that shared codes and multiplayer work across apps:
    - **rules `R`**: how a game descriptor is played (PRNG, sequence, speed
      curve, scoring);
-   - **share code `S`**: how descriptors and results are encoded (bytes,
-     text, QR, link);
-   - **protocol `P`**: how apps talk during live multiplayer.
+   - **game `G`**: how a game (descriptor and optional result) is encoded as
+     a game code (bytes, text, QR, link);
+   - **multiplayer `M`**: room invitations, and how apps talk during live
+     multiplayer;
+   - **backup `B`**: how highscores and settings are encoded as a backup
+     code.
 2. **Product spec** (`docs/design/`): modes, screens, flows and
    accessibility. Apps follow it for a consistent experience but adapt it to
    their platform's idioms. It does not affect interoperability.
 
-An implementation declares which `R`/`S`/`P` versions it supports and proves
+An implementation declares which `R`/`G`/`M`/`B` versions it supports and proves
 it by passing their vectors. App versions are irrelevant for compatibility.
 
 ## Repository layout
@@ -57,11 +60,11 @@ apps/                     our implementations, one dir per toolkit/language
 docs/
   spec/                   NORMATIVE, versioned specs (frozen once published)
     rules/v<N>.md         item generation, timing, scoring
-    share-code/v<N>.md    descriptor encoding (binary, text, QR, link)
-    protocol/v<N>.md      multiplayer rooms, messages, Nostr transport
+    game/v<N>.md          game code: descriptor encoding (binary, text, QR, link)
+    multiplayer/v<N>.md   invitations, messages, Nostr transport
     backup/v<N>.md        highscores + settings backup code
     test-vectors/<area>/v<N>/   JSON conformance vectors
-  design/                 proposals, UX, rationale
+  design/                 proposals, UX, rationale, default Nostr relays
   research/               analyses of other apps, protocols, libraries
   decisions/              decision records (NNNN-title.md)
 third-party/              material from other apps, for STUDY ONLY
@@ -110,8 +113,9 @@ tools/                    helper scripts (e.g. fetch-original.sh)
 ## Decided
 
 - Name, ids, link scheme and code prefixes: **Stroopy**,
-  `de.maggu2810.android.stroopy`, `stroopy://`, **`SYG`** game, **`SYR`**
-  room, **`SYB`** backup (`docs/decisions/0001-app-name-and-id.md`)
+  `de.maggu2810.android.stroopy`, `stroopy://`, **`SYG`** game, **`SYM`**
+  multiplayer invitation, **`SYB`** backup
+  (`docs/decisions/0001-app-name-and-id.md`)
 - Licence: **GPL-3.0-or-later** (`LICENSE`, `docs/decisions/0002-license.md`).
   Every source file starts with `SPDX-License-Identifier: GPL-3.0-or-later`.
 - Native Android app: **Kotlin + Jetpack Compose**, game core as a
@@ -123,8 +127,8 @@ tools/                    helper scripts (e.g. fetch-original.sh)
   (`docs/decisions/0005-spec-first-native-implementations.md`)
 - Desktop and Android: **Qt 6 + QML/C++** in `apps/qt/`
   (`docs/decisions/0006-desktop-qt.md`)
-- Compatibility: independent integer versions for **rules**, **share code**,
-  **protocol** and **backup**. App versions never decide compatibility
+- Compatibility: independent integer versions for **rules**, **game**,
+  **multiplayer** and **backup**. App versions never decide compatibility
   (`docs/decisions/0007-compatibility-versions.md`)
 - First implementation: **`apps/qt/`** for Linux desktop + Android; builds
   are shared directly, no store (`docs/decisions/0008-qt-first.md`)
@@ -134,8 +138,9 @@ tools/                    helper scripts (e.g. fetch-original.sh)
   (`docs/decisions/0010-web-app-pwa.md`)
 - Backup: one **backup code** for highscores and shared settings
   (`docs/decisions/0011-backup-code.md`)
-- Live multiplayer: **Nostr first**, protocol v1
-  (`docs/decisions/0012-nostr-first-protocol.md`)
+- Live multiplayer: **Nostr first**, multiplayer v1; players join with an
+  invitation that carries the room's relays
+  (`docs/decisions/0012-nostr-first-multiplayer.md`)
 - Web hosting: **GitHub Pages**, built by GitHub Actions
   (`docs/decisions/0013-web-hosting-github-pages.md`)
 

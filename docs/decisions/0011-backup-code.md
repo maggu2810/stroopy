@@ -13,7 +13,7 @@ Options considered:
 
 ## Decision
 **One** versioned backup format, `docs/spec/backup/v<N>.md` (version `B`,
-independent of `R`/`S`/`P`, decision 0007), carried as a text code
+independent of `R`/`G`/`M`, decision 0007), carried as a text code
 (`SYB<B>-…`) that users copy anywhere (notes, mail, messenger).
 
 - The **highscores** section is fully specified.
@@ -30,7 +30,7 @@ independent of `R`/`S`/`P`, decision 0007), carried as a text code
 ## Consequences
 - One "Export backup" / "Import backup" pair per app; users don't have to
   understand two codes.
-- The text code reuses share-code machinery (Crockford Base32, CRC-16), and
+- The text code reuses game-code machinery (Crockford Base32, CRC-16), and
   every app proves it with conformance vectors.
 - A full backup (4 modes × 10 entries + settings) is about 1.3 k characters:
   fine for clipboard and messengers, too long to type.

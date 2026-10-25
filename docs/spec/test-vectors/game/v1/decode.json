@@ -1,6 +1,6 @@
 {
- "shareCode": 1,
- "generator": "tools/reference/gen_share_code_vectors.py",
+ "game": 1,
+ "generator": "tools/reference/gen_game_vectors.py",
  "description": "Text input -> decoded descriptor, or an error ('invalid' or 'unsupported').",
  "valid": [
   {
@@ -136,7 +136,7 @@
    "input": "SYG2-040G-0000-0000-001A-0402-Y01G-J960",
    "error": "unsupported",
    "version": 2,
-   "note": "unknown share-code version"
+   "note": "unknown game-code version"
   }
  ]
 }

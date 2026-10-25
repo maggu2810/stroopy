@@ -20,8 +20,8 @@ A record documents why we decided something *at that time*. Once accepted:
   (`> **Note (YYYY-MM-DD):** …`) right below the status that point out what
   changed since.
 
-The records 0001–0013 were consolidated on 2026-10-24, before the first
-distribution, so that they state the decisions as they stand. The rule above
-applies from then on.
+The records 0001–0013 were consolidated before the first distribution (last
+on 2026-10-25), so that they state the decisions as they stand. The rule
+above applies from then on.
 
 The current state of all decisions is summarised in `AGENTS.md` ("Decided").

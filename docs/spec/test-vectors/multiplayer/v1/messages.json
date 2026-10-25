@@ -1,17 +1,17 @@
 {
- "protocol": 1,
- "generator": "tools/reference/gen_protocol_vectors.py",
+ "multiplayer": 1,
+ "generator": "tools/reference/gen_multiplayer_vectors.py",
  "description": "Event content -> normalised message, or null when the message must be ignored. For 'start' the decoded descriptor (rules, mode, seed) is given.",
  "cases": [
   {
-   "content": "{\"p\":1,\"type\":\"bye\"}",
+   "content": "{\"m\":1,\"type\":\"bye\"}",
    "note": "bye",
    "expected": {
     "type": "bye"
    }
   },
   {
-   "content": "{\"p\":1,\"type\":\"start\",\"code\":\"SYG1-040G-0000-0000-001A-03CT-T\"}",
+   "content": "{\"m\":1,\"type\":\"start\",\"code\":\"SYG1-040G-0000-0000-001A-03CT-T\"}",
    "note": "start",
    "expected": {
     "type": "start",
@@ -21,7 +21,7 @@
    }
   },
   {
-   "content": "{\"p\":1,\"type\":\"status\",\"name\":\"Ann\",\"host\":true,\"rules\":[1],\"mode\":1,\"game\":{\"code\":\"SYG1-040G-0000-0000-001A-03CT-T\",\"n\":12,\"score\":11,\"over\":false}}",
+   "content": "{\"m\":1,\"type\":\"status\",\"name\":\"Ann\",\"host\":true,\"rules\":[1],\"mode\":1,\"game\":{\"code\":\"SYG1-040G-0000-0000-001A-03CT-T\",\"n\":12,\"score\":11,\"over\":false}}",
    "note": "status with game",
    "expected": {
     "type": "status",
@@ -40,7 +40,7 @@
    }
   },
   {
-   "content": "{\"p\":1,\"type\":\"status\",\"name\":\"Bob\",\"host\":false,\"rules\":[1,2],\"extra\":{\"x\":1}}",
+   "content": "{\"m\":1,\"type\":\"status\",\"name\":\"Bob\",\"host\":false,\"rules\":[1,2],\"extra\":{\"x\":1}}",
    "note": "unknown field ignored",
    "expected": {
     "type": "status",
@@ -53,7 +53,7 @@
    }
   },
   {
-   "content": "{\"p\":1,\"type\":\"status\",\"name\":\"  \\u0007Clara\\n  \",\"host\":false,\"rules\":[1]}",
+   "content": "{\"m\":1,\"type\":\"status\",\"name\":\"  \\u0007Clara\\n  \",\"host\":false,\"rules\":[1]}",
    "note": "name cleaned",
    "expected": {
     "type": "status",
@@ -65,7 +65,7 @@
    }
   },
   {
-   "content": "{\"p\":1,\"type\":\"status\",\"name\":\"ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ\",\"host\":false,\"rules\":[1]}",
+   "content": "{\"m\":1,\"type\":\"status\",\"name\":\"ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ\",\"host\":false,\"rules\":[1]}",
    "note": "name truncated to 24",
    "expected": {
     "type": "status",
@@ -77,7 +77,7 @@
    }
   },
   {
-   "content": "{\"p\":1,\"type\":\"status\",\"name\":\"\\n\",\"host\":false,\"rules\":[1]}",
+   "content": "{\"m\":1,\"type\":\"status\",\"name\":\"\\n\",\"host\":false,\"rules\":[1]}",
    "note": "empty name becomes ?",
    "expected": {
     "type": "status",
@@ -89,7 +89,7 @@
    }
   },
   {
-   "content": "{\"p\":1,\"type\":\"status\",\"name\":\"Dan\",\"host\":false,\"rules\":[1],\"game\":{\"code\":\"SYG1-040G-0000-0000-001A-03CT-T\",\"n\":48,\"score\":47,\"over\":true}}",
+   "content": "{\"m\":1,\"type\":\"status\",\"name\":\"Dan\",\"host\":false,\"rules\":[1],\"game\":{\"code\":\"SYG1-040G-0000-0000-001A-03CT-T\",\"n\":48,\"score\":47,\"over\":true}}",
    "note": "game over",
    "expected": {
     "type": "status",
@@ -107,37 +107,37 @@
    }
   },
   {
-   "content": "{\"p\":2,\"type\":\"status\",\"name\":\"Eve\",\"host\":false,\"rules\":[1]}",
-   "note": "other protocol version",
+   "content": "{\"m\":2,\"type\":\"status\",\"name\":\"Eve\",\"host\":false,\"rules\":[1]}",
+   "note": "other multiplayer version",
    "expected": null
   },
   {
-   "content": "{\"p\":1,\"type\":\"hello\"}",
+   "content": "{\"m\":1,\"type\":\"hello\"}",
    "note": "unknown type",
    "expected": null
   },
   {
-   "content": "{\"p\":1,\"type\":\"status\",\"name\":\"Eve\",\"host\":\"yes\",\"rules\":[1]}",
+   "content": "{\"m\":1,\"type\":\"status\",\"name\":\"Eve\",\"host\":\"yes\",\"rules\":[1]}",
    "note": "host not a bool",
    "expected": null
   },
   {
-   "content": "{\"p\":1,\"type\":\"status\",\"name\":\"Eve\",\"host\":false,\"rules\":[]}",
+   "content": "{\"m\":1,\"type\":\"status\",\"name\":\"Eve\",\"host\":false,\"rules\":[]}",
    "note": "empty rules",
    "expected": null
   },
   {
-   "content": "{\"p\":1,\"type\":\"status\",\"name\":\"Eve\",\"host\":false,\"rules\":[1],\"game\":{\"code\":\"x\",\"n\":-1,\"score\":0,\"over\":false}}",
+   "content": "{\"m\":1,\"type\":\"status\",\"name\":\"Eve\",\"host\":false,\"rules\":[1],\"game\":{\"code\":\"x\",\"n\":-1,\"score\":0,\"over\":false}}",
    "note": "negative n",
    "expected": null
   },
   {
-   "content": "{\"p\":1,\"type\":\"start\",\"code\":\"SYG1-040G-0000-0000-001A-0402-Y01G-J960\"}",
+   "content": "{\"m\":1,\"type\":\"start\",\"code\":\"SYG1-040G-0000-0000-001A-0402-Y01G-J960\"}",
    "note": "start code with a result",
    "expected": null
   },
   {
-   "content": "{\"p\":1,\"type\":\"start\",\"code\":\"nonsense\"}",
+   "content": "{\"m\":1,\"type\":\"start\",\"code\":\"nonsense\"}",
    "note": "start code invalid",
    "expected": null
   },
@@ -147,7 +147,7 @@
    "expected": null
   },
   {
-   "content": "{\"p\":1,\"type\":",
+   "content": "{\"m\":1,\"type\":",
    "note": "not JSON",
    "expected": null
   }

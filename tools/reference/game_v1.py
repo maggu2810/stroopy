@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Reference implementation of docs/spec/share-code/v1.md."""
+"""Reference implementation of docs/spec/game/v1.md."""
 import re
 
 VERSION = 1

@@ -1,8 +1,8 @@
 # Multiplayer without our own server
 
 Status: living document. It explains the approach and the choice of
-transports. The binding parts are `docs/spec/share-code/v1.md` and
-`docs/spec/protocol/v1.md` (decision 0012); the screens are in
+transports. The binding parts are `docs/spec/game/v1.md` and
+`docs/spec/multiplayer/v1.md` (decision 0012); the screens are in
 `docs/design/product.md`.
 
 ## 1. A game is a seed
@@ -25,8 +25,8 @@ Consequences:
 
 - **Share or replay later** (an asynchronous "challenge") needs **no
   network**. The descriptor, plus an optional result ("I scored 47", so the
-  receiver sees the score to beat), is a compact binary record with three
-  equivalent forms (share code v1):
+  receiver sees the score to beat), is a compact binary record, the **game
+  code** (game code v1), with three equivalent forms:
   - a **text code** for any messenger, e.g.
     `SYG1-040G-0000-0000-001A-03CT-T`: prefix and version, then Crockford
     Base32 (case-insensitive, no 0/O or 1/I mix-ups) in groups of four, with
@@ -35,11 +35,12 @@ Consequences:
   - a **link** `stroopy://play?c=<code>`.
 
   Apps find a code inside any pasted text, so a whole message or a link
-  works as well.
+  works as well. The same game code also replays a game on the same device
+  and starts a game in a multiplayer room.
 - **Live multiplayer** only exchanges tiny, latency-tolerant messages
-  (protocol v1 §2): a periodic `status` with each player's full state (name,
-  host flag, supported rules versions, current game, item and score), a
-  `start` from the host with the game's share code, and `bye`.
+  (multiplayer v1 §2): a periodic `status` with each player's full state
+  (name, host flag, supported rules versions, current game, item and score),
+  a `start` from the host with the game code, and `bye`.
 
   Each device runs its own timers. The network only *reports*, so delay never
   changes a game. Guests start the 3-2-1-GO countdown when the `start`
@@ -57,8 +58,8 @@ peers can recompute the score from the seed.
 
 | transport | range | internet? | infra needed | notes | status |
 |---|---|---|---|---|---|
-| **Seed sharing (text / QR / link)** | any | no | none | Asynchronous only. | text: done; QR, link: planned |
-| **Nostr relays** | worldwide | yes | public relays (not ours) | WebSockets, so it also works in browsers. See §3. | **protocol v1** |
+| **Game codes (text / QR / link)** | any | no | none | Asynchronous only. | text: done; QR, link: planned |
+| **Nostr relays** | worldwide | yes | public relays (not ours) | WebSockets, so it also works in browsers. See §3. | **multiplayer v1** |
 | **LAN / Wi-Fi hotspot** | same network | no | none | mDNS/DNS-SD discovery + TCP. One device hosts; also works over a phone's hotspot. Not available in browsers. | later, native apps |
 | **Bluetooth LE (GATT)** | ~10–30 m | no | none | No pairing, tiny messages. Peripheral mode isn't on every device; no Web Bluetooth in Safari. | later, native apps |
 | Bluetooth Classic (RFCOMM) | ~10 m | no | none | Pairing is clunky, max ~7 peers. | not planned |
@@ -73,35 +74,76 @@ peers can recompute the score from the seed.
 
 Nostr is an open protocol: clients exchange signed JSON events over
 WebSockets with **public relays**, and hundreds of independent ones are
-running. We run **no** server ourselves. As specified in protocol v1 §3:
+running. We run **no** server ourselves. As specified in multiplayer v1 §3:
 
 - Every message is the content of an **ephemeral event** (kind 25713):
   relays forward it live and don't store it.
-- A **room code** (`SYR1-` + 8 Crockford Base32 characters) gives the room
-  tag that all players subscribe to.
+- The **room id** (40 random bits) gives the room tag that all players
+  subscribe to.
 - Each player creates a **throwaway key** when entering a room and discards
   it when leaving.
-- Every app uses the same **three default relays** and publishes to all of
-  them; received events are deduplicated by id. The list is configurable.
+- The room's **relays are fixed by its creator** and travel in the
+  invitation (§4). Every player publishes to all of them and subscribes on
+  all of them; received events are deduplicated by id.
+- A player's relay setting is only used to create a room. Without one, the
+  app's default list applies, taken from `docs/design/nostr-relays.md`.
 - Messages are signed but **not encrypted** in v1; they carry only names and
   scores, and the apps say so.
 
-Risks: public relays may rate-limit, drop events or go offline. Three relays
-at once and the periodic full `status` make that tolerable. Without any
-reachable relay there is no internet play; sharing codes still works.
+Clients never forward each other's events, so two players only see each
+other on a relay they both use. Fixing the relays per room, instead of
+letting every player bring their own, guarantees that, even when apps ship
+different default lists.
 
-## 4. Transport abstraction
+Risks: public relays may rate-limit, drop events or go offline. Several
+relays at once and the periodic full `status` make that tolerable. Without
+any reachable relay of the room there is no internet play; sharing game
+codes still works.
+
+## 4. Rooms and invitations
+
+A room lives on **exactly one transport**. The host chooses it when
+creating the room: **Online** (Nostr) or, later, **Nearby** (LAN, then
+Bluetooth). A room spanning several transports would need a device that
+bridges between them; the invitation format leaves room for that, but it is
+not planned.
+
+What a guest needs to join depends on the transport:
+
+| transport | needed to join | optional | finds rooms by itself? |
+|---|---|---|---|
+| **Nostr** | room id, at least one relay | more relays (up to 8) | no: the relays must be in the invitation |
+| **LAN** | room id | host `address:port`, for networks that block mDNS (guest Wi-Fi, some hotspots) | yes: mDNS/DNS-SD |
+| **Bluetooth LE** | room id (in the advertisement) | none | yes: scanning |
+
+So the room id is common to all transports, and the rest is per transport.
+An **invitation** (`SYM1-…`, multiplayer v1 §1) holds the room id and a
+list of tagged entries, one per way to reach the room. Version 1 defines
+the Nostr relay entry. A LAN entry (address and port) can be added later as
+a new tag: apps skip tags they don't know.
+
+How players use it:
+
+- **Online**: the host shares the invitation as a QR code (players sitting
+  together) or as text or a link (messenger). Its length doesn't matter
+  there, so there is no short code to type, and the lobby shows none.
+  Every player in the room may share the invitation again.
+- **Nearby** (later): guests open a list of rooms around them and pick one.
+  No code is shared. An invitation with a LAN entry serves only as a
+  fallback when discovery fails.
+
+## 5. Transport abstraction
 
 Game logic never depends on a concrete transport (AGENTS.md, rule 4). Each
 implementation separates:
 
 - a **session**: join a room, send a message to everyone, receive messages
   with their sender, leave;
-- the **room logic** of protocol v1 §4 (presence, host, starting, ranking),
-  which works on messages only.
+- the **room logic** of multiplayer v1 §4 (presence, host, starting,
+  ranking), which works on messages only.
 
 A LAN or Bluetooth transport later provides another session with the same
-messages, in a new protocol version that adds its mapping.
+messages, plus its invitation entry and discovery.
 
 Order:
 1. Single player, deterministic seed, share and replay a sequence.
@@ -110,9 +152,11 @@ Order:
 3. **LAN** for native apps.
 4. **Bluetooth LE** for offline play without shared Wi-Fi.
 
-## 5. Ideas for later
+## 6. Ideas for later
 
 - A Chrono variant where a 10-streak takes 1 s off the opponents (as in the
   original). It breaks pure "same sequence" comparability, so it would be
   its own mode in a new rules version.
 - The answer-log hash from §1.
+- Encrypted messages, in a new multiplayer version: the invitation carries
+  a room secret, and the players derive a key from it.

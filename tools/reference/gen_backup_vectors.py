@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import backup_v1 as bk  # noqa: E402
-import share_code_v1 as sc  # noqa: E402
+import game_v1 as gc  # noqa: E402
 
 
 def hx(v: int) -> str:
@@ -22,7 +22,7 @@ def settings_json(s):
 
 
 def reseal(record: bytearray) -> str:
-    record[-2:] = sc.crc16(bytes(record[:-2])).to_bytes(2, "big")
+    record[-2:] = gc.crc16(bytes(record[:-2])).to_bytes(2, "big")
     return bk.encode_text(bytes(record))
 
 
@@ -86,11 +86,11 @@ def main(out: Path):
         return reseal(rec)
 
     s_pos = 4 + 19  # settings section start
-    pad_body = sc.base32(bk.encode_record([], {})[1:])  # 6 bytes -> 10 chars, 2 padding bits
+    pad_body = gc.base32(bk.encode_record([], {})[1:])  # 6 bytes -> 10 chars, 2 padding bits
     errors = [
         {"input": base[:20] + ("1" if base[20] != "1" else "2") + base[21:], "note": "checksum mismatch"},
         {"input": base[:-3], "note": "too short"},
-        {"input": "SYB1-" + pad_body[:-1] + sc.ALPHABET[sc.ALPHABET.index(pad_body[-1]) | 1],
+        {"input": "SYB1-" + pad_body[:-1] + gc.ALPHABET[gc.ALPHABET.index(pad_body[-1]) | 1],
          "note": "non-zero padding bits"},
         {"input": broken(lambda r: r.__setitem__(1, 3)), "note": "unknown flag bit"},
         {"input": broken(lambda r: r.__setitem__(4 + 18, 2)), "note": "unknown entry flag bit"},
@@ -99,7 +99,7 @@ def main(out: Path):
         {"input": broken(lambda r: r.__setitem__(s_pos + 1 + 4, 200)), "note": "reserved key"},
         {"input": broken(lambda r: r.__setitem__(s_pos + 1 + 4 + 3, 0xFF)), "note": "invalid UTF-8"},
         {"input": "nothing here", "note": "no backup"},
-        {"input": base.replace("SYB1-", "SYG1-"), "note": "share-code prefix is not a backup"},
+        {"input": base.replace("SYB1-", "SYG1-"), "note": "game-code prefix is not a backup"},
     ]
     for d in errors:
         d["error"] = "invalid"

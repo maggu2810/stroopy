@@ -22,7 +22,7 @@ Conventions:
 | `items-{classic,chrono,find}.json` | first 80 items `(n, pool, ink, word)` per seed |
 | `rounds-tap.json` | first 40 tap rounds `(n, pool, inks, words, trueCard)` per seed |
 
-## share-code/v1 (`docs/spec/share-code/v1.md`)
+## game/v1 (`docs/spec/game/v1.md`)
 
 | file | checks |
 |---|---|
@@ -36,10 +36,10 @@ Conventions:
 | `encode.json` | entries + settings → record bytes (hex) and text code |
 | `decode.json` | `valid`: text inputs (lower case, wrapped, embedded, trailing text, aliases, unknown settings key) → entries and settings; `errors`: inputs that must fail as `invalid` or `unsupported` |
 
-## protocol/v1 (`docs/spec/protocol/v1.md`)
+## multiplayer/v1 (`docs/spec/multiplayer/v1.md`)
 
 | file | checks |
 |---|---|
-| `rooms.json` | room id ↔ room code, Nostr room tag; parsing (embedded, link, typed bare id, aliases) and errors |
+| `invitations.json` | room id and relays → record bytes (hex), text code and Nostr room tag; parsing (lower case, wrapped, embedded, link, aliases, unknown transport tags) → room id and relays; `errors`: inputs that must fail as `invalid`, `unsupported` or `noTransport` |
 | `events.json` | NIP-01 serialisation, event id and BIP-340 signature (zero aux randomness); events to reject |
 | `messages.json` | event content → normalised message, or `null` when it must be ignored |

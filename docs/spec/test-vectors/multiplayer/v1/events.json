@@ -1,0 +1,129 @@
+{
+ "multiplayer": 1,
+ "generator": "tools/reference/gen_multiplayer_vectors.py",
+ "description": "Nostr events (NIP-01 serialisation, sha256 id, BIP-340 signature with 32 zero bytes of auxiliary randomness) for a room. 'reject': received events that must be dropped.",
+ "kind": 25713,
+ "auxRand": "0000000000000000000000000000000000000000000000000000000000000000",
+ "sign": [
+  {
+   "secretKey": "0000000000000000000000000000000000000000000000000000000000000001",
+   "createdAt": 1792483200,
+   "roomId": "796KQTHW",
+   "content": "{\"m\":1,\"type\":\"bye\"}",
+   "serialised": "[0,\"79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798\",1792483200,25713,[[\"t\",\"stroopy-m1-796kqthw\"]],\"{\\\"m\\\":1,\\\"type\\\":\\\"bye\\\"}\"]",
+   "event": {
+    "id": "1ccce72e1dee7018295e27b739b2be1f1001b8b7f3dd5636779f25af7f8cd16c",
+    "pubkey": "79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798",
+    "created_at": 1792483200,
+    "kind": 25713,
+    "tags": [
+     [
+      "t",
+      "stroopy-m1-796kqthw"
+     ]
+    ],
+    "content": "{\"m\":1,\"type\":\"bye\"}",
+    "sig": "095eeb501e68074af14cd0abe2f2276d15d94ace129d9c1ab1aee1aa988d604a91877a440746f036eb9a40abb1ad4dbbf58c4732db504d1838c3adc4a279046a"
+   }
+  },
+  {
+   "secretKey": "c90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b14e5c9",
+   "createdAt": 1792483201,
+   "roomId": "796KQTHW",
+   "content": "{\"m\":1,\"type\":\"start\",\"code\":\"SYG1-040G-0000-0000-001A-03CT-T\"}",
+   "serialised": "[0,\"dd308afec5777e13121fa72b9cc1b7cc0139715309b086c960e18fd969774eb8\",1792483201,25713,[[\"t\",\"stroopy-m1-796kqthw\"]],\"{\\\"m\\\":1,\\\"type\\\":\\\"start\\\",\\\"code\\\":\\\"SYG1-040G-0000-0000-001A-03CT-T\\\"}\"]",
+   "event": {
+    "id": "60fe3d1a07bd3e8d982b0607a8a95016f36399032733ace8a55dca1b483e581a",
+    "pubkey": "dd308afec5777e13121fa72b9cc1b7cc0139715309b086c960e18fd969774eb8",
+    "created_at": 1792483201,
+    "kind": 25713,
+    "tags": [
+     [
+      "t",
+      "stroopy-m1-796kqthw"
+     ]
+    ],
+    "content": "{\"m\":1,\"type\":\"start\",\"code\":\"SYG1-040G-0000-0000-001A-03CT-T\"}",
+    "sig": "9d6c1f503033d0f56f04a1173eea65f223958f985e01444c1a0c89e436b9e659bc8487946bd38999e9fe4a2994b84a84c997f2ebc85f85a6b4a040264738db22"
+   }
+  },
+  {
+   "secretKey": "0000000000000000000000000000000000000000000000000000000000000001",
+   "createdAt": 1792483202,
+   "roomId": "796KQTHW",
+   "content": "{\"m\":1,\"type\":\"status\",\"name\":\"Ann\",\"host\":true,\"rules\":[1],\"mode\":1,\"game\":{\"code\":\"SYG1-040G-0000-0000-001A-03CT-T\",\"n\":12,\"score\":11,\"over\":false}}",
+   "serialised": "[0,\"79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798\",1792483202,25713,[[\"t\",\"stroopy-m1-796kqthw\"]],\"{\\\"m\\\":1,\\\"type\\\":\\\"status\\\",\\\"name\\\":\\\"Ann\\\",\\\"host\\\":true,\\\"rules\\\":[1],\\\"mode\\\":1,\\\"game\\\":{\\\"code\\\":\\\"SYG1-040G-0000-0000-001A-03CT-T\\\",\\\"n\\\":12,\\\"score\\\":11,\\\"over\\\":false}}\"]",
+   "event": {
+    "id": "69e1cbdfc8b2b32dc7d1741ad1756da02390621b007556fc8de71cecd7631486",
+    "pubkey": "79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798",
+    "created_at": 1792483202,
+    "kind": 25713,
+    "tags": [
+     [
+      "t",
+      "stroopy-m1-796kqthw"
+     ]
+    ],
+    "content": "{\"m\":1,\"type\":\"status\",\"name\":\"Ann\",\"host\":true,\"rules\":[1],\"mode\":1,\"game\":{\"code\":\"SYG1-040G-0000-0000-001A-03CT-T\",\"n\":12,\"score\":11,\"over\":false}}",
+    "sig": "77fdc1a9b7c03d2dd6456facb89cdfe6009dc2c0804122aec068c8d4e58387174898a1178e5a7d843741a19168fa3cbe54dc565e01b37dfef0b45f1e9cffbbdb"
+   }
+  },
+  {
+   "secretKey": "c90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b14e5c9",
+   "createdAt": 1792483203,
+   "roomId": "796KQTHW",
+   "content": "quote \" backslash \\ newline \n cr \r tab \t bs \b ff \f ctrl \u0001 del  ä € 🎨 </script>",
+   "serialised": "[0,\"dd308afec5777e13121fa72b9cc1b7cc0139715309b086c960e18fd969774eb8\",1792483203,25713,[[\"t\",\"stroopy-m1-796kqthw\"]],\"quote \\\" backslash \\\\ newline \\n cr \\r tab \\t bs \\b ff \\f ctrl \u0001 del  ä € 🎨 </script>\"]",
+   "event": {
+    "id": "9da314fe2a64e36b3687abf15002576aba78498cd5648f364cad21c2cccda20f",
+    "pubkey": "dd308afec5777e13121fa72b9cc1b7cc0139715309b086c960e18fd969774eb8",
+    "created_at": 1792483203,
+    "kind": 25713,
+    "tags": [
+     [
+      "t",
+      "stroopy-m1-796kqthw"
+     ]
+    ],
+    "content": "quote \" backslash \\ newline \n cr \r tab \t bs \b ff \f ctrl \u0001 del  ä € 🎨 </script>",
+    "sig": "ae47de6574c0854b2a0ef836268ae43ac8bd357d4dc1c2650664d1f9d0679c98d9d734bdaf13304591b683fe26565a65e3448378cc046deac12a6f3afa149848"
+   }
+  }
+ ],
+ "reject": [
+  {
+   "event": {
+    "id": "1ccce72e1dee7018295e27b739b2be1f1001b8b7f3dd5636779f25af7f8cd16c",
+    "pubkey": "79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798",
+    "created_at": 1792483200,
+    "kind": 25713,
+    "tags": [
+     [
+      "t",
+      "stroopy-m1-796kqthw"
+     ]
+    ],
+    "content": "{\"m\":1,\"type\":\"bye\"}",
+    "sig": "095eeb501e68074af14cd0abe2f2276d15d94ace129d9c1ab1aee1aa988d604a91877a440746f036eb9a40abb1ad4dbbf58c4732db504d1838c3adc4a2790460"
+   },
+   "note": "signature does not verify"
+  },
+  {
+   "event": {
+    "id": "1ccce72e1dee7018295e27b739b2be1f1001b8b7f3dd5636779f25af7f8cd16c",
+    "pubkey": "79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798",
+    "created_at": 1792483200,
+    "kind": 25713,
+    "tags": [
+     [
+      "t",
+      "stroopy-m1-796kqthw"
+     ]
+    ],
+    "content": "{\"m\":1,\"type\":\"bye\" }",
+    "sig": "095eeb501e68074af14cd0abe2f2276d15d94ace129d9c1ab1aee1aa988d604a91877a440746f036eb9a40abb1ad4dbbf58c4732db504d1838c3adc4a279046a"
+   },
+   "note": "id does not match the content"
+  }
+ ]
+}

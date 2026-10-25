@@ -1,6 +1,6 @@
 {
- "shareCode": 1,
- "generator": "tools/reference/gen_share_code_vectors.py",
+ "game": 1,
+ "generator": "tools/reference/gen_game_vectors.py",
  "description": "Descriptor (+ optional result) -> record bytes (hex) and text code. Decoding 'text' must give the descriptor back (with clamped values).",
  "crc16Check": {
   "input": "123456789",

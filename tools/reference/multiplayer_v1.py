@@ -1,17 +1,18 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Reference implementation of docs/spec/protocol/v1.md: room codes and Nostr events.
+"""Reference implementation of docs/spec/multiplayer/v1.md: invitations and Nostr events.
 
 BIP-340 Schnorr signatures are written from the BIP's specification in plain
 Python. Slow and not constant-time: for generating test vectors only."""
 import hashlib
 import re
 
-from share_code_v1 import ALIASES, ALPHABET
+from game_v1 import ALIASES, ALPHABET, base32, crc16
 
 VERSION = 1
 KIND = 25713
-ROOM_PATTERN = re.compile(r"SYR([0-9]+)-([0-9A-Za-z]{4})-?([0-9A-Za-z]{4})", re.IGNORECASE)
-BARE_PATTERN = re.compile(r"^([0-9A-Za-z]{4})-?([0-9A-Za-z]{4})$")
+PREFIX = re.compile(r"SYM([0-9]+)-", re.IGNORECASE)
+TAG_NOSTR = 1
+MAX_RELAYS = 8
 
 
 class Invalid(Exception):
@@ -22,38 +23,120 @@ class Unsupported(Exception):
     pass
 
 
-# --- rooms ---------------------------------------------------------------
+class NoTransport(Exception):
+    pass
+
+
+# --- invitations ---------------------------------------------------------
 
 def room_id(value: int) -> str:
     """40-bit integer -> 8 Crockford characters."""
     return "".join(ALPHABET[(value >> (35 - 5 * i)) & 31] for i in range(8))
 
 
-def room_code(rid: str) -> str:
-    return f"SYR{VERSION}-{rid[:4]}-{rid[4:]}"
+def encode_record(room: int, entries) -> bytes:
+    """entries: list of (tag, value bytes)."""
+    out = bytearray([VERSION]) + room.to_bytes(5, "big") + bytes([len(entries)])
+    for tag, value in entries:
+        out += bytes([tag, len(value)]) + value
+    return bytes(out) + crc16(bytes(out)).to_bytes(2, "big")
 
 
-def _normalise(chars: str) -> str:
-    out = "".join(ALIASES.get(c, c) for c in chars.upper())
-    if any(c not in ALPHABET for c in out):
-        raise Invalid("bad character")
-    return out
+def encode_text(record: bytes) -> str:
+    body = base32(record[1:])
+    return f"SYM{record[0]}-" + "-".join(body[i:i + 4] for i in range(0, len(body), 4))
 
 
-def parse_room(text: str) -> str:
-    m = ROOM_PATTERN.search(text)
-    if m:
-        if int(m.group(1)) != VERSION:
-            raise Unsupported(int(m.group(1)))
-        return _normalise(m.group(2) + m.group(3))
-    m = BARE_PATTERN.match(text.strip())
-    if m:
-        return _normalise(m.group(1) + m.group(2))
-    raise Invalid("no room code")
+def invitation(room: int, relays) -> str:
+    return encode_text(encode_record(room, [(TAG_NOSTR, r.encode("utf-8")) for r in relays]))
+
+
+def _collect(text: str) -> str:
+    chars = []
+    for c in text:
+        if c == "-" or c.isspace():
+            continue
+        c = ALIASES.get(c.upper(), c.upper())
+        if c not in ALPHABET or not c.isascii():
+            break
+        chars.append(c)
+    return "".join(chars)
+
+
+def _bytes(chars: str) -> bytes:
+    value, bits, out = 0, 0, bytearray()
+    for c in chars:
+        value = (value << 5) | ALPHABET.index(c)
+        bits += 5
+        if bits >= 8:
+            bits -= 8
+            out.append((value >> bits) & 0xFF)
+    return bytes(out)
+
+
+def _relay(value: bytes) -> str:
+    try:
+        url = value.decode("utf-8")
+    except UnicodeDecodeError:
+        raise Invalid("bad utf-8")
+    for scheme in ("wss://", "ws://"):
+        if url.startswith(scheme) and len(url) > len(scheme):
+            break
+    else:
+        raise Invalid("bad relay scheme")
+    if any(ord(c) <= 0x20 or ord(c) == 0x7F for c in url):
+        raise Invalid("bad relay character")
+    return url
+
+
+def decode_text(text: str):
+    """Returns {"room": id, "relays": [...]}. Raises Invalid, Unsupported or NoTransport."""
+    m = PREFIX.search(text)
+    if not m:
+        raise Invalid("no invitation found")
+    if int(m.group(1)) != VERSION:
+        raise Unsupported(int(m.group(1)))
+    chars = _collect(text[m.end():])
+    data = bytes([VERSION]) + _bytes(chars)
+    if len(data) < 7:
+        raise Invalid("too short")
+    count = data[6]
+    if count == 0:
+        raise Invalid("no entries")
+    relays, pos = [], 7
+    for _ in range(count):
+        if len(data) < pos + 2:
+            raise Invalid("too short")
+        tag, length = data[pos], data[pos + 1]
+        value = data[pos + 2:pos + 2 + length]
+        if len(value) != length:
+            raise Invalid("too short")
+        pos += 2 + length
+        if tag >= 128:
+            raise Invalid("reserved tag")
+        if tag == TAG_NOSTR:
+            url = _relay(value)
+            if url in relays:
+                raise Invalid("repeated relay")
+            relays.append(url)
+            if len(relays) > MAX_RELAYS:
+                raise Invalid("too many relays")
+    if len(data) < pos + 2:
+        raise Invalid("too short")
+    length = pos + 2
+    needed = -(-(length - 1) * 8 // 5)
+    pad = needed * 5 - (length - 1) * 8
+    if ALPHABET.index(chars[needed - 1]) & ((1 << pad) - 1):
+        raise Invalid("non-zero padding bits")
+    if crc16(data[:pos]) != int.from_bytes(data[pos:pos + 2], "big"):
+        raise Invalid("bad checksum")
+    if not relays:
+        raise NoTransport()
+    return {"room": room_id(int.from_bytes(data[1:6], "big")), "relays": relays}
 
 
 def room_tag(rid: str) -> str:
-    return f"stroopy-p{VERSION}-{rid.lower()}"
+    return f"stroopy-m{VERSION}-{rid.lower()}"
 
 
 # --- NIP-01 serialisation --------------------------------------------------

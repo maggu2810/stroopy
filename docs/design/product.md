@@ -12,12 +12,12 @@ defined in `docs/spec/`, not here.
 | Game | 3-2-1-GO countdown, then the mode's play view (see rules v1); score and item number; quit |
 | Result | score, item reached, "new highscore" marker; **Share**, **Play this sequence again**, **New game**, **Home** |
 | Highscores | one list per mode (tabs/segmented), best first |
-| Enter code | paste or type a share code (or scan a QR code), preview mode, rules version and the sharer's score, then play |
+| Enter code | paste or type a game code (or scan a QR code), preview mode, rules version and the sharer's score, then play |
 | Settings | language, colour-blind palette, vibration, player name, relays; **Export backup**, **Import backup**, clear highscores |
-| Multiplayer | **Create room** or **Join room** (room code, pasted message or link); player name |
-| Lobby | room code (copy/share, QR later), connection state (relays connected), the **ranking of the last game** (updating live until everyone is out), players (name, host), mode picker and **Start** for the host; **Leave** |
+| Multiplayer | **Create room** or **Join room** (pasted invitation, message or link, or a scanned QR code); player name |
+| Lobby | **Share invitation** (copy/share, QR code), connection state (relays connected), the **ranking of the last game** (updating live until everyone is out), players (name, host), mode picker and **Start** for the host; **Leave** |
 | Game (multiplayer) | as above, plus a strip with every other player: name, item and score, ✗ once they are out |
-| Help | in-app documentation, available offline: how each mode works, the controls for touch, keyboard, gamepad and TV remote, sharing and challenges, and an *About* section (app version, supported rules/share-code/protocol versions, licence, source) |
+| Help | in-app documentation, available offline: how each mode works, the controls for touch, keyboard, gamepad and TV remote, sharing and challenges, and an *About* section (app version, supported rules/game/multiplayer/backup versions, licence, source) |
 
 ## Layout
 
@@ -79,8 +79,8 @@ Notes:
 - **Desktop gamepads**: later, e.g. via SDL.
 - **Web (PWA)** (decision 0010): installable via the browser's *Add to Home
   Screen* / *Install*; works offline after the first visit. The URL
-  parameter `?c=<share code>` opens *Enter code* with the code, `?r=<room
-  code>` opens the join flow. Gamepads via the browser Gamepad API (standard
+  parameter `?c=<game code>` opens *Enter code* with the code, `?j=<invitation>`
+  opens the join flow. Gamepads via the browser Gamepad API (standard
   mapping), same bindings as the table above. The app requests persistent
   storage; the backup code is the safety net.
 
@@ -89,13 +89,13 @@ Notes:
 - Kept **locally** per mode. The top **10** entries are kept, ordered by
   score (descending), then by date (older first).
 - An entry stores: mode, score, reached, rules version, seed, date and time,
-  and, if the game was started from a share code, that it was a challenge.
+  and, if the game was started from a received game code, that it was a challenge.
 - Every finished game whose score is > 0 and that would enter the top 10 is
   stored automatically. The result screen marks a new **best** score per
   mode.
 - Every entry offers:
-  - **Share**: produces the share code *including this entry's result*, so
-    the receiver sees the score to beat (see `docs/spec/share-code/`);
+  - **Share**: produces the game code *including this entry's result*, so
+    the receiver sees the score to beat (see `docs/spec/game/`);
   - **Play again**: replays the same sequence.
 - Clearing highscores is possible from Settings, after a confirmation.
 - Highscores are per rules version in meaning, but are displayed together.
@@ -139,7 +139,7 @@ decision 0011).
 | Colour-blind palette | on / off | off |
 | Vibration on failure | on / off | on |
 | Player name | 1–24 characters, shown to other players | `Player` + 3 random digits, chosen once |
-| Nostr relays | list of `wss://` URLs, one per line; empty = default relays (protocol v1 §3.4) | empty |
+| Nostr relays | list of `wss://` URLs, one per line, used for rooms the player creates (at most 8 are used); empty = the app's default relays (`docs/design/nostr-relays.md`) | empty |
 
 - *Follow system* uses the OS UI language if it is supported, and English
   otherwise.
@@ -149,15 +149,21 @@ decision 0011).
 
 ## Multiplayer
 
-Live games over public Nostr relays (`docs/spec/protocol/v1.md`). Network
-access happens only while the player is in a room.
+Live games over public Nostr relays (`docs/spec/multiplayer/v1.md`).
+Network access happens only while the player is in a room.
 
-- **Create room**: a new room id, the creator is host. The lobby shows the
-  room code and a **Copy**/**Share** action with a short message
-  ("Play Stroopy with me: SYR1-…").
-- **Join room**: paste or type a room code (also inside a message or link).
-  A link `stroopy://join?r=…` or the web app URL with `?r=…` opens the join
-  flow directly.
+- **Create room**: a new room id on the relays from the settings (or the
+  default relays); the creator is host. The lobby offers **Share
+  invitation**: a QR code for players nearby, and **Copy**/**Share** with a
+  short message ("Play Stroopy with me: stroopy://join?c=SYM1-…"). Every
+  player in the room can share it, not only the host. The room id is not
+  shown on its own, because it can't be used to join.
+- **Join room**: paste an invitation (also inside a message, wrapped over
+  lines, or as a link) or scan its QR code. A link `stroopy://join?c=…` or
+  the web app URL with `?j=…` opens the join flow directly. The guest uses
+  the room's relays from the invitation; its own relay setting doesn't
+  matter. An invitation from a newer app that offers no transport this app
+  supports shows "this room needs a newer version".
 - The player name is edited on the Multiplayer screen and stored in the
   settings. A note says that names and scores travel unencrypted through
   public relays.

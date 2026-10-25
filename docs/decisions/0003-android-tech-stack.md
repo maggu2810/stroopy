@@ -11,7 +11,7 @@ smaller APK.
 When `apps/compose-android/` starts, it uses:
 - **Kotlin** and **Jetpack Compose** (AndroidX), Gradle with Kotlin DSL and a
   version catalog;
-- game logic, share codes, backup and protocol in a **pure-Kotlin module**
+- game logic, game codes, backup and multiplayer in a **pure-Kotlin module**
   (no Android imports), unit-tested on the JVM against
   `docs/spec/test-vectors/`;
 - no Google Play Services, Firebase or other proprietary SDKs (AGENTS.md,

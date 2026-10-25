@@ -2,7 +2,7 @@
 """Reference implementation of docs/spec/backup/v1.md."""
 import re
 
-from share_code_v1 import ALIASES, ALPHABET, base32, crc16
+from game_v1 import ALIASES, ALPHABET, base32, crc16
 
 VERSION = 1
 PREFIX = re.compile(r"SYB([0-9]+)-", re.IGNORECASE)

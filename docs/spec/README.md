@@ -7,8 +7,8 @@ follows [decision 0007](../decisions/0007-compatibility-versions.md):
 | area | file | version | governs |
 |---|---|---|---|
 | rules | `rules/v<N>.md` | `R` | PRNG, item generation, timing, scoring per mode |
-| share code | `share-code/v<N>.md` | `S` | game descriptor and result encodings (binary, text, QR, link) |
-| protocol | `protocol/v<N>.md` | `P` | multiplayer rooms and messages, and how they travel (Nostr) |
+| game | `game/v<N>.md` | `G` | game code: descriptor and result encodings (binary, text, QR, link) |
+| multiplayer | `multiplayer/v<N>.md` | `M` | room invitations, messages, and how they travel (Nostr) |
 | backup | `backup/v<N>.md` | `B` | highscores and shared settings as a backup code |
 
 Conformance vectors: `test-vectors/<area>/v<N>/*.json`. Each file holds

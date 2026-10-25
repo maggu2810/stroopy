@@ -1,0 +1,275 @@
+{
+ "multiplayer": 1,
+ "generator": "tools/reference/gen_multiplayer_vectors.py",
+ "description": "Invitations: room (40-bit value) and relays -> record bytes (hex), text code and Nostr room tag; parsing of text input -> room id and relays, or an error ('invalid', 'unsupported' or 'noTransport').",
+ "encode": [
+  {
+   "room": "0x0000000000",
+   "roomId": "00000000",
+   "relays": [
+    "wss://relay.damus.io"
+   ],
+   "record": "0100000000000101147773733a2f2f72656c61792e64616d75732e696fd619",
+   "text": "SYM1-0000-0000-040H-8XVK-ECX2-YBVJ-CNP6-2Y9E-CHGP-TXBK-5SMP-ZNGS",
+   "tag": "stroopy-m1-00000000",
+   "note": "lowest room id"
+  },
+  {
+   "room": "0x3a4d3bea3c",
+   "roomId": "796KQTHW",
+   "relays": [
+    "wss://relay.damus.io"
+   ],
+   "record": "013a4d3bea3c0101147773733a2f2f72656c61792e64616d75732e696f386e",
+   "text": "SYM1-796K-QTHW-040H-8XVK-ECX2-YBVJ-CNP6-2Y9E-CHGP-TXBK-5SMP-YE3E",
+   "tag": "stroopy-m1-796kqthw",
+   "note": "one relay"
+  },
+  {
+   "room": "0x3a4d3bea3c",
+   "roomId": "796KQTHW",
+   "relays": [
+    "wss://relay.damus.io",
+    "wss://nos.lol",
+    "wss://relay.primal.net"
+   ],
+   "record": "013a4d3bea3c0301147773733a2f2f72656c61792e64616d75732e696f010d7773733a2f2f6e6f732e6c6f6c01167773733a2f2f72656c61792e7072696d616c2e6e65748518",
+   "text": "SYM1-796K-QTHW-0C0H-8XVK-ECX2-YBVJ-CNP6-2Y9E-CHGP-TXBK-5SMP-Y08D-EXSQ-6EHF-5XQ6-YWSE-DHQP-R08P-EXSQ-6EHF-5XS6-AV31-F4Q7-0WK9-DNGP-RBKE-CNT8-A60",
+   "tag": "stroopy-m1-796kqthw",
+   "note": "three relays (default list of 2026-10-25)"
+  },
+  {
+   "room": "0xffffffffff",
+   "roomId": "ZZZZZZZZ",
+   "relays": [
+    "ws://localhost:7777"
+   ],
+   "record": "01ffffffffff01011377733a2f2f6c6f63616c686f73743a37373737e94a",
+   "text": "SYM1-ZZZZ-ZZZZ-040H-6XVK-78QJ-YV3F-CDGP-RT3F-EDT3-MDSQ-6WVY-JJG",
+   "tag": "stroopy-m1-zzzzzzzz",
+   "note": "highest room id, local relay without TLS"
+  },
+  {
+   "room": "0x8000000001",
+   "roomId": "G0000001",
+   "relays": [
+    "wss://relay1.example.org",
+    "wss://relay2.example.org",
+    "wss://relay3.example.org",
+    "wss://relay4.example.org",
+    "wss://relay5.example.org",
+    "wss://relay6.example.org",
+    "wss://relay7.example.org",
+    "wss://relay8.example.org"
+   ],
+   "record": "0180000000010801187773733a2f2f72656c6179312e6578616d706c652e6f726701187773733a2f2f72656c6179322e6578616d706c652e6f726701187773733a2f2f72656c6179332e6578616d706c652e6f726701187773733a2f2f72656c6179342e6578616d706c652e6f726701187773733a2f2f72656c6179352e6578616d706c652e6f726701187773733a2f2f72656c6179362e6578616d706c652e6f726701187773733a2f2f72656c6179372e6578616d706c652e6f726701187773733a2f2f72656c6179382e6578616d706c652e6f72673b9a",
+   "text": "SYM1-G000-0001-100H-GXVK-ECX2-YBVJ-CNP6-2Y9H-5SJQ-GRBD-E1P6-ABKF-E9KG-263Q-EDSK-MBSF-E9JP-RRBS-68Q6-AY31-DNR6-RS9E-DXS6-E08R-EXSQ-6EHF-5XS6-AV31-F4SJ-WSBR-C5PQ-0V35-5SQQ-4SR1-31VQ-6WST-5WQQ-4SBC-C5WK-8BK5-F1GP-TW3C-CMQ6-YWK7-04C7-EWVK-78QJ-YWK5-DHGQ-JD9E-CNW6-2VBG-DHJJ-WVVJ-CW0H-GXVK-ECX2-YBVJ-CNP6-2Y9P-5SJQ-GRBD-E1P6-ABKF-E9KG-263Q-EDSK-MBSF-E9JP-RRBS-6WQ6-AY31-DNR6-RS9E-DXS6-E08R-EXSQ-6EHF-5XS6-AV31-F4W2-WSBR-C5PQ-0V35-5SQQ-4SSV-K8",
+   "tag": "stroopy-m1-g0000001",
+   "note": "eight relays, the maximum"
+  },
+  {
+   "room": "0x3a4d3bea3c",
+   "roomId": "796KQTHW",
+   "relays": [
+    "wss://relä.example/ñ"
+   ],
+   "record": "013a4d3bea3c0101167773733a2f2f72656cc3a42e6578616d706c652fc3b1fa9b",
+   "text": "SYM1-796K-QTHW-040H-CXVK-ECX2-YBVJ-CNPC-791E-CNW6-2VBG-DHJJ-ZGXH-ZADG",
+   "tag": "stroopy-m1-796kqthw",
+   "note": "non-ASCII URL"
+  }
+ ],
+ "parse": [
+  {
+   "input": "SYM1-796K-QTHW-0C0H-8XVK-ECX2-YBVJ-CNP6-2Y9E-CHGP-TXBK-5SMP-Y08D-EXSQ-6EHF-5XQ6-YWSE-DHQP-R08P-EXSQ-6EHF-5XS6-AV31-F4Q7-0WK9-DNGP-RBKE-CNT8-A60",
+   "note": "canonical",
+   "expected": {
+    "room": "796KQTHW",
+    "relays": [
+     "wss://relay.damus.io",
+     "wss://nos.lol",
+     "wss://relay.primal.net"
+    ]
+   }
+  },
+  {
+   "input": "sym1-796k-qthw-0c0h-8xvk-ecx2-ybvj-cnp6-2y9e-chgp-txbk-5smp-y08d-exsq-6ehf-5xq6-ywse-dhqp-r08p-exsq-6ehf-5xs6-av31-f4q7-0wk9-dngp-rbke-cnt8-a60",
+   "note": "lower case",
+   "expected": {
+    "room": "796KQTHW",
+    "relays": [
+     "wss://relay.damus.io",
+     "wss://nos.lol",
+     "wss://relay.primal.net"
+    ]
+   }
+  },
+  {
+   "input": "SYM1-796KQTHW0C0H8XVKECX2YBVJCNP62Y9ECHGPTXBK5SMPY08DEXSQ6EHF5XQ6YWSEDHQPR08PEXSQ6EHF5XS6AV31F4Q70WK9DNGPRBKECNT8A60",
+   "note": "without group separators",
+   "expected": {
+    "room": "796KQTHW",
+    "relays": [
+     "wss://relay.damus.io",
+     "wss://nos.lol",
+     "wss://relay.primal.net"
+    ]
+   }
+  },
+  {
+   "input": "SYM1-796K-QTHW-0C0H-8XVK-ECX2-YBVJ-CNP6-2Y9E-\nCHGP-TXBK-5SMP-Y08D-EXSQ-6EHF-5XQ6-YWSE-\r\n DHQP-R08P-EXSQ-6EHF-5XS6-AV31-F4Q7-0WK9-DNGP-RBKE-CNT8-A60",
+   "note": "wrapped over lines",
+   "expected": {
+    "room": "796KQTHW",
+    "relays": [
+     "wss://relay.damus.io",
+     "wss://nos.lol",
+     "wss://relay.primal.net"
+    ]
+   }
+  },
+  {
+   "input": "Play Stroopy with me: SYM1-796K-QTHW-040H-8XVK-ECX2-YBVJ-CNP6-2Y9E-CHGP-TXBK-5SMP-YE3E - see you!",
+   "note": "embedded in a message",
+   "expected": {
+    "room": "796KQTHW",
+    "relays": [
+     "wss://relay.damus.io"
+    ]
+   }
+  },
+  {
+   "input": "stroopy://join?c=SYM1-796K-QTHW-040H-8XVK-ECX2-YBVJ-CNP6-2Y9E-CHGP-TXBK-5SMP-YE3E",
+   "note": "link",
+   "expected": {
+    "room": "796KQTHW",
+    "relays": [
+     "wss://relay.damus.io"
+    ]
+   }
+  },
+  {
+   "input": "https://example.org/stroopy/?j=SYM1-796K-QTHW-040H-8XVK-ECX2-YBVJ-CNP6-2Y9E-CHGP-TXBK-5SMP-YE3E&x=1",
+   "note": "web app link with trailing parameter",
+   "expected": {
+    "room": "796KQTHW",
+    "relays": [
+     "wss://relay.damus.io"
+    ]
+   }
+  },
+  {
+   "input": "SYM1-796K-QTHW-O4OH-8XVK-ECX2-YBVJ-CNP6-2Y9E-CHGP-TXBK-5SMP-YE3E",
+   "note": "O/I aliases",
+   "expected": {
+    "room": "796KQTHW",
+    "relays": [
+     "wss://relay.damus.io"
+    ]
+   }
+  },
+  {
+   "input": "SYM1-796K-QTHW-0C10-DG58-042V-G281-2HVQ-6WST-5WQQ-4SBC-C5WJ-WS31-DNTQ-6BK9-DXZG-1MSD",
+   "note": "unknown transport tags 2 and 127 are skipped",
+   "expected": {
+    "room": "796KQTHW",
+    "relays": [
+     "wss://relay.damus.io"
+    ]
+   }
+  }
+ ],
+ "errors": [
+  {
+   "input": "SYM1-796K-QTHW-040H-8XVK-ECX2-YBVJ-CNP6-2Y9E-CHGP-TXBK-5SMP-YE31",
+   "error": "invalid",
+   "note": "checksum mismatch"
+  },
+  {
+   "input": "SYM1-796K-QTHW-040H-8XVK-ECX2-YBVJ-CNP6-2Y9E-CHGP-TXBK-5SMP-Y",
+   "error": "invalid",
+   "note": "too short"
+  },
+  {
+   "input": "SYM1-796KQTHW040GEXVKECX2YBV1X05H",
+   "error": "invalid",
+   "note": "non-zero padding bits"
+  },
+  {
+   "input": "SYM1-796K-QTHW-032W-T",
+   "error": "invalid",
+   "note": "no entries (K = 0)"
+  },
+  {
+   "input": "SYM1-796K-QTHW-0C0H-8XVK-ECX2-YBVJ-CNP6-2Y9E-CHGP-TXBK-5SMP-Y08D-EXSQ-6EHF-5XQ6-YWSE-DHQP-S000-BRD0",
+   "error": "invalid",
+   "note": "reserved tag 128"
+  },
+  {
+   "input": "SYM1-796K-QTHW-040G-YT3M-EHR7-6EHF-5XQ6-YWSE-DHQP-RG13",
+   "error": "invalid",
+   "note": "relay scheme not ws(s)"
+  },
+  {
+   "input": "SYM1-796K-QTHW-040G-TNTK-ACX2-YBVE-DXSJ-WV3F-DJR1-G",
+   "error": "invalid",
+   "note": "upper-case scheme"
+  },
+  {
+   "input": "SYM1-796K-QTHW-040G-CXVK-ECX2-YBXM-6G",
+   "error": "invalid",
+   "note": "nothing after the scheme"
+  },
+  {
+   "input": "SYM1-796K-QTHW-040G-WXVK-ECX2-YBVE-DXSJ-0BKC-DXP6-Z30",
+   "error": "invalid",
+   "note": "space in relay URL"
+  },
+  {
+   "input": "SYM1-796K-QTHW-040G-EXVK-ECX2-YBZZ-H9Y0",
+   "error": "invalid",
+   "note": "relay not UTF-8"
+  },
+  {
+   "input": "SYM1-796K-QTHW-0C0H-8XVK-ECX2-YBVJ-CNP6-2Y9E-CHGP-TXBK-5SMP-Y08D-EXSQ-6EHF-5XQ6-YWSE-DHQP-R08M-EXSQ-6EHF-5XS6-AV31-F4Q6-8RBD-ENSJ-WTBF-S1B0",
+   "error": "invalid",
+   "note": "repeated relay"
+  },
+  {
+   "input": "SYM1-796K-QTHW-140H-0XVK-ECX2-YBVJ-60Q6-AY31-DNR6-RS81-21VQ-6WST-5WQQ-4C9E-CNW6-2VBG-DHJG-243Q-EDSK-MBSF-E8S2-WSBR-C5PQ-0V35-0487-EWVK-78QJ-YWHK-5SJQ-GRBD-E1P6-A08G-EXSQ-6EHF-5XS3-8BK5-F1GP-TW3C-CM0H-0XVK-ECX2-YBVJ-6MQ6-AY31-DNR6-RS81-21VQ-6WST-5WQQ-4DHE-CNW6-2VBG-DHJG-243Q-EDSK-MBSF-E8VJ-WSBR-C5PQ-0V35-0487-EWVK-78QJ-YWHR-5SJQ-GRBD-E1P6-BWR7",
+   "error": "invalid",
+   "note": "nine relays"
+  },
+  {
+   "input": "SYM1-796K-QTHW-0C0H-8XVK-ECX2-YBVJ-CNP6-2Y9E-CHGP-TXBK-5SMP-Y08D-EXSQ-6EHF-5XQ6-YWSE-DHQP-SM05",
+   "error": "invalid",
+   "note": "K larger than the entries present"
+  },
+  {
+   "input": "SYM1-796K-QTH",
+   "error": "invalid",
+   "note": "room id only"
+  },
+  {
+   "input": "SYG1-040G-0000-0000-001A-03CT-T",
+   "error": "invalid",
+   "note": "a game code is not an invitation"
+  },
+  {
+   "input": "796K-QTHW",
+   "error": "invalid",
+   "note": "a bare room id is not an invitation"
+  },
+  {
+   "input": "SYM2-796K-QTHW-0C0H-8XVK-ECX2-YBVJ-CNP6-2Y9E-CHGP-TXBK-5SMP-Y08D-EXSQ-6EHF-5XQ6-YWSE-DHQP-R08P-EXSQ-6EHF-5XS6-AV31-F4Q7-0WK9-DNGP-RBKE-CNT8-A60",
+   "error": "unsupported",
+   "version": 2,
+   "note": "unknown multiplayer version"
+  },
+  {
+   "input": "SYM1-796K-QTHW-0410-DG58-042V-G28Q-W0",
+   "error": "noTransport",
+   "note": "only an unknown transport"
+  }
+ ]
+}

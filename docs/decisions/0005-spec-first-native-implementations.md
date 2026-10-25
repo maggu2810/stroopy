@@ -12,7 +12,7 @@ Options:
   together by precise specs.
 
 The game core is small (a PRNG, item generation, timing, scoring, encoding,
-protocol). Most of the code is UI and platform integration (networking,
+multiplayer messages). Most of the code is UI and platform integration (networking,
 camera, haptics, sharing). With AI-assisted development, writing a small
 core several times is cheap. Keeping several implementations **compatible**
 is the hard part. No single framework covers every target well: iOS without
@@ -33,7 +33,7 @@ Rules:
 1. Specs are normative. If an implementation and the spec disagree, the spec
    wins. Ambiguities are fixed in the spec first, then in all apps.
 2. Every behaviour that affects interoperability (sequence, timing, scoring,
-   share code, protocol, backup) has test vectors.
+   game code, multiplayer, backup) has test vectors.
 3. A change to any of these areas bumps its version (decision 0007).
    Implementations state which versions they support.
 
