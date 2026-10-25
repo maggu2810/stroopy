@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "messages.hpp"
 
-#include "protocol_v1.hpp"
-#include "share_code_v1.hpp"
+#include "game_v1.hpp"
+#include "multiplayer_v1.hpp"
 
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -45,7 +45,7 @@ std::optional<Message> parseMessage(const QString &content)
     if (!doc.isObject())
         return std::nullopt;
     const auto m = doc.object();
-    if (!m[u"p"_s].isDouble() || m[u"p"_s].toDouble() != protocol::v1::version)
+    if (!m[u"m"_s].isDouble() || m[u"m"_s].toDouble() != multiplayer::v1::version)
         return std::nullopt;
     const auto type = m[u"type"_s].toString();
 
@@ -56,7 +56,7 @@ std::optional<Message> parseMessage(const QString &content)
         if (!m[u"code"_s].isString())
             return std::nullopt;
         const auto code = m[u"code"_s].toString();
-        const auto d = share_code::v1::decodeText(code.toStdString());
+        const auto d = game::v1::decodeText(code.toStdString());
         if (!d || d->result)
             return std::nullopt;
         return Start{.code = code, .rules = d->rules, .mode = d->mode, .seed = d->seed};
@@ -94,7 +94,7 @@ std::optional<Message> parseMessage(const QString &content)
 
 QString encodeMessage(const Message &message)
 {
-    QJsonObject o{{u"p"_s, protocol::v1::version}};
+    QJsonObject o{{u"m"_s, multiplayer::v1::version}};
     if (const auto *s = std::get_if<Status>(&message)) {
         o[u"type"_s] = u"status"_s;
         o[u"name"_s] = s->name;

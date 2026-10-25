@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// Live multiplayer over Nostr (docs/spec/protocol/v1.md §4, docs/design/product.md "Multiplayer"):
+// Live multiplayer over Nostr (docs/spec/multiplayer/v1.md §4, docs/design/product.md "Multiplayer"):
 // the current room, its players, the host, starting games and everybody's progress.
 // The game itself runs locally (GameController); this only reports.
 #pragma once
 
 #include "messages.hpp"
+#include "multiplayer_v1.hpp"
 #include "nostr.hpp"
 
 #include <QObject>
@@ -32,7 +33,10 @@ class Multiplayer : public QObject {
     QML_SINGLETON
 
     Q_PROPERTY(bool active READ active NOTIFY changed)
-    Q_PROPERTY(QString roomCode READ roomCode NOTIFY changed)
+    // The room's invitation (SYM text code); every player may share it.
+    Q_PROPERTY(QString invitation READ invitation NOTIFY changed)
+    // The room's relays, from the invitation.
+    Q_PROPERTY(QStringList relays READ relays NOTIFY changed)
     Q_PROPERTY(int connected READ connected NOTIFY changed)
     Q_PROPERTY(int relayCount READ relayCount NOTIFY changed)
     Q_PROPERTY(bool isHost READ isHost NOTIFY changed)
@@ -55,8 +59,8 @@ public:
     static Multiplayer *create(QQmlEngine *qmlEngine, QJSEngine *jsEngine);
     ~Multiplayer() override;
 
-    // Room code or link in arbitrary text, or a typed id: {ok, error ("invalid"|"unsupported")}.
-    Q_INVOKABLE static QVariantMap parseRoom(const QString &text);
+    // Invitation in arbitrary text: {ok, error ("invalid"|"unsupported"|"noTransport")}.
+    Q_INVOKABLE static QVariantMap parseInvitation(const QString &text);
     Q_INVOKABLE void createRoom();
     Q_INVOKABLE bool join(const QString &text);
     Q_INVOKABLE void leave();
@@ -67,11 +71,12 @@ public:
     // The local game's progress; call on every change. `busy`: countdown or game running.
     Q_INVOKABLE void report(int n, int score, bool over);
     Q_INVOKABLE void setBusy(bool busy);
-    // Message to invite others: "Play Stroopy with me: SYR1-…"
+    // Message to invite others: "Play Stroopy with me: stroopy://join?c=SYM1-…"
     Q_INVOKABLE QString inviteText() const;
 
     bool active() const { return m_pool != nullptr; }
-    QString roomCode() const;
+    QString invitation() const;
+    QStringList relays() const;
     int connected() const;
     int relayCount() const;
     bool isHost() const;
@@ -99,7 +104,7 @@ private:
     };
 
     explicit Multiplayer(AppSettings *settings);
-    void open(const std::string &roomId, bool asHost);
+    void open(const stroopy::multiplayer::v1::Invitation &invitation, bool asHost);
     void close();
     QList<const Player *> everyone() const;
     QString hostKey() const;
@@ -114,7 +119,7 @@ private:
     AppSettings *m_settings;
     stroopy::net::RelayPool *m_pool = nullptr;
     std::optional<stroopy::net::SecretKey> m_secret;
-    std::string m_roomId;
+    stroopy::multiplayer::v1::Invitation m_invitation;
     Player m_me;
     QList<Player> m_players; // others
     QList<Player> m_departed; // left after playing; their results stay in the ranking

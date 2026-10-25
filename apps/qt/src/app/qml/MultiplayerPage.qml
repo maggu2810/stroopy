@@ -8,7 +8,7 @@ import QtQuick.Layouts
 SubPage {
     id: page
 
-    readonly property var parsed: Multiplayer.parseRoom(codeField.text)
+    readonly property var parsed: Multiplayer.parseInvitation(codeField.text)
 
     title: qsTr("Multiplayer")
     StackView.onActivated: createButton.forceActiveFocus()
@@ -70,8 +70,8 @@ SubPage {
                 id: codeField
 
                 Layout.fillWidth: true
-                placeholderText: "SYR1-…"
-                inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhPreferUppercase
+                placeholderText: qsTr("Paste the invitation (SYM1-…) or the message with it")
+                inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase
                 onAccepted: joinButton.click()
             }
             RowLayout {
@@ -79,7 +79,8 @@ SubPage {
 
                 Button {
                     text: qsTr("Paste")
-                    onClicked: codeField.text = Sharing.clipboardText()
+                    // One line: a wrapped invitation still parses, white space inside it is skipped.
+                    onClicked: codeField.text = Sharing.clipboardText().replace(/\s+/g, " ").trim()
                 }
                 Button {
                     id: joinButton
@@ -94,8 +95,8 @@ SubPage {
                 Layout.fillWidth: true
                 Layout.bottomMargin: 24
                 visible: codeField.text.length > 0 && !page.parsed.ok
-                text: page.parsed.error === "unsupported" ? qsTr("This room needs a newer version of Stroopy.")
-                                                          : qsTr("No valid room code found.")
+                text: page.parsed.error === "invalid" ? qsTr("No valid invitation found.")
+                                                      : qsTr("This room needs a newer version of Stroopy.")
                 color: AppTheme.bad
                 wrapMode: Text.Wrap
             }

@@ -2,10 +2,9 @@
 #include "multiplayer.hpp"
 
 #include "appsettings.hpp"
-#include "protocol_v1.hpp"
+#include "game_v1.hpp"
 #include "relaypool.hpp"
 #include "rules_v1.hpp"
-#include "share_code_v1.hpp"
 
 #include <QDateTime>
 #include <QJsonArray>
@@ -14,7 +13,7 @@
 
 using namespace Qt::StringLiterals;
 namespace net = stroopy::net;
-namespace pv = stroopy::protocol::v1;
+namespace pv = stroopy::multiplayer::v1;
 
 namespace {
 
@@ -30,7 +29,7 @@ qint64 now()
 
 std::optional<net::Start> decodeGame(const QString &code)
 {
-    const auto d = stroopy::share_code::v1::decodeText(code.toStdString());
+    const auto d = stroopy::game::v1::decodeText(code.toStdString());
     if (!d || d->result)
         return std::nullopt;
     return net::Start{.code = code, .rules = d->rules, .mode = d->mode, .seed = d->seed};
@@ -61,33 +60,40 @@ Multiplayer::~Multiplayer()
     close();
 }
 
-QVariantMap Multiplayer::parseRoom(const QString &text)
+QVariantMap Multiplayer::parseInvitation(const QString &text)
 {
-    const auto r = pv::parseRoom(text.toStdString());
+    const auto r = pv::decodeText(text.toStdString());
     if (r)
         return {{u"ok"_s, true}};
+    using enum pv::Error::Kind;
+    const auto kind = r.error().kind;
     return {{u"ok"_s, false},
-            {u"error"_s, r.error().kind == pv::Error::Kind::Unsupported ? u"unsupported"_s : u"invalid"_s}};
+            {u"error"_s, kind == Unsupported ? u"unsupported"_s : kind == NoTransport ? u"noTransport"_s : u"invalid"_s}};
 }
 
 void Multiplayer::createRoom()
 {
-    open(pv::roomIdFromValue(QRandomGenerator::system()->generate64()), true);
+    // A new room on the relays from the settings (§3.3).
+    pv::Invitation invitation{.room = pv::roomIdFromValue(QRandomGenerator::system()->generate64()), .relays = {}};
+    for (const auto &url : m_settings->roomRelays())
+        invitation.relays.push_back(url.toStdString());
+    open(invitation, true);
 }
 
 bool Multiplayer::join(const QString &text)
 {
-    const auto r = pv::parseRoom(text.toStdString());
+    // The invitation's relays only; the own relay setting doesn't matter (§3.3).
+    const auto r = pv::decodeText(text.toStdString());
     if (!r)
         return false;
     open(*r, false);
     return true;
 }
 
-void Multiplayer::open(const std::string &roomId, bool asHost)
+void Multiplayer::open(const pv::Invitation &invitation, bool asHost)
 {
     close();
-    m_roomId = roomId;
+    m_invitation = invitation;
     m_secret = net::SecretKey::generate();
     m_me = Player{.key = m_secret->publicKeyHex(),
                   .status = {.name = m_settings->playerName(), .host = asHost, .rules = supportedRules,
@@ -101,8 +107,8 @@ void Multiplayer::open(const std::string &roomId, bool asHost)
     m_lastSent = 0;
     m_lastHostSeen = now();
     const QJsonObject filter{{u"kinds"_s, QJsonArray{pv::kind}},
-                             {u"#t"_s, QJsonArray{QString::fromStdString(pv::roomTag(roomId))}}};
-    m_pool = new net::RelayPool{m_settings->effectiveRelays(), filter, this};
+                             {u"#t"_s, QJsonArray{QString::fromStdString(pv::roomTag(invitation.room))}}};
+    m_pool = new net::RelayPool{relays(), filter, this};
     connect(m_pool, &net::RelayPool::eventReceived, this, &Multiplayer::receive);
     connect(m_pool, &net::RelayPool::connectedChanged, this, [this] {
         // Announce as soon as a relay is up.
@@ -138,9 +144,17 @@ void Multiplayer::close()
     emit changed();
 }
 
-QString Multiplayer::roomCode() const
+QString Multiplayer::invitation() const
 {
-    return active() ? QString::fromStdString(pv::roomCode(m_roomId)) : QString{};
+    return active() ? QString::fromStdString(pv::encodeText(m_invitation)) : QString{};
+}
+
+QStringList Multiplayer::relays() const
+{
+    QStringList out;
+    for (const auto &url : m_invitation.relays)
+        out.append(QString::fromStdString(url));
+    return out;
 }
 
 int Multiplayer::connected() const
@@ -241,7 +255,7 @@ QVariantList Multiplayer::opponents() const
 
 QString Multiplayer::inviteText() const
 {
-    return tr("Play Stroopy with me: %1").arg(roomCode());
+    return tr("Play Stroopy with me: %1").arg(u"stroopy://join?c="_s + invitation());
 }
 
 void Multiplayer::setMode(int mode)
@@ -256,9 +270,9 @@ void Multiplayer::start()
     if (!canStart())
         return;
     const auto seed = QRandomGenerator::system()->generate64();
-    const stroopy::share_code::v1::Descriptor d{.rules = stroopy::rules::v1::version, .mode = m_mode, .seed = seed,
+    const stroopy::game::v1::Descriptor d{.rules = stroopy::rules::v1::version, .mode = m_mode, .seed = seed,
                                                 .result = std::nullopt};
-    const net::Start game{.code = QString::fromStdString(stroopy::share_code::v1::encodeText(d)),
+    const net::Start game{.code = QString::fromStdString(stroopy::game::v1::encodeText(d)),
                           .rules = d.rules, .mode = d.mode, .seed = seed};
     send(game);
     begin(game);
@@ -335,7 +349,7 @@ void Multiplayer::send(const net::Message &message)
         return;
     if (std::holds_alternative<net::Status>(message))
         m_lastSent = now();
-    const QList<QStringList> tags{{u"t"_s, QString::fromStdString(pv::roomTag(m_roomId))}};
+    const QList<QStringList> tags{{u"t"_s, QString::fromStdString(pv::roomTag(m_invitation.room))}};
     m_pool->publish(m_secret->sign(QDateTime::currentSecsSinceEpoch(), pv::kind, tags, net::encodeMessage(message)));
 }
 

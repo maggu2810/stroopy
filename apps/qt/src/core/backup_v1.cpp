@@ -2,7 +2,7 @@
 #include "backup_v1.hpp"
 
 #include <algorithm>
-#include <cctype>
+#include <iterator>
 #include <regex>
 
 namespace stroopy::backup::v1 {
@@ -20,59 +20,6 @@ void putItem(std::vector<std::uint8_t> &out, Key key, std::string_view value)
     codec::putU16(out, static_cast<std::int64_t>(value.size()));
     out.insert(out.end(), value.begin(), value.end());
 }
-
-// Valid UTF-8; with `noControl`, also no U+0000-U+001F or U+007F.
-bool validUtf8(std::span<const std::uint8_t> s, bool noControl)
-{
-    for (std::size_t i = 0; i < s.size();) {
-        const auto b = s[i];
-        std::size_t len = b < 0x80 ? 1 : (b >> 5) == 0x6 ? 2 : (b >> 4) == 0xE ? 3 : (b >> 3) == 0x1E ? 4 : 0;
-        if (len == 0 || i + len > s.size())
-            return false;
-        std::uint32_t cp = len == 1 ? b : b & (0x7Fu >> len);
-        for (std::size_t k = 1; k < len; ++k) {
-            if ((s[i + k] & 0xC0) != 0x80)
-                return false;
-            cp = (cp << 6) | (s[i + k] & 0x3Fu);
-        }
-        constexpr std::uint32_t minimum[] = {0, 0, 0x80, 0x800, 0x10000};
-        if (cp < minimum[len] || cp > 0x10FFFF || (cp >= 0xD800 && cp <= 0xDFFF))
-            return false;
-        if (noControl && (cp < 0x20 || cp == 0x7F))
-            return false;
-        i += len;
-    }
-    return true;
-}
-
-// Bounds-checked reader over the decoded bytes; any overrun marks the record as too short.
-struct Reader {
-    std::span<const std::uint8_t> data;
-    std::size_t pos = 0;
-    bool overrun = false;
-
-    bool has(std::size_t n)
-    {
-        if (pos + n > data.size())
-            overrun = true;
-        return !overrun;
-    }
-    std::uint8_t u8() { return has(1) ? data[pos++] : 0; }
-    int u16()
-    {
-        if (!has(2))
-            return 0;
-        pos += 2;
-        return codec::getU16(data, pos - 2);
-    }
-    std::span<const std::uint8_t> bytes(std::size_t n)
-    {
-        if (!has(n))
-            return {};
-        pos += n;
-        return data.subspan(pos - n, n);
-    }
-};
 
 } // namespace
 
@@ -129,30 +76,10 @@ std::expected<Backup, Error> decodeText(std::string_view text)
                                      .version = versionDigits.size() > 3 ? -1 : std::stoi(versionDigits)}};
 
     // Collect characters (§2.1 step 3), then decode all whole bytes they hold.
-    std::string chars;
-    for (auto it = match[0].second; it != text.end(); ++it) {
-        if (*it == '-' || std::isspace(static_cast<unsigned char>(*it)))
-            continue;
-        const char c = codec::normalise(*it);
-        if (c == '\0')
-            break;
-        chars += c;
-    }
+    const auto chars = codec::collect({match[0].second, text.end()});
     std::vector<std::uint8_t> data{static_cast<std::uint8_t>(version)};
-    {
-        std::uint32_t buffer = 0;
-        int bits = 0;
-        for (const char c : chars) {
-            buffer = (buffer << 5) | static_cast<std::uint32_t>(codec::alphabet.find(c));
-            bits += 5;
-            if (bits >= 8) {
-                bits -= 8;
-                data.push_back(static_cast<std::uint8_t>((buffer >> bits) & 0xFF));
-            }
-        }
-    }
-
-    Reader r{.data = data, .pos = 1};
+    std::ranges::copy(codec::wholeBytes(chars), std::back_inserter(data));
+    codec::Reader r{.data = data, .pos = 1};
     const auto flags = r.u8();
     const auto count = static_cast<std::size_t>(r.u16());
     if (!r.overrun && (flags & ~1) != 0)
@@ -192,12 +119,12 @@ std::expected<Backup, Error> decodeText(std::string_view text)
                 break;
             case Language:
             case Relays:
-                if (!validUtf8(value, false))
+                if (!codec::validUtf8(value, false))
                     return std::unexpected{invalid};
                 (key == Language ? s.language : s.relays) = str;
                 break;
             case Name:
-                if (len > maxNameBytes || !validUtf8(value, true))
+                if (len > maxNameBytes || !codec::validUtf8(value, true))
                     return std::unexpected{invalid};
                 s.name = str;
                 break;
@@ -213,12 +140,7 @@ std::expected<Backup, Error> decodeText(std::string_view text)
         return std::unexpected{invalid};
 
     // Exactly the characters needed for the record belong to the code (§2.1 step 4).
-    const auto length = crcPos + 2;
-    const auto needed = ((length - 1) * 8 + 4) / 5;
-    if (needed > chars.size())
-        return std::unexpected{invalid};
-    const auto pad = needed * 5 - (length - 1) * 8;
-    if ((codec::alphabet.find(chars[needed - 1]) & ((1U << pad) - 1)) != 0)
+    if (!codec::paddingOk(chars, crcPos + 2))
         return std::unexpected{invalid};
     if (codec::crc16(std::span{data}.first(crcPos)) != codec::getU16(data, crcPos))
         return std::unexpected{invalid};

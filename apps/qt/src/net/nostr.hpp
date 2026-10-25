@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// Nostr events (NIP-01) as used by docs/spec/protocol/v1.md §3: serialisation, id, BIP-340 signatures.
+// Nostr events (NIP-01) as used by docs/spec/multiplayer/v1.md §3: serialisation, id, BIP-340 signatures.
 #pragma once
 
 #include <QByteArray>

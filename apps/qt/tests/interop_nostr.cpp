@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// Live interop driver for docs/spec/protocol/v1.md (needs internet; not part of ctest).
+// Live interop driver for docs/spec/multiplayer/v1.md (needs internet; not part of ctest).
 // Plays one multiplayer game through the real Multiplayer singleton, without UI:
 //   interop_nostr host        creates a room, prints "ROOM <code>", starts once a guest is there
 //   interop_nostr join <code> joins the room and plays the game the host starts
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     const auto args = app.arguments();
     const bool host = args.value(1) == u"host"_s;
     if (!host && (args.value(1) != u"join"_s || args.size() < 3)) {
-        std::fputs("usage: interop_nostr host | join <room code>\n", stderr);
+        std::fputs("usage: interop_nostr host | join <invitation>\n", stderr);
         return 2;
     }
 
@@ -89,9 +89,9 @@ int main(int argc, char *argv[])
 
     if (host) {
         mp->createRoom();
-        say(u"ROOM %1"_s.arg(mp->roomCode()));
+        say(u"ROOM %1"_s.arg(mp->invitation()));
     } else if (!mp->join(args.value(2))) {
-        say(u"bad room code"_s);
+        say(u"bad invitation"_s);
         return 2;
     }
     QTimer::singleShot(120000, &app, [&] {

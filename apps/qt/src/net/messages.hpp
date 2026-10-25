@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// Protocol v1 messages (docs/spec/protocol/v1.md §2).
+// Multiplayer v1 messages (docs/spec/multiplayer/v1.md §2).
 #pragma once
 
 #include <QList>
@@ -11,7 +11,7 @@
 namespace stroopy::net {
 
 struct GameState {
-    QString code; // share code of the game, without result
+    QString code; // game code of the game, without result
     int n = 0;
     int score = 0;
     bool over = false;

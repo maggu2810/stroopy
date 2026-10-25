@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// QML access to share codes (docs/spec/share-code/v1.md) and the clipboard.
+// QML access to game codes (docs/spec/game/v1.md) and the clipboard.
 #pragma once
 
 #include <QObject>

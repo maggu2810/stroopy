@@ -1,10 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "appsettings.hpp"
 
+#include "multiplayer_v1.hpp"
+
 #include <QCoreApplication>
 #include <QLocale>
 #include <QQmlEngine>
 #include <QRandomGenerator>
+
+#include <utility>
 
 using namespace Qt::StringLiterals;
 
@@ -132,11 +136,16 @@ void AppSettings::setRelays(const QString &relays)
 
 QStringList AppSettings::defaultRelays() const
 {
-    // docs/spec/protocol/v1.md §3.4
+    // docs/design/nostr-relays.md, list of 2026-10-25 (multiplayer v1 §3.4)
     return {u"wss://relay.damus.io"_s, u"wss://nos.lol"_s, u"wss://relay.primal.net"_s};
 }
 
-QStringList AppSettings::effectiveRelays() const
+QStringList AppSettings::roomRelays() const
 {
-    return m_relays.isEmpty() ? defaultRelays() : m_relays.split(u'\n');
+    namespace mp = stroopy::multiplayer::v1;
+    QStringList out;
+    for (const auto &url : m_relays.split(u'\n'))
+        if (mp::isRelayUrl(url.toStdString()) && !out.contains(url) && std::cmp_less(out.size(), mp::maxRelays))
+            out.append(url);
+    return out.isEmpty() ? defaultRelays() : out;
 }

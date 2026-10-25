@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "sharing.hpp"
 
+#include "game_v1.hpp"
 #include "rules_v1.hpp"
-#include "share_code_v1.hpp"
 
 #include <QClipboard>
 #include <QGuiApplication>
 
 using namespace Qt::StringLiterals;
-namespace sc = stroopy::share_code::v1;
+namespace sc = stroopy::game::v1;
 
 QString Sharing::encode(int rules, int mode, const QString &seedHex, int score, int reached)
 {

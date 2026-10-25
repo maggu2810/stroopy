@@ -78,7 +78,7 @@ SubPage {
 
         Label {
             Layout.topMargin: 8
-            text: qsTr("Nostr relays (separated by spaces, empty = default)")
+            text: qsTr("Nostr relays for rooms you create (separated by spaces, empty = default)")
             color: AppTheme.textMuted
         }
         // A single line, so arrow keys and a TV remote don't get trapped in a text area.

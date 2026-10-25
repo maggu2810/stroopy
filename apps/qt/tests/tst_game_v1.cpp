@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// Conformance: docs/spec/test-vectors/share-code/v1/*.json
-#include "share_code_v1.hpp"
+// Conformance: docs/spec/test-vectors/game/v1/*.json
+#include "game_v1.hpp"
 
 #include <QDir>
 #include <QFile>
@@ -10,13 +10,13 @@
 #include <QTest>
 
 using namespace Qt::StringLiterals;
-using namespace stroopy::share_code::v1;
+using namespace stroopy::game::v1;
 
 namespace {
 
 QJsonObject load(const QString &name)
 {
-    QFile file{QDir{QStringLiteral(STROOPY_VECTORS_DIR "/share-code/v1")}.filePath(name)};
+    QFile file{QDir{QStringLiteral(STROOPY_VECTORS_DIR "/game/v1")}.filePath(name)};
     if (!file.open(QIODevice::ReadOnly))
         qFatal("cannot open vector file %s", qPrintable(file.fileName()));
     return QJsonDocument::fromJson(file.readAll()).object();
@@ -43,7 +43,7 @@ std::string str(const QJsonValue &v)
 
 } // namespace
 
-class TestShareCodeV1 : public QObject {
+class TestGameV1 : public QObject {
     Q_OBJECT
 
 private slots:
@@ -95,5 +95,5 @@ private slots:
     }
 };
 
-QTEST_GUILESS_MAIN(TestShareCodeV1)
-#include "tst_share_code_v1.moc"
+QTEST_GUILESS_MAIN(TestGameV1)
+#include "tst_game_v1.moc"

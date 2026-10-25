@@ -99,4 +99,66 @@ std::uint64_t getU64(std::span<const std::uint8_t> in, std::size_t offset)
     return v;
 }
 
+bool validUtf8(std::span<const std::uint8_t> s, bool noControl)
+{
+    for (std::size_t i = 0; i < s.size();) {
+        const auto b = s[i];
+        std::size_t len = b < 0x80 ? 1 : (b >> 5) == 0x6 ? 2 : (b >> 4) == 0xE ? 3 : (b >> 3) == 0x1E ? 4 : 0;
+        if (len == 0 || i + len > s.size())
+            return false;
+        std::uint32_t cp = len == 1 ? b : b & (0x7Fu >> len);
+        for (std::size_t k = 1; k < len; ++k) {
+            if ((s[i + k] & 0xC0) != 0x80)
+                return false;
+            cp = (cp << 6) | (s[i + k] & 0x3Fu);
+        }
+        constexpr std::uint32_t minimum[] = {0, 0, 0x80, 0x800, 0x10000};
+        if (cp < minimum[len] || cp > 0x10FFFF || (cp >= 0xD800 && cp <= 0xDFFF))
+            return false;
+        if (noControl && (cp < 0x20 || cp == 0x7F))
+            return false;
+        i += len;
+    }
+    return true;
+}
+
+std::string collect(std::string_view text)
+{
+    std::string chars;
+    for (const char raw : text) {
+        if (raw == '-' || std::isspace(static_cast<unsigned char>(raw)))
+            continue;
+        const char c = normalise(raw);
+        if (c == '\0')
+            break;
+        chars += c;
+    }
+    return chars;
+}
+
+std::vector<std::uint8_t> wholeBytes(std::string_view chars)
+{
+    std::vector<std::uint8_t> out;
+    std::uint32_t buffer = 0;
+    int bits = 0;
+    for (const char c : chars) {
+        buffer = (buffer << 5) | static_cast<std::uint32_t>(alphabet.find(c));
+        bits += 5;
+        if (bits >= 8) {
+            bits -= 8;
+            out.push_back(static_cast<std::uint8_t>((buffer >> bits) & 0xFF));
+        }
+    }
+    return out;
+}
+
+bool paddingOk(std::string_view chars, std::size_t length)
+{
+    const auto needed = ((length - 1) * 8 + 4) / 5;
+    if (needed > chars.size())
+        return false;
+    const auto pad = needed * 5 - (length - 1) * 8;
+    return (alphabet.find(chars[needed - 1]) & ((1U << pad) - 1)) == 0;
+}
+
 } // namespace stroopy::codec

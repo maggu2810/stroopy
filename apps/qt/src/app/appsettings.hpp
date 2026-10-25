@@ -22,9 +22,9 @@ class AppSettings : public QObject {
     Q_PROPERTY(QStringList supportedLanguages READ supportedLanguages CONSTANT)
     Q_PROPERTY(bool colourBlind READ colourBlind WRITE setColourBlind NOTIFY colourBlindChanged)
     Q_PROPERTY(bool vibration READ vibration WRITE setVibration NOTIFY vibrationChanged)
-    // Shown to other players (docs/spec/protocol/v1.md); 1-24 characters.
+    // Shown to other players (docs/spec/multiplayer/v1.md); 1-24 characters.
     Q_PROPERTY(QString playerName READ playerName WRITE setPlayerName NOTIFY playerNameChanged)
-    // Nostr relay URLs, one per line; "" = the default relays.
+    // Nostr relay URLs for rooms the player creates, one per line; "" = the default relays.
     Q_PROPERTY(QString relays READ relays WRITE setRelays NOTIFY relaysChanged)
     Q_PROPERTY(QStringList defaultRelays READ defaultRelays CONSTANT)
 
@@ -44,8 +44,9 @@ public:
     QString relays() const { return m_relays; }
     void setRelays(const QString &relays);
     QStringList defaultRelays() const;
-    // The relays in use: the user's list, or the default relays if it is empty.
-    QStringList effectiveRelays() const;
+    // Relays for a room this player creates: the valid ones from the setting (at most 8), or the
+    // default relays if there are none (docs/spec/multiplayer/v1.md §3.3).
+    QStringList roomRelays() const;
     // Removes control characters, trims and truncates to 24 code points ("" stays "").
     static QString cleanName(const QString &name);
 

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// Conformance: docs/spec/test-vectors/protocol/v1/*.json
+// Conformance: docs/spec/test-vectors/multiplayer/v1/*.json
 #include "messages.hpp"
+#include "multiplayer_v1.hpp"
 #include "nostr.hpp"
-#include "protocol_v1.hpp"
 
 #include <QDir>
 #include <QFile>
@@ -18,7 +18,7 @@ namespace {
 
 QJsonObject load(const QString &name)
 {
-    QFile file{QDir{QStringLiteral(STROOPY_VECTORS_DIR "/protocol/v1")}.filePath(name)};
+    QFile file{QDir{QStringLiteral(STROOPY_VECTORS_DIR "/multiplayer/v1")}.filePath(name)};
     if (!file.open(QIODevice::ReadOnly))
         qFatal("cannot open vector file %s", qPrintable(file.fileName()));
     return QJsonDocument::fromJson(file.readAll()).object();
@@ -54,31 +54,46 @@ QJsonValue toJson(const std::optional<net::Message> &m)
 
 } // namespace
 
-class TestProtocolV1 : public QObject {
+class TestMultiplayerV1 : public QObject {
     Q_OBJECT
 
 private slots:
-    void rooms()
+    void invitations()
     {
-        using namespace protocol::v1;
-        const auto doc = load(u"rooms.json"_s);
+        using namespace multiplayer::v1;
+        const auto doc = load(u"invitations.json"_s);
+        const auto invitation = [](const QJsonValue &v) {
+            Invitation inv{.room = str(v[u"roomId"_s].isUndefined() ? v[u"room"_s] : v[u"roomId"_s]), .relays = {}};
+            for (const auto &r : v[u"relays"_s].toArray())
+                inv.relays.push_back(str(r));
+            return inv;
+        };
         for (const auto &c : doc[u"encode"_s].toArray()) {
-            const auto id = roomIdFromValue(c[u"value"_s].toString().toULongLong(nullptr, 16));
-            QCOMPARE(QString::fromStdString(id), c[u"id"_s].toString());
-            QCOMPARE(QString::fromStdString(roomCode(id)), c[u"code"_s].toString());
+            const auto id = roomIdFromValue(c[u"room"_s].toString().toULongLong(nullptr, 16));
+            QCOMPARE(QString::fromStdString(id), c[u"roomId"_s].toString());
+            const auto inv = invitation(c);
+            const auto record = encodeRecord(inv);
+            QCOMPARE(QByteArray(reinterpret_cast<const char *>(record.data()), static_cast<qsizetype>(record.size()))
+                         .toHex(),
+                     c[u"record"_s].toString().toLatin1());
+            QCOMPARE(QString::fromStdString(encodeText(inv)), c[u"text"_s].toString());
             QCOMPARE(QString::fromStdString(roomTag(id)), c[u"tag"_s].toString());
+            QVERIFY2(decodeText(str(c[u"text"_s])) == inv, qPrintable(c[u"note"_s].toString()));
         }
         for (const auto &c : doc[u"parse"_s].toArray()) {
-            const auto r = parseRoom(str(c[u"input"_s]));
+            const auto r = decodeText(str(c[u"input"_s]));
             QVERIFY2(r.has_value(), qPrintable(c[u"note"_s].toString()));
-            QCOMPARE(QString::fromStdString(*r), c[u"expected"_s].toString());
+            QVERIFY2(*r == invitation(c[u"expected"_s]), qPrintable(c[u"note"_s].toString()));
         }
         for (const auto &c : doc[u"errors"_s].toArray()) {
-            const auto r = parseRoom(str(c[u"input"_s]));
+            const auto r = decodeText(str(c[u"input"_s]));
             QVERIFY2(!r.has_value(), qPrintable(c[u"note"_s].toString()));
-            const bool unsupported = c[u"error"_s].toString() == u"unsupported"_s;
-            QVERIFY2((r.error().kind == Error::Kind::Unsupported) == unsupported, qPrintable(c[u"note"_s].toString()));
-            if (unsupported)
+            const auto error = c[u"error"_s].toString();
+            const auto kind = error == u"unsupported"_s   ? Error::Kind::Unsupported
+                              : error == u"noTransport"_s ? Error::Kind::NoTransport
+                                                          : Error::Kind::Invalid;
+            QVERIFY2(r.error().kind == kind, qPrintable(c[u"note"_s].toString()));
+            if (kind == Error::Kind::Unsupported)
                 QCOMPARE(r.error().version, c[u"version"_s].toInt());
         }
     }
@@ -91,8 +106,8 @@ private slots:
             const auto key = net::SecretKey::fromBytes(QByteArray::fromHex(c[u"secretKey"_s].toString().toLatin1()));
             QVERIFY(key);
             const QList<QStringList> tags{
-                {u"t"_s, QString::fromStdString(protocol::v1::roomTag(str(c[u"roomId"_s])))}};
-            const auto e = key->sign(c[u"createdAt"_s].toInteger(), protocol::v1::kind, tags,
+                {u"t"_s, QString::fromStdString(multiplayer::v1::roomTag(str(c[u"roomId"_s])))}};
+            const auto e = key->sign(c[u"createdAt"_s].toInteger(), multiplayer::v1::kind, tags,
                                      c[u"content"_s].toString(), aux);
             QCOMPARE(QString::fromUtf8(net::serialise(e.pubkey, e.createdAt, e.kind, e.tags, e.content)),
                      c[u"serialised"_s].toString());
@@ -122,5 +137,5 @@ private slots:
     }
 };
 
-QTEST_GUILESS_MAIN(TestProtocolV1)
-#include "tst_protocol_v1.moc"
+QTEST_GUILESS_MAIN(TestMultiplayerV1)
+#include "tst_multiplayer_v1.moc"

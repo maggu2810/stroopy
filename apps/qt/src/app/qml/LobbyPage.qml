@@ -35,13 +35,6 @@ SubPage {
                 Layout.topMargin: 24
                 spacing: 12
 
-                Label {
-                    text: Multiplayer.roomCode
-                    font.family: "monospace"
-                    font.pixelSize: 34
-                    font.bold: true
-                    color: AppTheme.text
-                }
                 RowLayout {
                     spacing: 16
 
@@ -58,6 +51,12 @@ SubPage {
                         text: qsTr("Relays: %1/%2").arg(Multiplayer.connected).arg(Multiplayer.relayCount)
                         color: Multiplayer.connected > 0 ? AppTheme.textMuted : AppTheme.bad
                     }
+                }
+                Label {
+                    Layout.fillWidth: true
+                    text: Multiplayer.relays.map(url => url.replace(/^wss?:\/\//, "")).join(" · ")
+                    color: AppTheme.textMuted
+                    wrapMode: Text.WrapAnywhere
                 }
 
                 Label {
@@ -128,7 +127,7 @@ SubPage {
                 Label {
                     Layout.fillWidth: true
                     visible: Multiplayer.players.length === 1
-                    text: qsTr("Nobody else is here yet. Invite others with the room code.")
+                    text: qsTr("Nobody else is here yet. Invite others with the invitation.")
                     color: AppTheme.textMuted
                     wrapMode: Text.Wrap
                 }
@@ -212,7 +211,7 @@ SubPage {
     ToolTip {
         id: copied
 
-        text: qsTr("Room code copied to the clipboard")
+        text: qsTr("Invitation copied to the clipboard")
         timeout: 2000
         x: (page.width - width) / 2
         y: page.height - height - 48

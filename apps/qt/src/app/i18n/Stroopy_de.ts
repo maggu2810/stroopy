@@ -320,8 +320,12 @@
         <translation>Mehrspieler</translation>
     </message>
     <message>
-        <source>Create a room and send its code (SYR1-…) to your friends; they join under “Multiplayer”. The host picks the mode and starts, then everyone plays the same sequence at the same time and sees the others’ progress. Rooms run over public Nostr relays: no account, no server of ours, but names and scores are not encrypted.</source>
-        <translation>Erstelle einen Raum und schicke seinen Code (SYR1-…) an deine Freunde; sie treten unter „Mehrspieler“ bei. Der Gastgeber wählt den Modus und startet, dann spielen alle gleichzeitig dieselbe Folge und sehen den Fortschritt der anderen. Räume laufen über öffentliche Nostr-Relays: kein Konto, kein eigener Server, aber Namen und Punkte sind nicht verschlüsselt.</translation>
+        <source>Create a room and send its invitation (SYM1-…, as a link or message) to your friends; they join under “Multiplayer”. The host picks the mode and starts, then everyone plays the same sequence at the same time and sees the others’ progress. Rooms run over public Nostr relays chosen by whoever creates the room: no account, no server of ours, but names and scores are not encrypted.</source>
+        <translation>Erstelle einen Raum und schicke seine Einladung (SYM1-…, als Link oder Nachricht) an deine Freunde; sie treten unter „Mehrspieler“ bei. Der Gastgeber wählt den Modus und startet, dann spielen alle gleichzeitig dieselbe Folge und sehen den Fortschritt der anderen. Räume laufen über öffentliche Nostr-Relays, die der Ersteller des Raums wählt: kein Konto, kein eigener Server, aber Namen und Punkte sind nicht verschlüsselt.</translation>
+    </message>
+    <message>
+        <source>rules 1 · game 1 · multiplayer 1 · backup 1</source>
+        <translation>Regeln 1 · Spiel 1 · Mehrspieler 1 · Sicherung 1</translation>
     </message>
     <message>
         <source>About</source>
@@ -334,10 +338,6 @@
     <message>
         <source>Compatibility</source>
         <translation>Kompatibilität</translation>
-    </message>
-    <message>
-        <source>rules 1 · share code 1 · backup 1 · protocol 1</source>
-        <translation>Regeln 1 · Teilen-Code 1 · Sicherung 1 · Protokoll 1</translation>
     </message>
     <message>
         <source>Stroopy is free software under the GNU General Public License, version 3 or later. It contains no ads and no tracking, and it works without Google services.</source>
@@ -449,8 +449,12 @@
         <translation>Spieler</translation>
     </message>
     <message>
-        <source>Nobody else is here yet. Invite others with the room code.</source>
-        <translation>Noch niemand sonst da. Lade andere mit dem Raumcode ein.</translation>
+        <source>Nobody else is here yet. Invite others with the invitation.</source>
+        <translation>Noch niemand sonst da. Lade andere mit der Einladung ein.</translation>
+    </message>
+    <message>
+        <source>Invitation copied to the clipboard</source>
+        <translation>Einladung in die Zwischenablage kopiert</translation>
     </message>
     <message>
         <source>Join the running game</source>
@@ -475,10 +479,6 @@
     <message>
         <source>Leave room</source>
         <translation>Raum verlassen</translation>
-    </message>
-    <message>
-        <source>Room code copied to the clipboard</source>
-        <translation>Raumcode in die Zwischenablage kopiert</translation>
     </message>
 </context>
 <context>
@@ -522,6 +522,10 @@
         <translation>Raum beitreten</translation>
     </message>
     <message>
+        <source>Paste the invitation (SYM1-…) or the message with it</source>
+        <translation>Füge die Einladung (SYM1-…) oder die Nachricht damit ein</translation>
+    </message>
+    <message>
         <source>Paste</source>
         <translation>Einfügen</translation>
     </message>
@@ -530,12 +534,12 @@
         <translation>Beitreten</translation>
     </message>
     <message>
-        <source>This room needs a newer version of Stroopy.</source>
-        <translation>Dieser Raum braucht eine neuere Version von Stroopy.</translation>
+        <source>No valid invitation found.</source>
+        <translation>Keine gültige Einladung gefunden.</translation>
     </message>
     <message>
-        <source>No valid room code found.</source>
-        <translation>Kein gültiger Raumcode gefunden.</translation>
+        <source>This room needs a newer version of Stroopy.</source>
+        <translation>Dieser Raum braucht eine neuere Version von Stroopy.</translation>
     </message>
 </context>
 <context>
@@ -624,8 +628,8 @@
         <translation>Wird anderen Spielern angezeigt. Namen und Punkte gehen unverschlüsselt über öffentliche Nostr-Relays.</translation>
     </message>
     <message>
-        <source>Nostr relays (separated by spaces, empty = default)</source>
-        <translation>Nostr-Relays (durch Leerzeichen getrennt, leer = Standard)</translation>
+        <source>Nostr relays for rooms you create (separated by spaces, empty = default)</source>
+        <translation>Nostr-Relays für Räume, die du erstellst (durch Leerzeichen getrennt, leer = Standard)</translation>
     </message>
     <message>
         <source>Backup: export / import</source>

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Networking for live multiplayer (docs/spec/protocol/v1.md): Nostr events, messages, relays.
+# Networking for live multiplayer (docs/spec/multiplayer/v1.md): Nostr events, messages, relays.
 find_package(Qt6 REQUIRED COMPONENTS Core WebSockets)
 
 qt_add_library(stroopy_net STATIC

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// Connections to several Nostr relays (docs/spec/protocol/v1.md §3.3): publish to all,
+// Connections to several Nostr relays (docs/spec/multiplayer/v1.md §3.3): publish to all,
 // subscribe on all, deduplicate and verify incoming events, reconnect with backoff.
 #pragma once
 

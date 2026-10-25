@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-#include "share_code_v1.hpp"
+#include "game_v1.hpp"
 
 #include <regex>
 
-namespace stroopy::share_code::v1 {
+namespace stroopy::game::v1 {
 
 namespace {
 
@@ -82,4 +82,4 @@ std::expected<Descriptor, Error> decodeText(std::string_view text)
     return d;
 }
 
-} // namespace stroopy::share_code::v1
+} // namespace stroopy::game::v1
