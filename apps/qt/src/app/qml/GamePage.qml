@@ -62,7 +62,7 @@ FocusScope {
     StackView.onActivated: forceActiveFocus()
 
     Keys.onPressed: event => {
-        AppTheme.keyHints = true
+        AppTheme.noteKey(event.key)
         if (event.key === Qt.Key_Escape || event.key === Qt.Key_Back) {
             quit()
             event.accepted = true

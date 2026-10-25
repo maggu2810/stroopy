@@ -63,7 +63,8 @@ language-specific letters.
 
 Notes:
 - Key hints (e.g. `←`, `F`, `1`) appear on the buttons only once a key or
-  gamepad button has been used, so touch users don't see them.
+  gamepad button has been used, so touch users don't see them. The system
+  back gesture and the volume keys don't count.
 - A TV remote has no modifier, so with a remote Find mode is playable up to
   4 colours. Beyond that, the player needs touch, keyboard or gamepad.
   Possible future option: a separate 4-colour mode in a later rules version.

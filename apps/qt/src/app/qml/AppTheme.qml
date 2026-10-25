@@ -8,6 +8,13 @@ QtObject {
     // Set once a key or gamepad button is used: show key hints and the focus frame.
     property bool keyHints: false
 
+    // Touch-only devices send keys too (system back gesture, volume): those don't turn on key hints.
+    function noteKey(key: int) {
+        if (key !== Qt.Key_Back && key !== Qt.Key_VolumeUp && key !== Qt.Key_VolumeDown
+                && key !== Qt.Key_VolumeMute)
+            keyHints = true
+    }
+
     readonly property list<color> normalInks: ["#f1c40f", "#e74c3c", "#3498db", "#2ecc71",
                                                "#e67e22", "#9b59b6", "#ff89e5", "#a67235"]
     readonly property list<color> colourBlindInks: ["#ffd71d", "#f95341", "#0a88dc", "#18df6c",

@@ -116,7 +116,7 @@ ApplicationWindow {
         onCurrentItemChanged: currentItem?.forceActiveFocus()
 
         Keys.onPressed: event => {
-            AppTheme.keyHints = true
+            AppTheme.noteKey(event.key)
             switch (event.key) {
             case Qt.Key_Up:
             case Qt.Key_Left:
