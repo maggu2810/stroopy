@@ -57,6 +57,21 @@ class TestUi : public QObject {
         QTRY_COMPARE_WITH_TIMEOUT(m_controller->phase(), GameController::Phase::Running, 6000);
     }
 
+    // Visible controls and texts of the subtree that stick out to the right of the window
+    // (Material's shadows may extend beyond their items).
+    QStringList overflowing(QQuickItem *item) const
+    {
+        QStringList out;
+        if (!item->isVisible())
+            return out;
+        if ((item->inherits("QQuickControl") || item->inherits("QQuickText"))
+            && item->mapToScene(QPointF{item->width(), 0}).x() > m_window->width() + 0.5)
+            out.append(QString::fromUtf8(item->metaObject()->className()));
+        for (auto *child : item->childItems())
+            out.append(overflowing(child));
+        return out;
+    }
+
     static Qt::Key directionKey(int direction)
     {
         static constexpr Qt::Key keys[]{Qt::Key_Up, Qt::Key_Right, Qt::Key_Down, Qt::Key_Left};
@@ -241,13 +256,17 @@ private slots:
     void backupRoundTrip()
     {
         // Home: 8 x Down reaches Settings; there, Tab x 5 reaches the backup button.
-        resize(420, 820);
+        // Settings fit a narrow phone (no control wider than the window).
+        resize(360, 760);
         QTest::qWait(600);
         for (int i = 0; i < 8; ++i)
             key(Qt::Key_Down);
         key(Qt::Key_Return);
         QTest::qWait(600);
         shot(u"settings-portrait"_s);
+        auto *stack = m_window->findChild<QQuickItem *>(u"stack"_s);
+        QVERIFY(stack);
+        QCOMPARE(overflowing(stack->property("currentItem").value<QQuickItem *>()), QStringList{});
         for (int i = 0; i < 5; ++i)
             key(Qt::Key_Tab);
         key(Qt::Key_Return);

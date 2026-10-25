@@ -77,9 +77,11 @@ SubPage {
         }
 
         Label {
+            Layout.fillWidth: true
             Layout.topMargin: 8
             text: qsTr("Nostr relays for rooms you create (separated by spaces, empty = default)")
             color: AppTheme.textMuted
+            wrapMode: Text.Wrap
         }
         // A single line, so arrow keys and a TV remote don't get trapped in a text area.
         TextField {
