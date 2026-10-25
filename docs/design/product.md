@@ -14,8 +14,8 @@ defined in `docs/spec/`, not here.
 | Highscores | one list per mode (tabs/segmented), best first |
 | Enter code | paste or type a game code (or scan a QR code), preview mode, rules version and the sharer's score, then play |
 | Settings | language, colour-blind palette, vibration, player name, relays; **Export backup**, **Import backup**, clear highscores |
-| Multiplayer | **Create room** or **Join room** (pasted invitation, message or link, or a scanned QR code); player name |
-| Lobby | **Share invitation** (copy/share, QR code), connection state (relays connected), the **ranking of the last game** (updating live until everyone is out), players (name, host), mode picker and **Start** for the host; **Leave** |
+| Multiplayer | **Create room** or **Join room** (pasted invitation, message or link; scanned QR code later); player name |
+| Lobby | **Share invitation** (copy/share, QR code later), the room's relays, connection state (relays connected), the **ranking of the last game** (updating live until everyone is out), players (name, host), mode picker and **Start** for the host; **Leave** |
 | Game (multiplayer) | as above, plus a strip with every other player: name, item and score, ✗ once they are out |
 | Help | in-app documentation, available offline: how each mode works, the controls for touch, keyboard, gamepad and TV remote, sharing and challenges, and an *About* section (app version, supported rules/game/multiplayer/backup versions, licence, source) |
 
@@ -154,12 +154,12 @@ Network access happens only while the player is in a room.
 
 - **Create room**: a new room id on the relays from the settings (or the
   default relays); the creator is host. The lobby offers **Share
-  invitation**: a QR code for players nearby, and **Copy**/**Share** with a
-  short message ("Play Stroopy with me: stroopy://join?c=SYM1-…"). Every
-  player in the room can share it, not only the host. The room id is not
-  shown on its own, because it can't be used to join.
+  invitation**: **Copy**/**Share** with a short message ("Play Stroopy with
+  me: stroopy://join?c=SYM1-…"), and later a QR code for players nearby.
+  Every player in the room can share it, not only the host. The room id is
+  not shown on its own, because it can't be used to join.
 - **Join room**: paste an invitation (also inside a message, wrapped over
-  lines, or as a link) or scan its QR code. A link `stroopy://join?c=…` or
+  lines, or as a link), later also scan its QR code. A link `stroopy://join?c=…` or
   the web app URL with `?j=…` opens the join flow directly. The guest uses
   the room's relays from the invitation; its own relay setting doesn't
   matter. An invitation from a newer app that offers no transport this app
@@ -167,9 +167,9 @@ Network access happens only while the player is in a room.
 - The player name is edited on the Multiplayer screen and stored in the
   settings. A note says that names and scores travel unencrypted through
   public relays.
-- **Lobby**: players with a host marker, a relay status (e.g. "2/3 relays"),
-  the host's mode selection (guests see it read-only). The host's **Start**
-  is enabled when at least one relay is connected.
+- **Lobby**: players with a host marker, the room's relays and their status
+  (e.g. "2/3 relays"), the host's mode selection (guests see it read-only).
+  The host's **Start** is enabled when at least one relay is connected.
 - **Game**: everyone gets the 3-2-1-GO countdown on receiving the start, so
   starts differ by network delay. Fairness across latency is not a goal.
 - **Results**: when the own game is over, the lobby comes back with the

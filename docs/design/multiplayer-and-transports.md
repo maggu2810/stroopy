@@ -124,8 +124,8 @@ a new tag: apps skip tags they don't know.
 
 How players use it:
 
-- **Online**: the host shares the invitation as a QR code (players sitting
-  together) or as text or a link (messenger). Its length doesn't matter
+- **Online**: the host shares the invitation as text or a link (messenger)
+  or, once implemented, as a QR code (players sitting together). Its length doesn't matter
   there, so there is no short code to type, and the lobby shows none.
   Every player in the room may share the invitation again.
 - **Nearby** (later): guests open a list of rooms around them and pick one.
