@@ -14,7 +14,8 @@ Targets: **Linux desktop**, **Android arm64** (later Windows, macOS, iOS).
 - Highscores per mode (top 10); share or replay every entry
 - Game codes (`SYG1-…`, copied to the clipboard as a message) and *Enter code*
   to play a received sequence as a challenge against the sharer's score
-- Settings: language (follow system / English / Deutsch, applied live),
+- Settings: language (follow system / English / Deutsch, applied live; on
+  Android 13+ synced with the system's per-app "App language"),
   colour-blind palette, vibration on failure (Android)
 - Portrait and landscape layouts on every screen (phones, tablets, desktop, TV)
 - Keyboard, gamepad (Android) and TV-remote input; focus navigation in menus;

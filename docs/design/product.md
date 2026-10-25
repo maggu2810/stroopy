@@ -156,6 +156,9 @@ decision 0011).
   otherwise.
 - A language change applies **immediately**, without a restart. This includes
   the colour words in the game.
+- Where the OS has a per-app language (Android 13+ "App language"), the
+  setting **is** that system setting: a change on either side shows on the
+  other, and *Follow system* means no per-app language.
 - Settings persist across app starts.
 
 ## Multiplayer

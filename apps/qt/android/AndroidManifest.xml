@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!-- Based on Qt's Android manifest template; adapted for Stroopy (gamepad activity, Android TV,
-     stroopy:// links). -->
+     stroopy:// links, per-app language). -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.qtproject.example"
     android:installLocation="auto"
@@ -24,7 +24,8 @@
         android:label="-- %%INSERT_APP_NAME%% --"
         android:icon="-- %%INSERT_APP_ICON%% --"
         android:banner="@drawable/banner"
-        android:enableOnBackInvokedCallback="true">
+        android:enableOnBackInvokedCallback="true"
+        android:localeConfig="@xml/locales_config">
         <activity
             android:name="de.maggu2810.android.stroopy.qt.StroopyActivity"
             android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density"
