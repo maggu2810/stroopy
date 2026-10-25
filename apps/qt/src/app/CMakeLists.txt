@@ -80,6 +80,8 @@ endif()
 
 if(NOT ANDROID)
     include(GNUInstallDirs)
+    # Keep finding a Qt outside the system paths (e.g. ~/Qt-aqt) after installation.
+    set_target_properties(stroopy PROPERTIES INSTALL_RPATH_USE_LINK_PATH ON)
     install(TARGETS stroopy BUNDLE DESTINATION . RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
     if(UNIX AND NOT APPLE)
         # Menu entry and handler of stroopy:// links (x-scheme-handler/stroopy).
