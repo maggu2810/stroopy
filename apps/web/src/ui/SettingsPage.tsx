@@ -32,7 +32,7 @@ export function SettingsPage() {
           <small class="muted">{t("Shown to other players. Names and scores travel unencrypted through public Nostr relays.")}</small>
         </label>
         <label class="field">
-          <span class="muted">{t("Nostr relays (separated by spaces, empty = default)")}</span>
+          <span class="muted">{t("Nostr relays for rooms you create (separated by spaces, empty = default)")}</span>
           <input
             type="text"
             inputMode="url"

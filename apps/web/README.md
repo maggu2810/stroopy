@@ -8,7 +8,7 @@ account ([decision 0010](../../docs/decisions/0010-web-app-pwa.md)).
 |---|---|
 | stack | TypeScript, [Bun](https://bun.sh) (package manager, bundler, tests, dev server), Preact + signals |
 | targets | any current browser; iOS/iPadOS via Safari *Add to Home Screen*; Android/desktop *Install app* |
-| supports | rules **1**, share code **1**, backup **1**, protocol **1** (Nostr) |
+| supports | rules **1**, game **1**, multiplayer **1** (Nostr), backup **1** |
 | licence | GPL-3.0-or-later; dependencies MIT / Apache-2.0 |
 
 ## Commands
@@ -45,8 +45,8 @@ works, also in a sub-directory.
 index.html            entry; build.ts adds manifest/icon links
 build.ts              production build + service worker precache list
 public/               manifest and icons (rendered by tools/render-assets.sh)
-src/core/             spec implementations: rules, game, share code, backup
-src/net/              protocol v1: room codes, messages, Nostr events, relay pool, room
+src/core/             spec implementations: rules, game session, game code, backup
+src/net/              multiplayer v1: invitations, messages, Nostr events, relay pool, room
 src/app/              state: settings, i18n, highscores, game controller, input
 src/ui/               Preact pages (one per screen of docs/design/product.md)
 src/sw.ts             service worker (offline cache)

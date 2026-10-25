@@ -3,17 +3,17 @@
 import { effect, signal, untracked } from "@preact/signals";
 import { Mode } from "../core/rules-v1.ts";
 import { Room } from "../net/room.ts";
-import { randomRoomId } from "../net/protocol-v1.ts";
+import { randomRoomId, type Invitation } from "../net/multiplayer-v1.ts";
 import { controller } from "./controller.ts";
 import { stack } from "./nav.ts";
-import { effectiveRelays, playerName } from "./settings.ts";
+import { roomRelays, playerName } from "./settings.ts";
 
 export const room = signal<Room | null>(null);
 let gameCode = "";
 
-function open(id: string, asHost: boolean) {
+function open(inv: Invitation, asHost: boolean) {
   room.value?.leave();
-  room.value = new Room(id, asHost, playerName.value, effectiveRelays.value, {
+  room.value = new Room(inv, asHost, playerName.value, {
     play(code, mode, seed) {
       gameCode = code;
       controller.start(mode as Mode, seed);
@@ -24,8 +24,10 @@ function open(id: string, asHost: boolean) {
   stack.value = [{ name: "home" }, { name: "lobby" }];
 }
 
-export const createRoom = () => open(randomRoomId(), true);
-export const joinRoom = (id: string) => open(id, false);
+/** A new room on the relays from the settings (multiplayer v1 §3.3). */
+export const createRoom = () => open({ room: randomRoomId(), relays: roomRelays.value }, true);
+/** Joins on the invitation's relays; the own relay setting doesn't matter. */
+export const joinRoom = (inv: Invitation) => open(inv, false);
 
 export function leaveRoom() {
   room.value?.leave();

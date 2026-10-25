@@ -23,7 +23,7 @@ class Controller {
   /** Increments on every answer; `lastCorrect` tells how it went. */
   readonly answers = signal(0);
   lastCorrect = true;
-  /** Set when the game was started from a share code with a result. */
+  /** Set when the game was started from a game code with a result. */
   readonly challenge = signal<{ score: number; reached: number } | null>(null);
   readonly isChallenge = signal(false);
 

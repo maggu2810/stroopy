@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Room lobby with the ranking of the last game (docs/design/product.md, "Multiplayer").
 import { MODES, RULES_VERSION } from "../core/rules-v1.ts";
-import { decodeText } from "../core/share-code-v1.ts";
+import { decodeText } from "../core/game-v1.ts";
 import { t } from "../app/i18n.ts";
 import { leaveRoom, room } from "../app/multiplayer.ts";
 import { modeName } from "../app/theme.ts";
@@ -24,21 +24,21 @@ export function LobbyPage() {
   const canStart = isHost && connected > 0 && r.commonRules.value.includes(RULES_VERSION);
 
   async function share() {
-    const link = `${location.origin}${location.pathname}?r=${r!.code}`;
-    if ((await shareText(t("Play Stroopy with me: %1 %2", r!.code, link))) === "copied") toast(t("Room code copied to the clipboard"));
+    const link = `${location.origin}${location.pathname}?j=${r!.invitation}`;
+    if ((await shareText(t("Play Stroopy with me: %1", link))) === "copied") toast(t("Invitation copied to the clipboard"));
   }
 
   return (
     <SubPage title={t("Room")} onBack={leaveRoom} class="lobby">
       <div class="two-col top">
         <section class="column">
-          <div class="room-code">{r.code}</div>
           <div class="row">
             <button data-autofocus={!isHost || undefined} onClick={share}>
               {t("Invite")}
             </button>
             <span class={`relays ${connected ? "" : "bad"}`}>{t("Relays: %1/%2", connected, r.relayCount)}</span>
           </div>
+          <p class="muted room-relays">{r.relays.map((url) => url.replace(/^wss?:\/\//, "")).join(" · ")}</p>
           {ranking.length > 0 && (
             <>
               <h3>{t("Last game: %1", last?.ok ? modeName(last.value.mode) : "")}</h3>
@@ -62,7 +62,7 @@ export function LobbyPage() {
               </li>
             ))}
           </ul>
-          {everyone.length === 1 && <p class="muted">{t("Nobody else is here yet. Invite others with the room code.")}</p>}
+          {everyone.length === 1 && <p class="muted">{t("Nobody else is here yet. Invite others with the invitation.")}</p>}
         </section>
         <section class="column">
           {r.pending.value && (

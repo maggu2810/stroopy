@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// A multiplayer room over Nostr (docs/spec/protocol/v1.md §4): presence, host, starting games
+// A multiplayer room over Nostr (docs/spec/multiplayer/v1.md §4): presence, host, starting games
 // and everybody's progress. The game itself runs locally; this only reports.
 import { computed, signal, untracked, type Signal } from "@preact/signals";
 import { RULES_VERSION } from "../core/rules-v1.ts";
-import { encodeText } from "../core/share-code-v1.ts";
-import { createEvent, encodeMessage, KIND, newSecretKey, parseMessage, publicKey, roomCode, roomTag, type GameState, type Message, type NostrEvent } from "./protocol-v1.ts";
+import { encodeText } from "../core/game-v1.ts";
+import { createEvent, encodeMessage, encodeText as encodeInvitation, KIND, newSecretKey, parseMessage, publicKey, roomTag, type GameState, type Invitation, type Message, type NostrEvent } from "./multiplayer-v1.ts";
 import { RelayPool } from "./relay-pool.ts";
 
 export const HEARTBEAT_MS = 5000;
@@ -33,7 +33,9 @@ export interface LocalGame {
 
 export class Room {
   readonly id: string;
-  readonly code: string;
+  /** The room's invitation (SYM text code) that every player may share. */
+  readonly invitation: string;
+  readonly relays: string[];
   readonly players = signal<Player[]>([]); // others; see `everyone`
   readonly me: Signal<Player>;
   readonly connected: RelayPool["connected"];
@@ -61,17 +63,18 @@ export class Room {
   private heartbeat: ReturnType<typeof setInterval>;
   private lastHostSeen = Date.now();
 
+  /** Uses exactly the invitation's relays (§3.3). */
   constructor(
-    id: string,
+    inv: Invitation,
     asHost: boolean,
     name: string,
-    relays: string[],
     private readonly local: LocalGame,
   ) {
-    this.id = id;
-    this.code = roomCode(id);
+    this.id = inv.room;
+    this.relays = inv.relays;
+    this.invitation = encodeInvitation(inv);
     this.me = signal<Player>({ key: publicKey(this.secret), name, host: asHost, rules: SUPPORTED_RULES, lastSeen: Date.now(), me: true });
-    this.pool = new RelayPool(relays, { kinds: [KIND], "#t": [roomTag(id)] }, (e) => this.receive(e));
+    this.pool = new RelayPool(inv.relays, { kinds: [KIND], "#t": [roomTag(inv.room)] }, (e) => this.receive(e));
     this.connected = this.pool.connected;
     this.relayCount = this.pool.total;
     this.heartbeat = setInterval(() => this.tick(), 1000);
@@ -216,6 +219,6 @@ export class Room {
 }
 
 function parseStartCode(code: string) {
-  const m = parseMessage(JSON.stringify({ p: 1, type: "start", code }));
+  const m = parseMessage(JSON.stringify({ m: 1, type: "start", code }));
   return m?.type === "start" ? m : null;
 }

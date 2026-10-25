@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// Live interop over the public Nostr relays (needs internet): the Qt app's protocol stack
+// Live interop over the public Nostr relays (needs internet): the Qt app's multiplayer stack
 // (apps/qt/build/linux/tests/interop_nostr) plays against this web app in a browser.
 // Scenario 1: Qt hosts, web joins. Scenario 2: web hosts, Qt joins.
 // Both sides answer correctly and then fail; each must see the other's final result.
@@ -87,7 +87,7 @@ await scenario("Qt hosts, web joins", async () => {
   const qt = startQt(["host"]);
   try {
     const code = (await qt.next("ROOM")).split(" ")[1]!;
-    const web = await openWeb(`http://localhost:${port}/?r=${code}`);
+    const web = await openWeb(`http://localhost:${port}/?j=${code}`);
     await web.waitForSelector(".multiplayer");
     await Bun.sleep(300);
     await web.keyboard.press("Enter");
@@ -112,8 +112,9 @@ await scenario("web hosts, Qt joins", async () => {
   await web.click("button.multi");
   await web.waitForSelector(".multiplayer");
   await web.click("button.primary"); // Create room
-  await web.waitForSelector(".room-code");
-  const code = await web.$eval(".room-code", (e) => e.textContent!);
+  await web.waitForSelector(".lobby");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const code = await web.evaluate(() => (globalThis as any).stroopy.multiplayer.room.value.invitation as string);
   const qt = startQt(["join", code]);
   try {
     await web.waitForFunction(() => document.querySelector(".players")?.textContent?.includes("QtBot"), { timeout: 30000 });

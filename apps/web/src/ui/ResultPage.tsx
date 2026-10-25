@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { useEffect } from "preact/hooks";
 import { Mode } from "../core/rules-v1.ts";
-import { encodeText } from "../core/share-code-v1.ts";
+import { encodeText } from "../core/game-v1.ts";
 import { controller } from "../app/controller.ts";
 import { t } from "../app/i18n.ts";
 import { focusFirst, keyHints, usePageInput } from "../app/input.ts";

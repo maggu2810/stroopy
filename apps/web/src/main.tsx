@@ -14,13 +14,13 @@ installInput();
 Object.assign(globalThis, { stroopy: { controller, highscores, backup, multiplayer } });
 void requestPersistence();
 
-// ?c=<share code> opens "Enter code" with it (docs/design/product.md, "Platforms").
+// ?c=<game code> opens "Enter code" with it (docs/design/product.md, "Platforms").
 const params = new URLSearchParams(location.search);
 const code = params.get("c");
 if (code) push({ name: "enterCode", text: code });
-// ?r=<room code> opens the join flow.
-const roomParam = params.get("r");
-if (roomParam) push({ name: "multiplayer", text: roomParam });
+// ?j=<invitation> opens the join flow.
+const invitation = params.get("j");
+if (invitation) push({ name: "multiplayer", text: invitation });
 if (params.size) history.replaceState(null, "", location.pathname);
 
 render(<App />, document.getElementById("app")!);

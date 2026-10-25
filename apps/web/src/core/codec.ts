@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Building blocks shared by the text codes: Crockford Base32 and CRC-16/CCITT-FALSE
-// (docs/spec/share-code/v1.md §1-2).
+// (docs/spec/game/v1.md §1-2).
 
 export const ALPHABET = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
 
-export type DecodeError = { kind: "invalid" } | { kind: "unsupported"; version: number };
+export type DecodeError = { kind: "invalid" } | { kind: "unsupported"; version: number } | { kind: "noTransport" };
 export type Decoded<T> = { ok: true; value: T } | ({ ok: false } & DecodeError);
 
 export const invalid = { ok: false, kind: "invalid" } as const;

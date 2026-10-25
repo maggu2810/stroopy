@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Live multiplayer test over the public Nostr relays (needs internet): two browser pages,
-// one hosts a room, the other joins with the room link; both play the same game.
+// one hosts a room, the other joins with the invitation link; both play the same game.
 // Usage: bun run test:multiplayer [screenshot-dir]
 import { $ } from "bun";
 import { mkdir } from "node:fs/promises";
@@ -51,15 +51,16 @@ try {
   await ann.click("button.multi");
   await ann.waitForSelector(".multiplayer");
   await ann.click("button.primary"); // Create room
-  await ann.waitForSelector(".room-code");
-  const code = await ann.$eval(".room-code", (e) => e.textContent!);
+  await ann.waitForSelector(".lobby");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const code = await ann.evaluate(() => (globalThis as any).stroopy.multiplayer.room.value.invitation as string);
   step(`room ${code}`);
 
-  const bob = await open("Bob", `${base}?r=${code}`);
+  const bob = await open("Bob", `${base}?j=${code}`);
   await bob.waitForSelector(".multiplayer");
   await Bun.sleep(300);
   await bob.keyboard.press("Enter"); // the prefilled join field has focus
-  await bob.waitForSelector(".room-code");
+  await bob.waitForSelector(".lobby");
 
   step("waiting until both see each other");
   await ann.waitForFunction(() => document.querySelectorAll(".players li").length === 2, { timeout: 20000 });

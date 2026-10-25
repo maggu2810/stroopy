@@ -690,11 +690,9 @@ button.multi {
   border-radius: var(--radius);
   background: var(--surface-hi);
 }
-.room-code {
-  font-family: ui-monospace, "JetBrains Mono", monospace;
-  font-size: clamp(28px, 8vw, 40px);
-  font-weight: 700;
-  letter-spacing: 1px;
+.room-relays {
+  margin: 0;
+  overflow-wrap: anywhere;
 }
 .relays {
   align-self: center;

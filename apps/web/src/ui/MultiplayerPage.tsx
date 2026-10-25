@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Create or join a room (docs/design/product.md, "Multiplayer").
 import { useState } from "preact/hooks";
-import { parseRoom } from "../net/protocol-v1.ts";
+import { decodeInvitation } from "../net/multiplayer-v1.ts";
 import { t } from "../app/i18n.ts";
 import { createRoom, joinRoom } from "../app/multiplayer.ts";
 import { pop } from "../app/nav.ts";
@@ -10,7 +10,7 @@ import { pasteText, SubPage } from "./common.tsx";
 
 export function MultiplayerPage(props: { text?: string }) {
   const [text, setText] = useState(props.text ?? "");
-  const parsed = parseRoom(text);
+  const parsed = decodeInvitation(text);
   const join = () => parsed.ok && joinRoom(parsed.value);
 
   return (
@@ -26,9 +26,9 @@ export function MultiplayerPage(props: { text?: string }) {
           {t("Create room")}
         </button>
         <h3>{t("Join room")}</h3>
-        <input
-          type="text"
-          placeholder="SYR1-…"
+        <textarea
+          rows={3}
+          placeholder={t("Paste the invitation (SYM1-…) or the message with it")}
           spellcheck={false}
           autocapitalize="characters"
           autocomplete="off"
@@ -36,7 +36,10 @@ export function MultiplayerPage(props: { text?: string }) {
           value={text}
           onInput={(e) => setText(e.currentTarget.value)}
           onKeyDown={(e) => {
-            if (e.key === "Enter") join();
+            if (e.key === "Enter") {
+              e.preventDefault();
+              join();
+            }
           }}
         />
         <div class="row">
@@ -46,7 +49,7 @@ export function MultiplayerPage(props: { text?: string }) {
           </button>
         </div>
         {text && !parsed.ok && (
-          <p class="status bad">{parsed.kind === "unsupported" ? t("This room needs a newer version of Stroopy.") : t("No valid room code found.")}</p>
+          <p class="status bad">{parsed.kind === "invalid" ? t("No valid invitation found.") : t("This room needs a newer version of Stroopy.")}</p>
         )}
       </div>
     </SubPage>

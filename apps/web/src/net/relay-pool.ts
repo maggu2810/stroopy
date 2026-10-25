@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// Connections to several Nostr relays (docs/spec/protocol/v1.md §3.3): publish to all,
+// Connections to several Nostr relays (docs/spec/multiplayer/v1.md §3.3): publish to all,
 // subscribe on all, deduplicate and verify incoming events, reconnect with backoff.
 import { signal } from "@preact/signals";
-import { verifyEvent, type NostrEvent } from "./protocol-v1.ts";
+import { verifyEvent, type NostrEvent } from "./multiplayer-v1.ts";
 
 const MAX_BACKOFF_MS = 30000;
 const SEEN_LIMIT = 2000;

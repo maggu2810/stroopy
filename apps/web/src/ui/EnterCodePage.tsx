@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { useState } from "preact/hooks";
 import { modeFromId, RULES_VERSION } from "../core/rules-v1.ts";
-import { decodeText } from "../core/share-code-v1.ts";
+import { decodeText } from "../core/game-v1.ts";
 import { t } from "../app/i18n.ts";
 import { pop } from "../app/nav.ts";
 import { modeName } from "../app/theme.ts";

@@ -1,15 +1,24 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// Protocol v1 (docs/spec/protocol/v1.md): room codes, messages and Nostr events.
+// Multiplayer v1 (docs/spec/multiplayer/v1.md): invitations, messages and Nostr events.
 import { schnorr } from "@noble/curves/secp256k1.js";
 import { sha256 } from "@noble/hashes/sha2.js";
 import { bytesToHex, hexToBytes } from "@noble/hashes/utils.js";
-import { ALPHABET, invalid, normalise, unsupported, type Decoded } from "../core/codec.ts";
-import { decodeText } from "../core/share-code-v1.ts";
+import { ALPHABET, base32, ByteWriter, crc16, getU16, grouped, invalid, normalise, unbase32, unsupported, type Decoded } from "../core/codec.ts";
+import { decodeText } from "../core/game-v1.ts";
 
-export const PROTOCOL_VERSION = 1;
+export const MULTIPLAYER_VERSION = 1;
 export const KIND = 25713;
 
-// ---- rooms (§1) ----
+// ---- invitations (§1) ----
+
+const TAG_NOSTR = 1;
+export const MAX_RELAYS = 8;
+
+export interface Invitation {
+  /** Room id as 8 Crockford characters. */
+  room: string;
+  relays: string[];
+}
 
 /** 40-bit value -> 8 Crockford characters. */
 export function roomIdFromValue(value: bigint): string {
@@ -23,39 +32,96 @@ export function randomRoomId(): string {
   return roomIdFromValue(b.reduce((v, x) => (v << 8n) | BigInt(x), 0n));
 }
 
-export function roomCode(id: string): string {
-  return `SYR${PROTOCOL_VERSION}-${id.slice(0, 4)}-${id.slice(4)}`;
-}
-
 export function roomTag(id: string): string {
-  return `stroopy-p${PROTOCOL_VERSION}-${id.toLowerCase()}`;
+  return `stroopy-m${MULTIPLAYER_VERSION}-${id.toLowerCase()}`;
 }
 
-const ROOM_PATTERN = /SYR([0-9]+)-([0-9A-Za-z]{4})-?([0-9A-Za-z]{4})/i;
-const BARE_PATTERN = /^([0-9A-Za-z]{4})-?([0-9A-Za-z]{4})$/;
+const utf8 = new TextEncoder();
+const strictUtf8 = new TextDecoder("utf-8", { fatal: true });
 
-function normaliseId(chars: string): string | null {
-  let out = "";
-  for (const c of chars) {
-    const n = normalise(c);
-    if (!n) return null;
-    out += n;
-  }
-  return out;
+/** True if `url` may be a relay entry (§1.1): ws(s) scheme, no white space or control characters, at most 255 bytes. */
+export function isRelayUrl(url: string): boolean {
+  // eslint-disable-next-line no-control-regex
+  return /^wss?:\/\/[^\u0000-\u0020\u007f]+$/.test(url) && utf8.encode(url).length <= 255;
 }
 
-/** Room code in arbitrary text, or a bare id typed by a user -> room id. */
-export function parseRoom(text: string): Decoded<string> {
-  const m = ROOM_PATTERN.exec(text);
-  if (m) {
-    const version = Number(m[1]);
-    if (version !== PROTOCOL_VERSION) return unsupported(version);
-    const id = normaliseId(m[2]! + m[3]!);
-    return id ? { ok: true, value: id } : invalid;
+export function encodeRecord(inv: Invitation): Uint8Array {
+  const w = new ByteWriter().u8(MULTIPLAYER_VERSION).raw(unbase32(inv.room).bytes).u8(inv.relays.length);
+  for (const url of inv.relays) {
+    const value = utf8.encode(url);
+    w.u8(TAG_NOSTR).u8(value.length).raw(value);
   }
-  const b = BARE_PATTERN.exec(text.trim());
-  const id = b && normaliseId(b[1]! + b[2]!);
-  return id ? { ok: true, value: id } : invalid;
+  return w.crc().result();
+}
+
+export function encodeText(inv: Invitation): string {
+  return `SYM${MULTIPLAYER_VERSION}-` + grouped(base32(encodeRecord(inv).subarray(1)));
+}
+
+class TooShort extends Error {}
+class Bad extends Error {}
+
+const PREFIX = /SYM([0-9]+)-/i;
+
+/** Finds and decodes the first invitation in arbitrary text (§1.2). */
+export function decodeInvitation(text: string): Decoded<Invitation> {
+  const m = PREFIX.exec(text);
+  if (!m) return invalid;
+  const version = Number(m[1]);
+  if (version !== MULTIPLAYER_VERSION) return unsupported(version);
+
+  let chars = "";
+  for (const raw of text.slice(m.index + m[0].length)) {
+    if (raw === "-" || /\s/.test(raw)) continue;
+    const c = normalise(raw);
+    if (!c) break;
+    chars += c;
+  }
+  const data = Uint8Array.from([MULTIPLAYER_VERSION, ...unbase32(chars).bytes]);
+  let pos = 1;
+  const need = (n: number) => {
+    if (pos + n > data.length) throw new TooShort();
+  };
+  const u8 = () => (need(1), data[pos++]!);
+
+  try {
+    need(5);
+    const room = base32(data.subarray(1, 6));
+    pos = 6;
+    const count = u8();
+    if (count === 0) throw new Bad();
+    const relays: string[] = [];
+    for (let i = 0; i < count; ++i) {
+      const tag = u8();
+      const len = u8();
+      need(len);
+      const value = data.subarray(pos, pos + len);
+      pos += len;
+      if (tag >= 128) throw new Bad();
+      if (tag !== TAG_NOSTR) continue; // unknown transport: skipped
+      let url: string;
+      try {
+        url = strictUtf8.decode(value);
+      } catch {
+        throw new Bad();
+      }
+      if (!isRelayUrl(url) || relays.includes(url) || relays.length === MAX_RELAYS) throw new Bad();
+      relays.push(url);
+    }
+    const crcPos = pos;
+    need(2);
+    // Exactly the characters needed for the record belong to the code (§1.2 step 4).
+    const length = crcPos + 2;
+    const needed = Math.ceil(((length - 1) * 8) / 5);
+    const pad = needed * 5 - (length - 1) * 8;
+    if ((ALPHABET.indexOf(chars[needed - 1]!) & ((1 << pad) - 1)) !== 0) return invalid;
+    if (crc16(data.subarray(0, crcPos)) !== getU16(data, crcPos)) return invalid;
+    if (!relays.length) return { ok: false, kind: "noTransport" };
+    return { ok: true, value: { room, relays } };
+  } catch (e) {
+    if (e instanceof TooShort || e instanceof Bad) return invalid;
+    throw e;
+  }
 }
 
 // ---- messages (§2) ----
@@ -91,7 +157,7 @@ export function parseMessage(content: string): Message | null {
   } catch {
     return null;
   }
-  if (!isObject(m) || m.p !== PROTOCOL_VERSION) return null;
+  if (!isObject(m) || m.m !== MULTIPLAYER_VERSION) return null;
   switch (m.type) {
     case "bye":
       return { type: "bye" };
@@ -123,9 +189,9 @@ export function parseMessage(content: string): Message | null {
 export function encodeMessage(m: Message): string {
   switch (m.type) {
     case "start":
-      return JSON.stringify({ p: PROTOCOL_VERSION, type: "start", code: m.code });
+      return JSON.stringify({ m: MULTIPLAYER_VERSION, type: "start", code: m.code });
     default:
-      return JSON.stringify({ p: PROTOCOL_VERSION, ...m });
+      return JSON.stringify({ m: MULTIPLAYER_VERSION, ...m });
   }
 }
 
@@ -152,8 +218,6 @@ export function serialise(pubkey: string, createdAt: number, kind: number, tags:
   const t = "[" + tags.map((tag) => "[" + tag.map(jsonString).join(",") + "]").join(",") + "]";
   return `[0,${jsonString(pubkey)},${createdAt},${kind},${t},${jsonString(content)}]`;
 }
-
-const utf8 = new TextEncoder();
 
 export function eventId(e: Omit<NostrEvent, "id" | "sig">): Uint8Array {
   return sha256(utf8.encode(serialise(e.pubkey, e.created_at, e.kind, e.tags, e.content)));
