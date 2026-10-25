@@ -143,6 +143,8 @@ tools/                    helper scripts (e.g. fetch-original.sh)
   (`docs/decisions/0012-nostr-first-multiplayer.md`)
 - Web hosting: **GitHub Pages**, built by GitHub Actions
   (`docs/decisions/0013-web-hosting-github-pages.md`)
+- App versions: every change to an app bumps its **SemVer** version
+  (`docs/decisions/0014-app-version-bump-on-every-change.md`)
 
 ## Open decisions
 
@@ -154,5 +156,10 @@ tools/                    helper scripts (e.g. fetch-original.sh)
 - Agents commit their work themselves, in logical groups (one concern per
   commit), without waiting to be asked. They don't push unless asked.
 - Keep `docs/` up to date with behaviour changes in the same commit.
+- Every commit that changes what an app builds or ships bumps that app's
+  version in the same commit (`apps/qt/CMakeLists.txt`,
+  `apps/web/package.json`): `PATCH` for fixes, `MINOR` for features or
+  changed behaviour. Tests, READMEs, CI and `docs/` alone don't bump
+  (decision 0014).
 - Decision records are append-only: revise by a new record and link it from
   the old one's status (`docs/decisions/README.md`).
