@@ -151,6 +151,8 @@ tools/                    helper scripts (e.g. fetch-original.sh)
 ## Conventions
 
 - Commit messages: imperative mood, short subject line.
+- Agents commit their work themselves, in logical groups (one concern per
+  commit), without waiting to be asked. They don't push unless asked.
 - Keep `docs/` up to date with behaviour changes in the same commit.
 - Decision records are append-only: revise by a new record and link it from
   the old one's status (`docs/decisions/README.md`).
