@@ -1,3 +1,6 @@
+# temporary parts
+tmp/
+
 # Third-party binaries and decompiled output are NOT committed (copyright).
 # Reproduce them with tools/fetch-original.sh.
 /third-party/*/apk/
