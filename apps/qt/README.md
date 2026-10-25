@@ -25,6 +25,8 @@ Targets: **Linux desktop**, **Android arm64** (later Windows, macOS, iOS).
   invitation (`SYM1-…`, it carries the creator's relays) or join with one; the
   host starts, everyone plays the same sequence and sees the others' progress;
   plays together with the web app
+- `stroopy://play?c=…` and `stroopy://join?c=…` links open *Enter code* or the
+  join flow prefilled (Android)
 - In-app Help page: modes, controls, sharing, multiplayer, about
 
 ## Layout
@@ -33,9 +35,9 @@ Targets: **Linux desktop**, **Android arm64** (later Windows, macOS, iOS).
 src/core/   game core in plain C++23, no Qt (rules, game codes, backup, invitations, game session)
 src/net/    Nostr: events and signatures (libsecp256k1), multiplayer messages, relay pool (Qt WebSockets)
 src/app/    Qt Quick app: C++ (GameController, Highscores, Sharing, Backup, Multiplayer,
-            AppSettings) + QML UI
+            AppSettings, Links) + QML UI
 src/app/i18n/  translations (Stroopy_<lang>.ts); refresh with the update_translations target
-android/    Android package sources: manifest (TV, vibration), StroopyActivity (gamepad
+android/    Android package sources: manifest (TV, vibration, stroopy:// links), StroopyActivity (gamepad
             buttons → JNI), TV banner (assets/artwork/banner.svg → tools/render-assets.sh)
 tests/      conformance tests (rules, game code, backup, multiplayer), a headless UI test (tst_ui)
             and interop_nostr, a live driver for apps/web's `bun run test:interop`

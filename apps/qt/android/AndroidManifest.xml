@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<!-- Based on Qt's Android manifest template; adapted for Stroopy (gamepad activity, Android TV). -->
+<!-- Based on Qt's Android manifest template; adapted for Stroopy (gamepad activity, Android TV,
+     stroopy:// links). -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.qtproject.example"
     android:installLocation="auto"
@@ -28,13 +29,23 @@
             android:name="de.maggu2810.android.stroopy.qt.StroopyActivity"
             android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density"
             android:label="-- %%INSERT_APP_NAME%% --"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:screenOrientation="unspecified"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+            <!-- stroopy://play?c=… and stroopy://join?c=…; Qt passes them to QDesktopServices.
+                 singleTask: a link opened from another app reuses this activity (onNewIntent). -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="stroopy" />
+                <data android:host="play" />
+                <data android:host="join" />
             </intent-filter>
 
             <meta-data

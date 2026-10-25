@@ -13,6 +13,7 @@ qt_add_qml_module(stroopy_ui
         gamepad.hpp gamepad.cpp
         haptics.hpp haptics.cpp
         highscores.hpp highscores.cpp
+        links.hpp links.cpp
         multiplayer.hpp multiplayer.cpp
         sharing.hpp sharing.cpp
     QML_FILES

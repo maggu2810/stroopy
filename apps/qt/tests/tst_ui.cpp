@@ -6,6 +6,7 @@
 #include "highscores.hpp"
 #include "multiplayer.hpp"
 
+#include <QDesktopServices>
 #include <QDir>
 #include <QQmlApplicationEngine>
 #include <QQuickItem>
@@ -197,6 +198,33 @@ private slots:
         } else {
             key(Qt::Key_Escape);
         }
+        QTest::qWait(600);
+    }
+
+    // stroopy:// links open Enter code / Multiplayer prefilled, with the action button focused.
+    void links()
+    {
+        auto *stack = m_window->findChild<QQuickItem *>(u"stack"_s);
+        QVERIFY(stack);
+        const auto current = [stack] { return stack->property("currentItem").value<QQuickItem *>(); };
+
+        QVERIFY(QDesktopServices::openUrl(QUrl{u"stroopy://play?c=SYG1-040G-0000-0000-001A-03CT-T"_s}));
+        QTRY_VERIFY(current()->property("decoded").isValid()); // Enter code
+        QVERIFY(current()->property("decoded").toMap()[u"ok"_s].toBool());
+        QTest::qWait(600);
+        shot(u"link-play"_s);
+        key(Qt::Key_Return); // Play is focused
+        QTRY_COMPARE_WITH_TIMEOUT(m_controller->phase(), GameController::Phase::Running, 6000);
+
+        // A join link leaves the running game.
+        const auto invitation = u"SYM1-796K-QTHW-040H-8XVK-ECX2-YBVJ-CNP6-2Y9E-CHGP-TXBK-5SMP-YE3E"_s;
+        QVERIFY(QDesktopServices::openUrl(QUrl{u"stroopy://join?c="_s + invitation}));
+        QTRY_VERIFY(current()->property("parsed").isValid()); // Multiplayer
+        QCOMPARE(m_controller->phase(), GameController::Phase::Idle);
+        QVERIFY(current()->property("parsed").toMap()[u"ok"_s].toBool());
+        shot(u"link-join"_s);
+        QTest::qWait(600);
+        key(Qt::Key_Escape);
         QTest::qWait(600);
     }
 

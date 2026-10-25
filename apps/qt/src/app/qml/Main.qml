@@ -19,6 +19,16 @@ ApplicationWindow {
     function showLobby() {
         stack.replace(null, [homePage, lobbyPage])
     }
+    // A stroopy:// link leaves the current game and room, then opens its page prefilled.
+    function openLink(page: Component, text: string) {
+        if (Multiplayer.active && (gameController.phase === GameController.Countdown
+                                   || gameController.phase === GameController.Running))
+            Multiplayer.report(gameController.phase === GameController.Running ? gameController.n : 1,
+                               gameController.score, true)
+        gameController.abort()
+        Multiplayer.leave()
+        stack.replace(null, [homePage, page, {initialText: text}])
+    }
     function moveFocus(forward: bool) {
         const current = window.activeFocusItem
         const next = current ? current.nextItemInFocusChain(forward) : null
@@ -72,6 +82,17 @@ ApplicationWindow {
         }
     }
 
+    Connections {
+        target: Links
+
+        function onPlay(code: string) {
+            window.openLink(enterCodePage, code)
+        }
+        function onJoin(invitation: string) {
+            window.openLink(multiplayerPage, invitation)
+        }
+    }
+
     Shortcut {
         sequence: "F11"
         onActivated: window.visibility = window.visibility === Window.FullScreen ? Window.Windowed
@@ -84,6 +105,7 @@ ApplicationWindow {
     StackView {
         id: stack
 
+        objectName: "stack"
         anchors.fill: parent
         focus: true
         initialItem: homePage

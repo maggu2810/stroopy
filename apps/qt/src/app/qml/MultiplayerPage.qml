@@ -8,10 +8,12 @@ import QtQuick.Layouts
 SubPage {
     id: page
 
+    // Prefilled from a stroopy://join link.
+    property string initialText
     readonly property var parsed: Multiplayer.parseInvitation(codeField.text)
 
     title: qsTr("Multiplayer")
-    StackView.onActivated: createButton.forceActiveFocus()
+    StackView.onActivated: (joinButton.enabled ? joinButton : createButton).forceActiveFocus()
 
     ScrollView {
         id: scroll
@@ -70,6 +72,7 @@ SubPage {
                 id: codeField
 
                 Layout.fillWidth: true
+                text: page.initialText
                 placeholderText: qsTr("Paste the invitation (SYM1-…) or the message with it")
                 inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase
                 onAccepted: joinButton.click()

@@ -7,12 +7,14 @@ import QtQuick.Layouts
 SubPage {
     id: page
 
+    // Prefilled from a stroopy://play link.
+    property string initialText
     readonly property var decoded: Sharing.decode(input.text)
 
     signal play(mode: int, seedHex: string, score: int, reached: int)
 
     title: qsTr("Enter code")
-    StackView.onActivated: input.forceActiveFocus()
+    StackView.onActivated: playButton.enabled ? playButton.forceActiveFocus() : input.forceActiveFocus()
 
     ColumnLayout {
         anchors.fill: parent
@@ -31,6 +33,7 @@ SubPage {
 
             Layout.fillWidth: true
             Layout.preferredHeight: 120
+            text: page.initialText
             placeholderText: "SYG1-…"
             wrapMode: TextEdit.WrapAnywhere
             inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase

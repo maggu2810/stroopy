@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "gamepad.hpp"
+#include "links.hpp"
 
 #include <QGuiApplication>
 #include <QIcon>
@@ -20,6 +21,8 @@ int main(int argc, char *argv[])
     QGuiApplication::setWindowIcon(QIcon{u":/icons/stroopy.png"_s});
     QQuickStyle::setStyle(u"Material"_s);
     Gamepad::registerNatives();
+    // Before the event loop: Android hands over the launching intent once it runs.
+    Links::instance();
 
     QQmlApplicationEngine engine;
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app,
