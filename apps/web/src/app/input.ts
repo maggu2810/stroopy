@@ -2,6 +2,7 @@
 // Keyboard, gamepad and focus navigation (docs/design/product.md, "Input").
 import { signal } from "@preact/signals";
 import { useEffect } from "preact/hooks";
+import { pop } from "./nav.ts";
 
 /** Set once a key or gamepad button is used: show key hints and the focus frame. */
 export const keyHints = signal(false);
@@ -29,6 +30,12 @@ export function usePageInput(input: PageInput) {
       current = previous;
     };
   });
+}
+
+/** Runs the active page's back action (pages without one just close). */
+export function back() {
+  if (current.back) current.back();
+  else pop();
 }
 
 function isTextInput(el: Element | null): boolean {

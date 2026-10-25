@@ -81,8 +81,10 @@ Notes:
   Screen* / *Install*; works offline after the first visit. The URL
   parameter `?c=<game code>` opens *Enter code* with the code, `?j=<invitation>`
   opens the join flow. Gamepads via the browser Gamepad API (standard
-  mapping), same bindings as the table above. The app requests persistent
-  storage; the backup code is the safety net.
+  mapping), same bindings as the table above. Each open page has a browser
+  history entry, so the system back gesture (Android) and the browser's
+  back button act like Back; on the home screen they leave the app. The app
+  requests persistent storage; the backup code is the safety net.
 
 ## Highscores
 

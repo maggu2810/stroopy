@@ -4,6 +4,7 @@ import * as backup from "./app/backup.ts";
 import { controller } from "./app/controller.ts";
 import * as highscores from "./app/highscores.ts";
 import * as multiplayer from "./app/multiplayer.ts";
+import { installHistory } from "./app/history.ts";
 import { installInput } from "./app/input.ts";
 import { push } from "./app/nav.ts";
 import { requestPersistence } from "./app/storage.ts";
@@ -22,6 +23,7 @@ if (code) push({ name: "enterCode", text: code });
 const invitation = params.get("j");
 if (invitation) push({ name: "multiplayer", text: invitation });
 if (params.size) history.replaceState(null, "", location.pathname);
+installHistory();
 
 render(<App />, document.getElementById("app")!);
 

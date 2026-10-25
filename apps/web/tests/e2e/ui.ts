@@ -186,6 +186,33 @@ await test("settings and backup round trip", async (p) => {
   check(again === result.code, "export after import is identical");
 }, page);
 
+await test("system back follows the page stack", async (p) => {
+  await resize(p, 420, 820);
+  await p.goto(`http://localhost:${port}/`);
+  await p.waitForSelector(".home");
+  const length = await p.evaluate(() => history.length);
+  await p.click("button.multi");
+  await p.waitForSelector(".multiplayer");
+  await p.goBack();
+  await p.waitForSelector(".home");
+  await p.click("button.multi");
+  await p.waitForSelector(".multiplayer");
+  await key(p, "Escape"); // in-app back also removes the history entry
+  await p.waitForSelector(".home");
+  await Bun.sleep(100);
+  check((await p.evaluate(() => history.state?.stroopy)) === 0, "back on the home entry");
+  await p.goForward(); // nothing ahead: stays on home
+  await Bun.sleep(100);
+  check(!!(await p.$(".home")), "forward stays on home");
+  await key(p, "Enter");
+  await waitRunning(p);
+  await p.goBack(); // quits the game
+  await p.waitForSelector(".home");
+  await Bun.sleep(100);
+  check((await p.evaluate(() => history.state?.stroopy)) === 0, "game quit returns to the home entry");
+  check((await p.evaluate(() => history.length)) === length + 1, "one entry for the visited page");
+}, page);
+
 await browser.close();
 server.kill();
 console.log(failures ? `${failures} failure(s)` : "all passed");
