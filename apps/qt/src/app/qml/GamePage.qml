@@ -162,7 +162,7 @@ FocusScope {
             spacing: 16
 
             ToolButton {
-                text: "✕"
+                text: "×"
                 focusPolicy: Qt.NoFocus
                 onClicked: page.quit()
             }
@@ -193,7 +193,7 @@ FocusScope {
                     required property var modelData
 
                     text: modelData.name + "  <b>" + modelData.score + "</b>  "
-                          + (modelData.over ? "✗" : "#" + modelData.n)
+                          + (modelData.over ? "×" : "#" + modelData.n)
                     textFormat: Text.StyledText
                     color: AppTheme.text
                     opacity: modelData.over ? 0.6 : 1
