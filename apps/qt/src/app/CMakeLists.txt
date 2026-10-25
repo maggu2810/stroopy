@@ -34,7 +34,8 @@ qt_add_qml_module(stroopy_ui
 )
 
 target_include_directories(stroopy_ui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(stroopy_ui PUBLIC Qt6::Quick Qt6::QuickControls2 stroopy_core stroopy_net)
+find_package(Qt6 REQUIRED COMPONENTS Network)
+target_link_libraries(stroopy_ui PUBLIC Qt6::Quick Qt6::QuickControls2 Qt6::Network stroopy_core stroopy_net)
 
 qt_add_executable(stroopy main.cpp)
 target_compile_definitions(stroopy PRIVATE STROOPY_VERSION="${PROJECT_VERSION}")
@@ -80,4 +81,11 @@ endif()
 if(NOT ANDROID)
     include(GNUInstallDirs)
     install(TARGETS stroopy BUNDLE DESTINATION . RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+    if(UNIX AND NOT APPLE)
+        # Menu entry and handler of stroopy:// links (x-scheme-handler/stroopy).
+        install(FILES ../../linux/de.maggu2810.android.stroopy.qt.desktop
+                DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
+        install(FILES icons/stroopy.png RENAME de.maggu2810.android.stroopy.qt.png
+                DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/256x256/apps)
+    endif()
 endif()

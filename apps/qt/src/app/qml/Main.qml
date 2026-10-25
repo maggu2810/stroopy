@@ -28,6 +28,9 @@ ApplicationWindow {
         gameController.abort()
         Multiplayer.leave()
         stack.replace(null, [homePage, page, {initialText: text}])
+        // Desktop: the link came from another app, bring the window to the front.
+        window.raise()
+        window.requestActivate()
     }
     function moveFocus(forward: bool) {
         const current = window.activeFocusItem

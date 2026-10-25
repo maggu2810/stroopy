@@ -4,6 +4,7 @@
 #include "backup.hpp"
 #include "gamecontroller.hpp"
 #include "highscores.hpp"
+#include "links.hpp"
 #include "multiplayer.hpp"
 
 #include <QDesktopServices>
@@ -223,6 +224,15 @@ private slots:
         QCOMPARE(m_controller->phase(), GameController::Phase::Idle);
         QVERIFY(current()->property("parsed").toMap()[u"ok"_s].toBool());
         shot(u"link-join"_s);
+        QTest::qWait(600);
+
+        // Desktop: a later start hands its argument to this instance.
+        const auto url = Links::fromArguments({u"stroopy"_s, u"--x"_s, u"stroopy://play?c=SYG1-040G-0000-0000-001A-03CT-T"_s});
+        QCOMPARE(url.host(), u"play"_s);
+        QVERIFY(Links::fromArguments({u"stroopy"_s}).isEmpty());
+        Links::instance()->listen();
+        QVERIFY(Links::forward(url));
+        QTRY_VERIFY(current()->property("decoded").isValid()); // Enter code
         QTest::qWait(600);
         key(Qt::Key_Escape);
         QTest::qWait(600);

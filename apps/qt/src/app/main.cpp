@@ -19,10 +19,20 @@ int main(int argc, char *argv[])
     QGuiApplication::setOrganizationDomain(u"maggu2810.de"_s);
     QGuiApplication::setApplicationVersion(QStringLiteral(STROOPY_VERSION));
     QGuiApplication::setWindowIcon(QIcon{u":/icons/stroopy.png"_s});
+    QGuiApplication::setDesktopFileName(u"de.maggu2810.android.stroopy.qt"_s);
     QQuickStyle::setStyle(u"Material"_s);
     Gamepad::registerNatives();
     // Before the event loop: Android hands over the launching intent once it runs.
-    Links::instance();
+    [[maybe_unused]] auto *links = Links::instance();
+#ifndef Q_OS_ANDROID
+    // Desktop: a link as argument goes to the running instance, if any, else is opened here.
+    if (const auto url = Links::fromArguments(QCoreApplication::arguments()); !url.isEmpty()) {
+        if (Links::forward(url))
+            return EXIT_SUCCESS;
+        QMetaObject::invokeMethod(links, [links, url] { links->handleUrl(url); }, Qt::QueuedConnection);
+    }
+    links->listen();
+#endif
 
     QQmlApplicationEngine engine;
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app,

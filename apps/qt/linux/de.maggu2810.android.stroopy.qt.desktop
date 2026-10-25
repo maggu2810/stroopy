@@ -1,0 +1,16 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+[Desktop Entry]
+Type=Application
+Name=Stroopy
+GenericName=Colour word game
+GenericName[de]=Farbwort-Spiel
+Comment=Does the colour match the word?
+Comment[de]=Passt die Farbe zum Wort?
+Exec=stroopy %u
+Icon=de.maggu2810.android.stroopy.qt
+Terminal=false
+Categories=Game;LogicGame;
+Keywords=stroop;colour;color;word;reaction;
+Keywords[de]=stroop;Farbe;Wort;Reaktion;
+MimeType=x-scheme-handler/stroopy;
+StartupWMClass=stroopy

@@ -74,12 +74,14 @@ Notes:
 
 - **Android TV**: listed in the TV launcher (leanback) with a banner. A
   touchscreen is not required. Everything is reachable with the D-pad.
-- **Links** on Android: the app opens `stroopy://play?c=…` (*Enter code*
+- **Links** on Android and desktop: the app opens `stroopy://play?c=…` (*Enter code*
   with the code) and `stroopy://join?c=…` (the join flow with the
   invitation), whether it is running or not. Nothing starts by itself: the
   player confirms with **Play** or **Join**, which have focus. A link that
   arrives during a game or in a room quits the game and leaves the room
-  first.
+  first. On the desktop, the installed menu entry registers the
+  `stroopy` scheme; a link opened while the app runs goes to that window
+  instead of starting a second one.
 - **Gamepads** on Android: their buttons arrive as key events and follow the
   table above. Analog sticks are not used.
 - **Desktop gamepads**: later, e.g. via SDL.

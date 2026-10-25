@@ -26,7 +26,7 @@ Targets: **Linux desktop**, **Android arm64** (later Windows, macOS, iOS).
   host starts, everyone plays the same sequence and sees the others' progress;
   plays together with the web app
 - `stroopy://play?c=…` and `stroopy://join?c=…` links open *Enter code* or the
-  join flow prefilled (Android)
+  join flow prefilled (Android; Linux once installed, a running instance takes them over)
 - In-app Help page: modes, controls, sharing, multiplayer, about
 
 ## Layout
@@ -37,6 +37,7 @@ src/net/    Nostr: events and signatures (libsecp256k1), multiplayer messages, r
 src/app/    Qt Quick app: C++ (GameController, Highscores, Sharing, Backup, Multiplayer,
             AppSettings, Links) + QML UI
 src/app/i18n/  translations (Stroopy_<lang>.ts); refresh with the update_translations target
+linux/      desktop entry (menu, x-scheme-handler/stroopy)
 android/    Android package sources: manifest (TV, vibration, stroopy:// links), StroopyActivity (gamepad
             buttons → JNI), TV banner (assets/artwork/banner.svg → tools/render-assets.sh)
 tests/      conformance tests (rules, game code, backup, multiplayer), a headless UI test (tst_ui)
@@ -57,6 +58,10 @@ ctest --preset linux                     # conformance + UI tests (UI test rende
 tools/run-ui-test-headless.sh /tmp/shots # UI test in a private headless KWin (OpenGL) + screenshots
                                          # (STROOPY_UI_NETWORK=1 also opens a room on the relays)
 build/linux/src/app/stroopy
+
+# Linux: install with menu entry and stroopy:// link handler (~/.local/bin must be on PATH)
+cmake --install build/linux --prefix ~/.local
+update-desktop-database ~/.local/share/applications
 
 # Android (debug-signed APK)
 cmake --preset android && cmake --build --preset android
