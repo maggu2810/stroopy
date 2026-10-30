@@ -658,6 +658,9 @@ input.code {
   gap: 8px 16px;
   margin: 0;
 }
+.prose h3 {
+  color: var(--accent);
+}
 .prose dt {
   font-weight: 700;
 }
