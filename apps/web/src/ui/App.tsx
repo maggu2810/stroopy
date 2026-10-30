@@ -57,7 +57,11 @@ function CurrentPage() {
             reset({ name: "game" });
           }}
           onNewGame={() => playGame(controller.mode.value)}
-          onHome={() => reset()}
+          onHome={() => {
+            // A key right after N or R can still reach this page: stop the game it just started.
+            controller.abort();
+            reset();
+          }}
         />
       );
     case "highscores":
