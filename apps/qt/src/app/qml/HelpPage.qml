@@ -24,7 +24,7 @@ SubPage {
 
         ColumnLayout {
             x: (scroll.availableWidth - width) / 2
-            width: Math.min(scroll.availableWidth - 48, 720)
+            width: Math.min(scroll.availableWidth - 32, 560)
             spacing: 8
 
             Heading { text: qsTr("The idea") }
@@ -56,23 +56,23 @@ SubPage {
             }
 
             Heading { text: qsTr("Keyboard") }
-            Entry { term: "← / F    → / J"; definition: qsTr("FALSE / TRUE (Classic, Chrono)") }
-            Entry { term: "↑ → ↓ ←   W D S A"; definition: qsTr("Card at that position (Tap)") }
-            Entry { term: "↑ → ↓ ←"; definition: qsTr("Inner colours: yellow, red, green, blue (Find)") }
-            Entry { term: "⇧ + ↑ → ↓ ←"; definition: qsTr("Outer colours, clockwise from top right (Find)") }
-            Entry { term: "1 – 8"; definition: qsTr("Colour by its number on the button (Find)") }
-            Entry { term: qsTr("Arrows, Tab"); definition: qsTr("Move between buttons in menus") }
-            Entry { term: qsTr("Enter, Space"); definition: qsTr("Press the selected button") }
-            Entry { term: "Esc"; definition: qsTr("Back; quit a running game") }
-            Entry { term: "R / N"; definition: qsTr("Replay / new game on the result screen") }
-            Entry { term: "F11"; definition: qsTr("Fullscreen") }
+            Entry { keys: true; term: "← / F    → / J"; definition: qsTr("FALSE / TRUE (Classic, Chrono)") }
+            Entry { keys: true; term: "↑ → ↓ ←   W D S A"; definition: qsTr("Card at that position (Tap)") }
+            Entry { keys: true; term: "↑ → ↓ ←"; definition: qsTr("Inner colours: yellow, red, green, blue (Find)") }
+            Entry { keys: true; term: "⇧ + ↑ → ↓ ←"; definition: qsTr("Outer colours, clockwise from top right (Find)") }
+            Entry { keys: true; term: "1 – 8"; definition: qsTr("Colour by its number on the button (Find)") }
+            Entry { keys: true; term: qsTr("Arrows, Tab"); definition: qsTr("Move between buttons in menus") }
+            Entry { keys: true; term: qsTr("Enter, Space"); definition: qsTr("Press the selected button") }
+            Entry { keys: true; term: "Esc"; definition: qsTr("Back; quit a running game") }
+            Entry { keys: true; term: "R / N"; definition: qsTr("Replay / new game on the result screen") }
+            Entry { keys: true; term: "F11"; definition: qsTr("Fullscreen") }
 
             Heading { text: qsTr("Gamepad") }
-            Entry { term: "B / A"; definition: qsTr("FALSE / TRUE (Classic, Chrono)") }
-            Entry { term: qsTr("Y B A X or D-pad"); definition: qsTr("Top, right, bottom, left (Tap, Find)") }
-            Entry { term: qsTr("L1/R1 + direction"); definition: qsTr("Outer colours (Find)") }
-            Entry { term: qsTr("A / B in menus"); definition: qsTr("Press / back") }
-            Entry { term: qsTr("Start, Select"); definition: qsTr("Quit a running game") }
+            Entry { keys: true; term: "B / A"; definition: qsTr("FALSE / TRUE (Classic, Chrono)") }
+            Entry { keys: true; term: qsTr("Y B A X or D-pad"); definition: qsTr("Top, right, bottom, left (Tap, Find)") }
+            Entry { keys: true; term: qsTr("L1/R1 + direction"); definition: qsTr("Outer colours (Find)") }
+            Entry { keys: true; term: qsTr("A / B in menus"); definition: qsTr("Press / back") }
+            Entry { keys: true; term: qsTr("Start, Select"); definition: qsTr("Quit a running game") }
 
             Heading { text: qsTr("TV remote") }
             Paragraph {
@@ -113,7 +113,7 @@ SubPage {
         Layout.topMargin: 20
         font.pixelSize: 20
         font.bold: true
-        color: AppTheme.text
+        color: AppTheme.accent
     }
 
     component Paragraph: Label {
@@ -129,6 +129,8 @@ SubPage {
 
         property string term
         property string definition
+        // Key names: monospace, as in the web app.
+        property bool keys: false
         readonly property bool narrow: page.width <= 480
 
         Layout.fillWidth: true
@@ -143,7 +145,8 @@ SubPage {
             Layout.alignment: Qt.AlignTop
             text: entry.term
             wrapMode: Text.Wrap
-            font.bold: true
+            font.family: entry.keys ? "monospace" : Qt.application.font.family
+            font.weight: entry.keys ? Font.DemiBold : Font.Bold
             font.pixelSize: 16
             color: AppTheme.text
         }

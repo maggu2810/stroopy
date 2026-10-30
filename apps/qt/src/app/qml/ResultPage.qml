@@ -46,7 +46,7 @@ Page {
 
     GridLayout {
         anchors.centerIn: parent
-        width: Math.min(parent.width - 48, page.landscape ? 900 : 380)
+        width: Math.min(parent.width - 32, page.landscape ? 1068 : 388)
         columns: page.landscape ? 2 : 1
         columnSpacing: 48
         rowSpacing: 12
@@ -124,7 +124,7 @@ Page {
             }
             AppButton {
                 Layout.fillWidth: true
-                Layout.topMargin: 12
+                Layout.topMargin: 16
                 text: AppTheme.keyHints ? qsTr("Play this sequence again") + "  [R]" : qsTr("Play this sequence again")
                 onClicked: page.replay()
             }

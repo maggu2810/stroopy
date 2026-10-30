@@ -34,7 +34,7 @@ SubPage {
 
         GridLayout {
             x: (scroll.availableWidth - width) / 2
-            width: Math.min(scroll.availableWidth - 48, page.width > page.height ? 1100 : 560)
+            width: Math.min(scroll.availableWidth - 32, page.width > page.height ? 1100 : 420)
             columns: page.width > page.height ? 2 : 1
             columnSpacing: 48
             rowSpacing: 16
@@ -44,7 +44,7 @@ SubPage {
                 Layout.preferredWidth: 1 // equal columns in landscape
                 Layout.alignment: Qt.AlignTop
                 Layout.topMargin: 24
-                spacing: 12
+                spacing: 14
 
                 Label {
                     text: qsTr("Export")
@@ -87,7 +87,7 @@ SubPage {
                 Layout.alignment: Qt.AlignTop
                 Layout.topMargin: 24
                 Layout.bottomMargin: 24
-                spacing: 12
+                spacing: 14
 
                 Label {
                     text: qsTr("Import")

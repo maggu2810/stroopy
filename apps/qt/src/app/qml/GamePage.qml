@@ -247,7 +247,7 @@ FocusScope {
                     height: width
                     visible: page.controller.mode !== GameController.Chrono
                     color: AppTheme.ink(page.controller.ink)
-                    strokeWidth: Math.max(4, width / 16 * (1 - page.controller.n / 300))
+                    strokeWidth: width * Math.max(0.02, 0.07 * (1 - page.controller.n / 300))
                 }
 
                 Label {

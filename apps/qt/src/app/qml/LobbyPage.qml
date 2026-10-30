@@ -23,7 +23,7 @@ SubPage {
 
         GridLayout {
             x: (scroll.availableWidth - width) / 2
-            width: Math.min(scroll.availableWidth - 48, page.landscape ? 1100 : 560)
+            width: Math.min(scroll.availableWidth - 32, page.landscape ? 1100 : 420)
             columns: page.landscape ? 2 : 1
             columnSpacing: 48
             rowSpacing: 16

@@ -23,8 +23,8 @@ SubPage {
 
         ColumnLayout {
             x: (scroll.availableWidth - width) / 2
-            width: Math.min(scroll.availableWidth - 48, 560)
-            spacing: 12
+            width: Math.min(scroll.availableWidth - 32, 560)
+            spacing: 14
 
             Label {
                 Layout.fillWidth: true

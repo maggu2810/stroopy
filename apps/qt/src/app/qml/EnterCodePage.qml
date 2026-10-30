@@ -17,8 +17,12 @@ SubPage {
     StackView.onActivated: playButton.enabled ? playButton.forceActiveFocus() : input.forceActiveFocus()
 
     ColumnLayout {
-        anchors.fill: parent
-        anchors.margins: 24
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: 24
+        anchors.bottomMargin: 24
+        width: Math.min(parent.width - 32, 560)
         spacing: 16
 
         Label {
