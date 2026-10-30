@@ -155,6 +155,20 @@ await test("help page", async (p) => {
   await p.waitForSelector(".home");
 }, page);
 
+await test("highscores, enter code and multiplayer", async (p) => {
+  await resize(p, 420, 820);
+  for (const [downs, page] of [[5, "highscores"], [6, "enter-code"], [4, "multiplayer"]] as const) {
+    await p.goto(`http://localhost:${port}/`); // focus back on the first mode button
+    await p.waitForSelector(".home");
+    await key(p, "ArrowDown", downs);
+    await key(p, "Enter");
+    await p.waitForSelector(`.${page}`);
+    await shot(p, `${page}-portrait`);
+    await key(p, "Escape");
+  }
+  await p.waitForSelector(".home");
+}, page);
+
 await test("settings and backup round trip", async (p) => {
   await resize(p, 420, 820);
   await key(p, "ArrowDown", 8);

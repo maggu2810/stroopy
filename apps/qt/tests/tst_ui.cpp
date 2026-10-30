@@ -192,6 +192,21 @@ private slots:
         shot(u"home-after-help"_s);
     }
 
+    void highscoresAndEnterCode()
+    {
+        // Home: 5 x Down reaches Highscores, 6 x Down Enter code.
+        resize(420, 820);
+        for (const auto &[downs, name] : {std::pair{5, u"highscores"_s}, std::pair{6, u"enter-code"_s}}) {
+            QTest::qWait(600);
+            for (int i = 0; i < downs; ++i)
+                key(Qt::Key_Down);
+            key(Qt::Key_Return);
+            shot(name + u"-portrait"_s);
+            key(Qt::Key_Escape);
+        }
+        QTest::qWait(600);
+    }
+
     void multiplayerPages()
     {
         // Home: 4 x Down reaches Multiplayer; the page focuses "Create room".
