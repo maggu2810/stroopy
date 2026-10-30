@@ -49,7 +49,7 @@ export function ResultPage(props: { rank: number; onReplay: () => void; onNewGam
           )}
         </div>
         <div class="actions">
-          <input class="code" readOnly value={code} tabIndex={-1} />
+          <input type="text" class="code" readOnly value={code} tabIndex={-1} />
           <button onClick={share}>{t("Share code")}</button>
           <button class="gap" onClick={props.onReplay}>
             {t("Play this sequence again")}
