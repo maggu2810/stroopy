@@ -163,6 +163,7 @@ FocusScope {
 
             ToolButton {
                 text: "×"
+                font.pixelSize: 26
                 focusPolicy: Qt.NoFocus
                 onClicked: page.quit()
             }
@@ -267,7 +268,7 @@ FocusScope {
                 Layout.fillWidth: true
                 Layout.fillHeight: page.landscape
                 Layout.preferredWidth: 1
-                Layout.maximumHeight: page.landscape ? -1 : 110
+                Layout.preferredHeight: page.landscape ? -1 : 110
                 visible: page.trueFalseMode
                 spacing: 16
 
@@ -366,6 +367,9 @@ FocusScope {
 
         Layout.fillWidth: true
         Layout.fillHeight: true
+        // Material insets the background by 6 px; fill the whole cell as the web app does.
+        topInset: 0
+        bottomInset: 0
         focusPolicy: Qt.NoFocus
         Material.roundedScale: Material.MediumScale
         Material.background: fill
