@@ -43,8 +43,9 @@ platform with any toolkit:
    - **backup `B`**: how highscores and settings are encoded as a backup
      code.
 2. **Product spec** (`docs/design/`): modes, screens, flows and
-   accessibility. Apps follow it for a consistent experience but adapt it to
-   their platform's idioms. It does not affect interoperability.
+   accessibility (`product.md`), and one shared look (`visual-style.md`).
+   Apps follow it for a consistent experience but adapt it to their
+   platform's idioms. It does not affect interoperability.
 
 An implementation declares which `R`/`G`/`M`/`B` versions it supports and proves
 it by passing their vectors. App versions are irrelevant for compatibility.

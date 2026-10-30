@@ -2,7 +2,8 @@
 
 Status: living document. It describes *what* every Stroopy app offers.
 Platform idioms (navigation, menus, dialogs) may differ. Interoperability is
-defined in `docs/spec/`, not here.
+defined in `docs/spec/`, not here. How the screens look (colours, type,
+controls, layout values) is in `visual-style.md`.
 
 ## Screens
 
