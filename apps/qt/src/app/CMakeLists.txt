@@ -19,6 +19,7 @@ qt_add_qml_module(stroopy_ui
     QML_FILES
         qml/Main.qml
         qml/AppTheme.qml
+        qml/AppButton.qml
         qml/SubPage.qml
         qml/HomePage.qml
         qml/GamePage.qml

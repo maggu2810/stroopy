@@ -47,11 +47,13 @@ SubPage {
         Switch {
             id: colourBlindSwitch
 
+            leftPadding: 0
             text: qsTr("Colour-blind palette")
             checked: AppSettings.colourBlind
             onToggled: AppSettings.colourBlind = checked
         }
         Switch {
+            leftPadding: 0
             text: qsTr("Vibrate on failure")
             checked: AppSettings.vibration
             onToggled: AppSettings.vibration = checked
@@ -72,7 +74,7 @@ SubPage {
             Layout.fillWidth: true
             text: qsTr("Shown to other players. Names and scores travel unencrypted through public Nostr relays.")
             color: AppTheme.textMuted
-            font.pixelSize: 12
+            font.pixelSize: 13
             wrapMode: Text.Wrap
         }
 
@@ -92,14 +94,14 @@ SubPage {
             onEditingFinished: AppSettings.relays = text.split(/[\s,]+/).join("\n")
         }
 
-        Button {
+        AppButton {
             Layout.fillWidth: true
             Layout.topMargin: 24
             text: qsTr("Backup: export / import")
             onClicked: page.openBackup()
         }
 
-        Button {
+        AppButton {
             Layout.fillWidth: true
             Layout.bottomMargin: 24
             text: qsTr("Clear highscores")

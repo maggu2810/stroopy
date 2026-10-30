@@ -163,7 +163,7 @@ FocusScope {
 
             ToolButton {
                 text: "×"
-                font.pixelSize: 26
+                font.pixelSize: 36
                 focusPolicy: Qt.NoFocus
                 onClicked: page.quit()
             }

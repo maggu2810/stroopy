@@ -67,10 +67,10 @@ SubPage {
                     text: page.exported
                     wrapMode: TextEdit.WrapAnywhere
                     font.family: "monospace"
-                    font.pixelSize: 12
+                    font.pixelSize: 13
                     focusPolicy: Qt.NoFocus
                 }
-                Button {
+                AppButton {
                     id: copyButton
 
                     text: qsTr("Copy")
@@ -105,7 +105,7 @@ SubPage {
                     inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase
                     KeyNavigation.tab: pasteButton
                 }
-                Button {
+                AppButton {
                     id: pasteButton
 
                     text: qsTr("Paste")
@@ -131,14 +131,15 @@ SubPage {
                 Switch {
                     id: restoreSettings
 
+                    leftPadding: 0
                     text: qsTr("Also restore settings")
                     checked: true
                     enabled: page.inspected.ok && page.inspected.hasSettings
                 }
-                Button {
+                AppButton {
                     Layout.fillWidth: true
                     text: qsTr("Import")
-                    highlighted: true
+                    primary: true
                     enabled: page.inspected.ok
                     onClicked: {
                         const added = Backup.importCode(input.text, restoreSettings.checked)

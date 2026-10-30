@@ -111,9 +111,9 @@ SubPage {
     component Heading: Label {
         Layout.fillWidth: true
         Layout.topMargin: 20
-        font.pixelSize: 22
+        font.pixelSize: 20
         font.bold: true
-        color: AppTheme.accent
+        color: AppTheme.text
     }
 
     component Paragraph: Label {
@@ -123,17 +123,23 @@ SubPage {
         font.pixelSize: 16
     }
 
-    component Entry: RowLayout {
+    // Term and definition side by side; stacked on narrow screens, as in the web app.
+    component Entry: GridLayout {
         id: entry
 
         property string term
         property string definition
+        readonly property bool narrow: page.width <= 480
 
         Layout.fillWidth: true
-        spacing: 16
+        Layout.bottomMargin: narrow ? 8 : 0
+        columns: narrow ? 1 : 2
+        columnSpacing: 16
+        rowSpacing: 2
 
         Label {
-            Layout.preferredWidth: Math.min(200, page.width * 0.38)
+            Layout.fillWidth: entry.narrow
+            Layout.preferredWidth: entry.narrow ? -1 : Math.min(200, page.width * 0.38)
             Layout.alignment: Qt.AlignTop
             text: entry.term
             wrapMode: Text.Wrap

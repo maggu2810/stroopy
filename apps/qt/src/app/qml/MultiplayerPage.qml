@@ -48,17 +48,17 @@ SubPage {
                 Layout.fillWidth: true
                 text: qsTr("Shown to other players. Names and scores travel unencrypted through public Nostr relays.")
                 color: AppTheme.textMuted
-                font.pixelSize: 12
+                font.pixelSize: 13
                 wrapMode: Text.Wrap
             }
-            Button {
+            AppButton {
                 id: createButton
 
                 Layout.fillWidth: true
                 Layout.topMargin: 16
                 Layout.preferredHeight: 64
                 text: qsTr("Create room")
-                highlighted: true
+                primary: true
                 onClicked: Multiplayer.createRoom()
             }
             Label {
@@ -80,16 +80,16 @@ SubPage {
             RowLayout {
                 spacing: 12
 
-                Button {
+                AppButton {
                     text: qsTr("Paste")
                     // One line: a wrapped invitation still parses, white space inside it is skipped.
                     onClicked: codeField.text = Sharing.clipboardText().replace(/\s+/g, " ").trim()
                 }
-                Button {
+                AppButton {
                     id: joinButton
 
                     text: qsTr("Join")
-                    highlighted: true
+                    primary: true
                     enabled: page.parsed.ok
                     onClicked: Multiplayer.join(codeField.text)
                 }

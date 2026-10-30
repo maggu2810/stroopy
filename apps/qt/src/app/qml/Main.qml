@@ -49,6 +49,7 @@ ApplicationWindow {
     visible: true
     title: qsTr("Stroopy")
     color: AppTheme.background
+    font.pixelSize: 16
 
     Material.theme: Material.Dark
     Material.accent: AppTheme.accent

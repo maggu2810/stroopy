@@ -24,14 +24,19 @@ SubPage {
             id: tabs
 
             Layout.fillWidth: true
+            Material.background: AppTheme.background
 
             Repeater {
                 model: page.modes
 
+                // Full names that scroll when they don't fit, as in the web app.
                 delegate: TabButton {
                     required property int modelData
 
+                    width: Math.max(implicitWidth, page.width / page.modes.length)
                     text: AppTheme.modeName(modelData)
+                    font.weight: Font.DemiBold
+                    Material.foreground: AppTheme.textMuted
                 }
             }
         }
@@ -78,12 +83,15 @@ SubPage {
                             color: AppTheme.text
                         }
                         Label {
-                            text: Qt.formatDateTime(entry.modelData.time, Locale.ShortFormat)
+                            text: new Date(entry.modelData.time).toLocaleString(Qt.locale(AppSettings.effectiveLanguage), Locale.ShortFormat)
                             color: AppTheme.textMuted
-                            font.pixelSize: 12
+                            font.pixelSize: 13
                         }
                     }
-                    ToolButton {
+                    AppButton {
+                        flat: true
+                        leftPadding: 12
+                        rightPadding: 12
                         text: qsTr("Share")
                         onClicked: {
                             Sharing.copyToClipboard(Sharing.encode(entry.modelData.rules, entry.modelData.mode,
@@ -92,7 +100,10 @@ SubPage {
                             copied.open()
                         }
                     }
-                    ToolButton {
+                    AppButton {
+                        flat: true
+                        leftPadding: 12
+                        rightPadding: 12
                         text: "▶"
                         enabled: entry.modelData.rules === 1
                         onClicked: page.playEntry(entry.modelData.mode, entry.modelData.seedHex)

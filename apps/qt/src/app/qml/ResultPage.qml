@@ -53,7 +53,7 @@ Page {
 
         ColumnLayout {
             Layout.fillWidth: true
-            Layout.alignment: Qt.AlignVCenter
+            Layout.alignment: Qt.AlignCenter
             spacing: 8
 
             Label {
@@ -109,9 +109,9 @@ Page {
                 focusPolicy: Qt.ClickFocus
                 horizontalAlignment: Text.AlignHCenter
                 font.family: "monospace"
-                font.pixelSize: 15
+                font.pixelSize: 13
             }
-            Button {
+            AppButton {
                 Layout.fillWidth: true
                 text: qsTr("Copy code to share")
                 onClicked: {
@@ -122,21 +122,21 @@ Page {
                     copied.open()
                 }
             }
-            Button {
+            AppButton {
                 Layout.fillWidth: true
                 Layout.topMargin: 12
                 text: AppTheme.keyHints ? qsTr("Play this sequence again") + "  [R]" : qsTr("Play this sequence again")
                 onClicked: page.replay()
             }
-            Button {
+            AppButton {
                 id: newGameButton
 
                 Layout.fillWidth: true
                 text: AppTheme.keyHints ? qsTr("New game") + "  [N]" : qsTr("New game")
-                highlighted: true
+                primary: true
                 onClicked: page.newGame()
             }
-            Button {
+            AppButton {
                 Layout.fillWidth: true
                 text: qsTr("Home")
                 flat: true

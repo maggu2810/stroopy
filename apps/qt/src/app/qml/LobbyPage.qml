@@ -38,7 +38,7 @@ SubPage {
                 RowLayout {
                     spacing: 16
 
-                    Button {
+                    AppButton {
                         id: inviteButton
 
                         text: qsTr("Invite")
@@ -141,12 +141,12 @@ SubPage {
                 Layout.bottomMargin: 24
                 spacing: 12
 
-                Button {
+                AppButton {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 64
                     visible: Multiplayer.pending
                     text: qsTr("Join the running game")
-                    highlighted: true
+                    primary: true
                     onClicked: Multiplayer.joinPending()
                 }
                 Label {
@@ -164,19 +164,19 @@ SubPage {
                     Repeater {
                         model: page.modes
 
-                        delegate: Button {
+                        delegate: AppButton {
                             required property int modelData
 
                             Layout.fillWidth: true
                             text: AppTheme.modeName(modelData)
                             checkable: true
                             checked: Multiplayer.mode === modelData
-                            Material.roundedScale: Material.SmallScale
+                            radius: 10
                             onClicked: Multiplayer.setMode(modelData)
                         }
                     }
                 }
-                Button {
+                AppButton {
                     id: startButton
 
                     Layout.fillWidth: true
@@ -184,7 +184,7 @@ SubPage {
                     visible: Multiplayer.isHost
                     enabled: Multiplayer.canStart
                     text: qsTr("Start")
-                    highlighted: true
+                    primary: true
                     onClicked: Multiplayer.start()
                 }
                 Label {
@@ -197,7 +197,7 @@ SubPage {
                     font.pixelSize: 18
                     wrapMode: Text.Wrap
                 }
-                Button {
+                AppButton {
                     Layout.fillWidth: true
                     text: qsTr("Leave room")
                     flat: true

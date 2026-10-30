@@ -63,7 +63,7 @@ Page {
                         { mode: GameController.Tap, hint: qsTr("Only one card is right"), slot: 3 }
                     ]
 
-                    delegate: Button {
+                    delegate: AppButton {
                         id: modeButton
 
                         required property var modelData
@@ -71,7 +71,8 @@ Page {
 
                         Layout.fillWidth: true
                         Layout.preferredHeight: 72
-                        Material.background: AppTheme.ink(modelData.slot)
+                        fill: AppTheme.ink(modelData.slot)
+                        radius: 14
                         onClicked: page.play(modelData.mode)
                         Component.onCompleted: if (index === 0) firstMode.target = modeButton
 
@@ -93,6 +94,8 @@ Page {
                                     text: modeButton.modelData.hint
                                     color: AppTheme.background
                                     opacity: 0.8
+                                    font.pixelSize: 13
+                                    font.weight: Font.Medium
                                     elide: Text.ElideRight
                                 }
                             }
@@ -109,11 +112,11 @@ Page {
                 }
             }
 
-            Button {
+            AppButton {
                 Layout.fillWidth: true
-                Layout.preferredHeight: 56
                 text: qsTr("Multiplayer")
-                Material.roundedScale: Material.MediumScale
+                fill: AppTheme.surfaceHigh
+                radius: 14
                 onClicked: page.openMultiplayer()
             }
 
@@ -140,7 +143,7 @@ Page {
         }
     }
 
-    component LinkButton: Button {
+    component LinkButton: AppButton {
         Layout.fillWidth: true
         flat: true
     }

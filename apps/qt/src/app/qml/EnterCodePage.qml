@@ -47,7 +47,7 @@ SubPage {
             }
         }
 
-        Button {
+        AppButton {
             id: pasteButton
 
             text: qsTr("Paste")
@@ -74,19 +74,19 @@ SubPage {
             }
         }
 
-        Item {
-            Layout.fillHeight: true
-        }
-
-        Button {
+        AppButton {
             id: playButton
 
             Layout.fillWidth: true
             Layout.preferredHeight: 64
             text: qsTr("Play")
-            highlighted: true
+            primary: true
             enabled: page.decoded.ok && page.decoded.playable
             onClicked: page.play(page.decoded.mode, page.decoded.seedHex, page.decoded.score, page.decoded.reached)
+        }
+
+        Item {
+            Layout.fillHeight: true
         }
     }
 }
